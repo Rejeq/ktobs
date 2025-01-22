@@ -1,0 +1,14 @@
+package com.rejeq.ktobs.request.config
+
+import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.callMethod
+import kotlinx.serialization.Serializable
+
+@Serializable
+data class GetRecordDirectoryResponse(
+    val recordDirectory: String,
+)
+
+// Gets the current directory that the record output is set to
+suspend fun ObsSession.getRecordDirectory(): String =
+    callMethod<GetRecordDirectoryResponse>("GetRecordDirectory").recordDirectory

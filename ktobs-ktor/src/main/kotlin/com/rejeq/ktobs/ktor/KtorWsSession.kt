@@ -2,6 +2,8 @@ package com.rejeq.ktobs.ktor
 
 import com.rejeq.ktobs.*
 import io.ktor.client.plugins.websocket.*
+import io.ktor.websocket.CloseReason
+import io.ktor.websocket.close
 import kotlinx.coroutines.channels.ClosedReceiveChannelException
 
 /**
@@ -27,8 +29,13 @@ class KtorWsSession(
             ObsCloseReason(code, reason.message)
         }
 
-    /** Closes the underlying Ktor HTTP client */
-    fun close() = ws.call.client.close()
+    /** Closes OBS session */
+    suspend fun close(
+        reason: CloseReason = CloseReason(CloseReason.Codes.NORMAL, ""),
+    ) {
+        ws.close(reason)
+        ws.incoming.cancel()
+    }
 }
 
 /**

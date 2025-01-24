@@ -122,7 +122,8 @@ private suspend fun WsSession.identifySession(
             throw AuthException(AuthError.InvalidRpc(selectedRpc))
         }
     } catch (e: ClosedReceiveChannelException) {
-        when (getCloseReason()?.code) {
+        val code = getCloseReason()?.code
+        when (ObsCloseCode.find(code)) {
             // AuthenticationFailed can also be thrown if we do not provide
             // password when it required or when password field is not a
             // string. We handle both cases, so we can be sure that the password

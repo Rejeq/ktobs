@@ -22,11 +22,7 @@ class KtorWsSession(
 
     override suspend fun getCloseReason(): ObsCloseReason? =
         ws.closeReason.await()?.let { reason ->
-            val code =
-                ObsCloseCode.entries.find { it.value == reason.code }
-                    ?: ObsCloseCode.UnknownReason
-
-            ObsCloseReason(code, reason.message)
+            ObsCloseReason(reason.code, reason.message)
         }
 
     /** Closes OBS session */

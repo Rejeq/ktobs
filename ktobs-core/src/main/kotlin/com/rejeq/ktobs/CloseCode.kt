@@ -3,11 +3,14 @@ package com.rejeq.ktobs
 /**
  * Represents the reason for a WebSocket connection closure.
  *
- * @property code The specific close code indicating the reason
+ * @property code The specific close code indicating why the connection was
+ *           terminated.
+ *           Can be either standard WebSocket RPC close codes (1000-2999) or
+ *           OBS-specific codes defined in [ObsCloseCode] (4000+).
  * @property message Additional details about the closure
  */
 data class ObsCloseReason(
-    val code: ObsCloseCode,
+    val code: Short,
     val message: String,
 )
 
@@ -20,7 +23,8 @@ data class ObsCloseReason(
 enum class ObsCloseCode(
     val value: Short,
 ) {
-    /** For internal use only to tell the request handler not to perform any
+    /**
+     * For internal use only to tell the request handler not to perform any
      * close action.
      */
     DontClose(0),
@@ -43,7 +47,8 @@ enum class ObsCloseCode(
     /** The specified `op` was invalid or missing. */
     UnknownOpCode(4006),
 
-    /** The client sent a websocket message without first sending `Identify`
+    /**
+     * The client sent a websocket message without first sending `Identify`
      * message.
      */
     NotIdentified(4007),
@@ -59,7 +64,8 @@ enum class ObsCloseCode(
     /** The authentication attempt (via `Identify`) failed. */
     AuthenticationFailed(4009),
 
-    /** The server detected the usage of an old version of the obs-websocket RPC
+    /**
+     * The server detected the usage of an old version of the obs-websocket RPC
      * protocol.
      */
     UnsupportedRpcVersion(4010),
@@ -72,8 +78,17 @@ enum class ObsCloseCode(
      */
     SessionInvalidated(4011),
 
-    /** A requested feature is not supported due to hardware/software
+    /**
+     * A requested feature is not supported due to hardware/software
      * limitations.
      */
     UnsupportedFeature(4012),
+    ;
+
+    companion object {
+        fun find(code: Short?): ObsCloseCode? =
+            code?.let {
+                ObsCloseCode.entries.find { it.value == code }
+            }
+    }
 }

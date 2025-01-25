@@ -1,18 +1,37 @@
 plugins {
     id("ktobs.common")
+    id("ktobs.multiplatform")
 }
 
-dependencies {
-    testImplementation(project(":ktobs-core"))
-    testImplementation(project(":ktobs-ktor"))
+kotlin {
+    applyDefaultHierarchyTemplate()
 
-    testImplementation(kotlin("test"))
-    testImplementation(libs.ktor.cio)
-    testImplementation(libs.kotlinx.coroutines.test)
-    testImplementation(libs.ktor.core)
-    testImplementation(libs.ktor.json)
-}
+    sourceSets {
+        commonTest.dependencies {
+            implementation(project(":ktobs-core"))
+            implementation(project(":ktobs-ktor"))
 
-tasks.test {
-    useJUnitPlatform()
+            implementation(kotlin("test"))
+            implementation(libs.kotlinx.coroutines.core)
+            implementation(libs.kotlinx.coroutines.test)
+            implementation(libs.ktor.client.core)
+            implementation(libs.ktor.core)
+            implementation(libs.ktor.json)
+        }
+
+        val defaultUtils by creating {
+            dependsOn(commonTest.get())
+
+            dependencies {
+                implementation(libs.ktor.client.cio)
+            }
+        }
+
+        listOf(
+            jvmTest,
+            nativeTest,
+        ).forEach {
+            it.get().dependsOn(defaultUtils)
+        }
+    }
 }

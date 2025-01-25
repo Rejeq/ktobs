@@ -1,3 +1,5 @@
+import io.gitlab.arturbosch.detekt.Detekt
+
 val projectLibs = extensions.getByType<VersionCatalogsExtension>().named("libs")
 val javaTarget =
     projectLibs
@@ -13,7 +15,7 @@ detekt {
     config.setFrom("${project.rootDir}/detekt.yml")
 }
 
-tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
+tasks.withType<Detekt>().configureEach {
     jvmTarget = javaTarget
 
     reports {
@@ -33,4 +35,10 @@ tasks.withType<io.gitlab.arturbosch.detekt.Detekt>().configureEach {
 
 tasks.withType<io.gitlab.arturbosch.detekt.DetektCreateBaselineTask> {
     jvmTarget = javaTarget
+}
+
+tasks.register("detektAll") {
+    allprojects {
+        this@register.dependsOn(tasks.withType<Detekt>())
+    }
 }

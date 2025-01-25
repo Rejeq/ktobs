@@ -11,6 +11,7 @@ build/
 
 # Kotlin
 .kotlin
+/kotlin-js-store
 
 # VS Code
 .vscode/

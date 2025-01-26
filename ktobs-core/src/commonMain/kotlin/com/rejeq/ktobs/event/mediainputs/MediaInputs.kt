@@ -1,4 +1,4 @@
-package com.rejeq.ktobs.event
+package com.rejeq.ktobs.event.mediainputs
 
 import com.rejeq.ktobs.request.mediainputs.MediaAction
 import kotlinx.serialization.Serializable

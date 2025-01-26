@@ -1,8 +1,8 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsTest
-import com.rejeq.ktobs.request.scene.createScene
-import com.rejeq.ktobs.request.scene.removeScene
+import com.rejeq.ktobs.request.scenes.createScene
+import com.rejeq.ktobs.request.scenes.removeScene
 import com.rejeq.ktobs.request.transitions.*
 import com.rejeq.ktobs.request.ui.getStudioModeEnabled
 import com.rejeq.ktobs.request.ui.setStudioModeEnabled

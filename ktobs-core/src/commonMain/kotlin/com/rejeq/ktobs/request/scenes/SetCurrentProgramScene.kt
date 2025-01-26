@@ -1,22 +1,20 @@
-package com.rejeq.ktobs.request.scene
+package com.rejeq.ktobs.request.scenes
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetSceneNameRequest(
+data class SetCurrentProgramSceneRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
-    val newSceneName: String,
 )
 
-// Sets the name of a scene (rename)
-suspend fun ObsSession.setSceneName(
+// Sets the current program scene
+suspend fun ObsSession.setCurrentProgramScene(
     name: String? = null,
     uuid: String? = null,
-    newName: String,
 ) = callUnitMethod(
-    "SetSceneName",
-    SetSceneNameRequest(name, uuid, newName),
+    "SetCurrentProgramScene",
+    SetCurrentProgramSceneRequest(name, uuid),
 )

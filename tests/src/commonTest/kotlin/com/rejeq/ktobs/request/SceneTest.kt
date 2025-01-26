@@ -2,7 +2,7 @@ package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsTest
 import com.rejeq.ktobs.RequestCode
-import com.rejeq.ktobs.request.scene.*
+import com.rejeq.ktobs.request.scenes.*
 import com.rejeq.ktobs.request.ui.setStudioModeEnabled
 import com.rejeq.ktobs.runBlocking
 import kotlinx.coroutines.test.runTest

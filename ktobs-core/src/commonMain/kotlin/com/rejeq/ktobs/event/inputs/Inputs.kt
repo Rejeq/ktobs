@@ -1,4 +1,4 @@
-package com.rejeq.ktobs.event
+package com.rejeq.ktobs.event.inputs
 
 import com.rejeq.ktobs.request.inputs.Input
 import com.rejeq.ktobs.request.inputs.MonitorType

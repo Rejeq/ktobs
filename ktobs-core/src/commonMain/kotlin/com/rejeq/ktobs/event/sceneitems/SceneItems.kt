@@ -1,4 +1,4 @@
-package com.rejeq.ktobs.event
+package com.rejeq.ktobs.event.sceneitems
 
 import com.rejeq.ktobs.request.sceneitems.SceneItemTransform
 import kotlinx.serialization.Serializable

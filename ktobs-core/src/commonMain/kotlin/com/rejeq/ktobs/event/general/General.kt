@@ -1,4 +1,4 @@
-package com.rejeq.ktobs.event
+package com.rejeq.ktobs.event.general
 
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonObject

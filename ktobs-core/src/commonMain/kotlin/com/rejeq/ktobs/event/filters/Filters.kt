@@ -1,4 +1,4 @@
-package com.rejeq.ktobs.event
+package com.rejeq.ktobs.event.filters
 
 import com.rejeq.ktobs.request.filters.Filter
 import kotlinx.serialization.Serializable

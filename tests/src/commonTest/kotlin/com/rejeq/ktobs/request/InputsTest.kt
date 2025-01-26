@@ -3,8 +3,8 @@ package com.rejeq.ktobs.request
 import com.rejeq.ktobs.ObsTest
 import com.rejeq.ktobs.RequestCode
 import com.rejeq.ktobs.request.inputs.*
-import com.rejeq.ktobs.request.scene.createScene
-import com.rejeq.ktobs.request.scene.removeScene
+import com.rejeq.ktobs.request.scenes.createScene
+import com.rejeq.ktobs.request.scenes.removeScene
 import com.rejeq.ktobs.runBlocking
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.*

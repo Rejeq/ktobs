@@ -3,9 +3,9 @@ package com.rejeq.ktobs.sample
 import com.rejeq.ktobs.ObsEventSub
 import com.rejeq.ktobs.ObsRequestException
 import com.rejeq.ktobs.ObsSession
-import com.rejeq.ktobs.event.ExitStartedEvent
-import com.rejeq.ktobs.event.VendorEvent
-import com.rejeq.ktobs.event.VendorEventData
+import com.rejeq.ktobs.event.general.ExitStartedEvent
+import com.rejeq.ktobs.event.general.VendorEvent
+import com.rejeq.ktobs.event.general.VendorEventData
 import com.rejeq.ktobs.ktor.ObsSessionBuilder
 import com.rejeq.ktobs.request.inputs.*
 import io.ktor.client.HttpClient

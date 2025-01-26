@@ -14,6 +14,7 @@ import io.ktor.http.HttpMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
 import kotlin.coroutines.CoroutineContext
+import kotlin.coroutines.EmptyCoroutineContext
 
 /**
  * Builder class for creating and configuring OBS WebSocket sessions using Ktor.
@@ -46,7 +47,9 @@ class ObsSessionBuilder(
      * @throws ObsAuthException if authentication fails
      * @throws Exception if connection fails
      */
-    suspend fun build(ctx: CoroutineContext): ObsSession {
+    suspend fun build(
+        ctx: CoroutineContext = EmptyCoroutineContext,
+    ): ObsSession {
         val wsRaw =
             client.webSocketSession(
                 method = HttpMethod.Get,

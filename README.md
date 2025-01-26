@@ -1,8 +1,8 @@
 # Ktobs
 
-Ktobs is a Kotlin library that provides a convenient wrapper around the OBS
-WebSocket API, allowing you to programmatically control OBS from your Kotlin
-applications.
+Ktobs is a Kotlin library that provides a convenient wrapper around the
+[OBS WebSocket API](https://github.com/obsproject/obs-websocket), allowing you
+to programmatically control OBS from your Kotlin applications.
 
 ## Installation
 
@@ -26,7 +26,9 @@ fun main() = runBlocking {
         host = "127.0.0.1"
         port = 4455
         password = "your_password"
-        eventSubs = ObsEventSub.All()
+        eventSubs = ObsEventSub.General + ObsEventSub.Inputs
+        // or listen all events
+        // eventsSubs = ObsEventSub.All
     }
 
     // Handle OBS events
@@ -59,7 +61,7 @@ fun main() = runBlocking {
                 )
             )
         } 
-    } catch (e: AuthException) {
+    } catch (e: ObsAuthException) {
         println("Failed to authenticate: $e")
     } catch (e: ObsRequestException) {
         println("Failed to execute request: $e")

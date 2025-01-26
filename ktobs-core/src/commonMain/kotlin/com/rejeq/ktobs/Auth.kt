@@ -39,7 +39,7 @@ sealed class AuthError(
     ) : AuthError("Unexpected auth error: $reason ($e)")
 }
 
-class AuthException(
+class ObsAuthException(
     val kind: AuthError,
 ) : Exception(kind.msg)
 
@@ -80,7 +80,7 @@ class Authentication(
  *        doesn't require auth
  * @param eventSubs The event subscriptions to request, defaults to None
  * @return An authenticated [ObsSession]
- * @throws AuthException if authentication fails for any reason
+ * @throws ObsAuthException if authentication fails for any reason
  * @throws Exception if exception is thrown by [WsSession] implementation
  */
 suspend fun WsSession.authSession(
@@ -94,7 +94,7 @@ suspend fun WsSession.authSession(
         val auth =
             hello.authentication?.let { auth ->
                 if (password == null) {
-                    throw AuthException(AuthError.PasswordRequired)
+                    throw ObsAuthException(AuthError.PasswordRequired)
                 }
 
                 encodeAuthPassword(auth, password)
@@ -104,7 +104,7 @@ suspend fun WsSession.authSession(
         return ObsSession(this, onEvent)
     } catch (e: ClosedReceiveChannelException) {
         val reason = getCloseReason()
-        throw AuthException(AuthError.Unexpected(reason, e))
+        throw ObsAuthException(AuthError.Unexpected(reason, e))
     }
 }
 
@@ -119,7 +119,7 @@ private suspend fun WsSession.identifySession(
         val selectedRpc = identified.negotiatedRpcVersion
 
         if (selectedRpc <= 0 || selectedRpc > RPC_VERSION) {
-            throw AuthException(AuthError.InvalidRpc(selectedRpc))
+            throw ObsAuthException(AuthError.InvalidRpc(selectedRpc))
         }
     } catch (e: ClosedReceiveChannelException) {
         val code = getCloseReason()?.code
@@ -129,10 +129,10 @@ private suspend fun WsSession.identifySession(
             // string. We handle both cases, so we can be sure that the password
             // is incorrect
             ObsCloseCode.AuthenticationFailed ->
-                throw AuthException(AuthError.InvalidPassword)
+                throw ObsAuthException(AuthError.InvalidPassword)
 
             ObsCloseCode.UnsupportedRpcVersion ->
-                throw AuthException(AuthError.InvalidRpc(RPC_VERSION))
+                throw ObsAuthException(AuthError.InvalidRpc(RPC_VERSION))
 
             else -> throw e
         }

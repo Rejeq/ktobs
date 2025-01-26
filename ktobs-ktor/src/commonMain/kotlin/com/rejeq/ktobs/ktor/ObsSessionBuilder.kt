@@ -1,7 +1,7 @@
 package com.rejeq.ktobs.ktor
 
-import com.rejeq.ktobs.AuthException
 import com.rejeq.ktobs.EventOpCode
+import com.rejeq.ktobs.ObsAuthException
 import com.rejeq.ktobs.ObsEventSub
 import com.rejeq.ktobs.ObsEventSubs
 import com.rejeq.ktobs.ObsSession
@@ -43,7 +43,7 @@ class ObsSessionBuilder(
      *
      * @param ctx The coroutine context for running the session
      * @return An authenticated [ObsSession]
-     * @throws AuthException if authentication fails
+     * @throws ObsAuthException if authentication fails
      * @throws Exception if connection fails
      */
     suspend fun build(ctx: CoroutineContext): ObsSession {
@@ -74,7 +74,7 @@ class ObsSessionBuilder(
      * The session is automatically closed when the block completes.
      *
      * @param block The code block to execute within the session
-     * @throws AuthException if authentication fails
+     * @throws ObsAuthException if authentication fails
      * @throws Exception if connection fails
      */
     suspend fun connect(block: suspend ObsSession.() -> Unit) {

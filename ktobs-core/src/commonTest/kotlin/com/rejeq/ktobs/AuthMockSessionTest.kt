@@ -21,7 +21,7 @@ class AuthMockSessionTest {
             encodedPassword = "zTM5ki6L2vVvBQiTG9ckH1Lh64AbnCf6XZ226UmnkIA=",
         ) {
             val e =
-                assertFailsWith<AuthException> {
+                assertFailsWith<ObsAuthException> {
                     authSession(password = null)
                 }
 
@@ -59,7 +59,7 @@ class AuthMockSessionTest {
             negotiatedRpcVersion = -4,
         ) {
             val e =
-                assertFailsWith<AuthException> {
+                assertFailsWith<ObsAuthException> {
                     authSession(password = null)
                 }
 
@@ -73,7 +73,7 @@ class AuthMockSessionTest {
             negotiatedRpcVersion = 7,
         ) {
             val e =
-                assertFailsWith<AuthException> {
+                assertFailsWith<ObsAuthException> {
                     authSession(password = null)
                 }
 

@@ -34,7 +34,7 @@ class ObsSessionBuilder(
     var password: String? = null
 
     /** Event subscriptions to request during session initialization */
-    var eventSubs: ObsEventSubs = ObsEventSub.None()
+    var eventSubs: ObsEventSubs = ObsEventSub.None
 
     /** Callback for handling received events */
     var onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null

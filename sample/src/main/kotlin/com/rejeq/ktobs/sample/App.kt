@@ -42,8 +42,7 @@ fun main() =
                 it.host = "127.0.0.1"
                 it.port = 4455
                 it.password = "12345678"
-                it.eventSubs = ObsEventSub.All()
-
+                it.eventSubs = ObsEventSub.All
                 it
             }
 

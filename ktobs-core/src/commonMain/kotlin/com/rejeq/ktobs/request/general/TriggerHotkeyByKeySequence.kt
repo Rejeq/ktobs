@@ -2,15 +2,8 @@ package com.rejeq.ktobs.request.general
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callUnitMethod
+import com.rejeq.ktobs.model.KeyModifiers
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class KeyModifiers(
-    val shift: Boolean? = null,
-    val control: Boolean? = null,
-    val alt: Boolean? = null,
-    val command: Boolean? = null,
-)
 
 @Serializable
 data class TriggerHotkeyByKeySequenceRequest(

@@ -2,6 +2,7 @@ package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsTest
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.model.KeyModifiers
 import com.rejeq.ktobs.request.general.*
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.*

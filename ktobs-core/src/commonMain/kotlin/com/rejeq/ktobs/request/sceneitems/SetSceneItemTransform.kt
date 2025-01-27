@@ -2,6 +2,7 @@ package com.rejeq.ktobs.request.sceneitems
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callUnitMethod
+import com.rejeq.ktobs.model.SceneItemTransform
 import kotlinx.serialization.Serializable
 
 @Serializable

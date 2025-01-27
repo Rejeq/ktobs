@@ -2,6 +2,7 @@ package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsTest
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.model.MediaAction
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.mediainputs.*
 import com.rejeq.ktobs.request.scenes.createScene

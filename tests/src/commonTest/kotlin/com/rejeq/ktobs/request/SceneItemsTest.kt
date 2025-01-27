@@ -1,6 +1,8 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.model.Alignment
+import com.rejeq.ktobs.model.BlendMode
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.sceneitems.*
 import com.rejeq.ktobs.request.scenes.createScene

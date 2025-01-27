@@ -2,6 +2,7 @@ package com.rejeq.ktobs.request.config
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callUnitMethod
+import com.rejeq.ktobs.model.VideoSettings
 import kotlinx.serialization.Serializable
 
 @Serializable

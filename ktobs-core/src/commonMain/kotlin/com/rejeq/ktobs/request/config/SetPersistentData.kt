@@ -2,18 +2,9 @@ package com.rejeq.ktobs.request.config
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callUnitMethod
-import kotlinx.serialization.SerialName
+import com.rejeq.ktobs.model.DataRealm
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
-
-@Serializable
-enum class DataRealm {
-    @SerialName("OBS_WEBSOCKET_DATA_REALM_GLOBAL")
-    Global,
-
-    @SerialName("OBS_WEBSOCKET_DATA_REALM_PROFILE")
-    Profile,
-}
 
 @Serializable
 data class SetPersistentDataRequest(

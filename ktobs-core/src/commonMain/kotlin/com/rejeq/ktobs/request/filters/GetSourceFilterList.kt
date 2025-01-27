@@ -2,23 +2,13 @@ package com.rejeq.ktobs.request.filters
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callMethod
-import kotlinx.serialization.SerialName
+import com.rejeq.ktobs.model.Filter
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.JsonElement
 
 @Serializable
 data class GetSourceFilterListRequest(
     val sourceName: String? = null,
     val sourceUuid: String? = null,
-)
-
-@Serializable
-data class Filter(
-    @SerialName("filterName") val name: String,
-    @SerialName("filterKind") val kind: String,
-    @SerialName("filterIndex") val index: Int,
-    @SerialName("filterEnabled") val enabled: Boolean,
-    @SerialName("filterSettings") val settings: JsonElement,
 )
 
 @Serializable

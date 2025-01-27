@@ -1,6 +1,7 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.model.DataRealm
 import com.rejeq.ktobs.request.config.*
 import com.rejeq.ktobs.runBlocking
 import kotlinx.coroutines.test.runTest

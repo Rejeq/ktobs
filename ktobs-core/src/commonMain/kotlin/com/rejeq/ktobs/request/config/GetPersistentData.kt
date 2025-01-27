@@ -2,6 +2,7 @@ package com.rejeq.ktobs.request.config
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callMethod
+import com.rejeq.ktobs.model.DataRealm
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 

@@ -1,6 +1,6 @@
 package com.rejeq.ktobs.event.mediainputs
 
-import com.rejeq.ktobs.request.mediainputs.MediaAction
+import com.rejeq.ktobs.model.MediaAction
 import kotlinx.serialization.Serializable
 
 /** A media input has started playing */

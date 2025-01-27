@@ -1,6 +1,6 @@
 package com.rejeq.ktobs.event.filters
 
-import com.rejeq.ktobs.request.filters.Filter
+import com.rejeq.ktobs.model.Filter
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 

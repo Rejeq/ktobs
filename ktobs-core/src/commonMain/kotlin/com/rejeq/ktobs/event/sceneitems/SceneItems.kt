@@ -1,6 +1,6 @@
 package com.rejeq.ktobs.event.sceneitems
 
-import com.rejeq.ktobs.request.sceneitems.SceneItemTransform
+import com.rejeq.ktobs.model.SceneItemTransform
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 

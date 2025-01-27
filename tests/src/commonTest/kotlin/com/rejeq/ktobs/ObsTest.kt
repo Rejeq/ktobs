@@ -52,7 +52,7 @@ abstract class ObsTest {
                     it.host = "127.0.0.1"
                     it.port = 4455
                     it.password = "12345678"
-                    it.eventSubs = ObsEventSub.None
+                    it.eventSubs = ObsEventSubs.None
 
                     it.build(Dispatchers.Default)
                 }

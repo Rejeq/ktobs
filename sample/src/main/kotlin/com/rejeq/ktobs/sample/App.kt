@@ -1,6 +1,6 @@
 package com.rejeq.ktobs.sample
 
-import com.rejeq.ktobs.ObsEventSub
+import com.rejeq.ktobs.ObsEventSubs
 import com.rejeq.ktobs.ObsRequestException
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.event.general.ExitStartedEvent
@@ -42,7 +42,7 @@ fun main() =
                 it.host = "127.0.0.1"
                 it.port = 4455
                 it.password = "12345678"
-                it.eventSubs = ObsEventSub.All
+                it.eventSubs = ObsEventSubs.All
                 it
             }
 

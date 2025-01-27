@@ -38,33 +38,33 @@ value class ObsEventSubs(
      */
     operator fun minus(subs: ObsEventSubs): ObsEventSubs =
         ObsEventSubs(value and subs.value.inv())
-}
 
-/**
- * Defines all possible OBS WebSocket event subscription types.
- * Each constant represents a specific category of events that can be subscribed
- * to.
- */
-object ObsEventSub {
-    /** Used to disable all events */
-    val None = ObsEventSubs(0)
-    val General = ObsEventSubs(1 shl 0)
-    val Config = ObsEventSubs(1 shl 1)
-    val Scenes = ObsEventSubs(1 shl 2)
-    val Inputs = ObsEventSubs(1 shl 3)
-    val Transitions = ObsEventSubs(1 shl 4)
-    val Filters = ObsEventSubs(1 shl 5)
-    val Outputs = ObsEventSubs(1 shl 6)
-    val SceneItems = ObsEventSubs(1 shl 7)
-    val MediaInputs = ObsEventSubs(1 shl 8)
-    val Vendors = ObsEventSubs(1 shl 9)
-    val Ui = ObsEventSubs(1 shl 10)
+    /**
+     * Defines all possible OBS WebSocket event subscription types.
+     * Each constant represents a specific category of events that can be
+     * subscribed to.
+     */
+    companion object {
+        /** Used to disable all events */
+        val None = ObsEventSubs(0)
+        val General = ObsEventSubs(1 shl 0)
+        val Config = ObsEventSubs(1 shl 1)
+        val Scenes = ObsEventSubs(1 shl 2)
+        val Inputs = ObsEventSubs(1 shl 3)
+        val Transitions = ObsEventSubs(1 shl 4)
+        val Filters = ObsEventSubs(1 shl 5)
+        val Outputs = ObsEventSubs(1 shl 6)
+        val SceneItems = ObsEventSubs(1 shl 7)
+        val MediaInputs = ObsEventSubs(1 shl 8)
+        val Vendors = ObsEventSubs(1 shl 9)
+        val Ui = ObsEventSubs(1 shl 10)
 
-    /** Helper to receive all non-high-volume events */
-    val All = ObsEventSubs((1 shl 11) - 1)
+        /** Helper to receive all non-high-volume events */
+        val All = ObsEventSubs((1 shl 11) - 1)
 
-    val InputVolumeMeters = ObsEventSubs(1 shl 16)
-    val InputActiveStateChanged = ObsEventSubs(1 shl 17)
-    val InputShowStateChanged = ObsEventSubs(1 shl 18)
-    val SceneItemTransformChanged = ObsEventSubs(1 shl 19)
+        val InputVolumeMeters = ObsEventSubs(1 shl 16)
+        val InputActiveStateChanged = ObsEventSubs(1 shl 17)
+        val InputShowStateChanged = ObsEventSubs(1 shl 18)
+        val SceneItemTransformChanged = ObsEventSubs(1 shl 19)
+    }
 }

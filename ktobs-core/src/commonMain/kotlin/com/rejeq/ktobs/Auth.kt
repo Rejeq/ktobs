@@ -85,7 +85,7 @@ class Authentication(
  */
 suspend fun WsSession.authSession(
     password: String?,
-    eventSubs: ObsEventSubs = ObsEventSub.None,
+    eventSubs: ObsEventSubs = ObsEventSubs.None,
     onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null,
 ): ObsSession {
     try {

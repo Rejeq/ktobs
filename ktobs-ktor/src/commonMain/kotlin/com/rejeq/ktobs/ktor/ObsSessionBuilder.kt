@@ -2,7 +2,6 @@ package com.rejeq.ktobs.ktor
 
 import com.rejeq.ktobs.EventOpCode
 import com.rejeq.ktobs.ObsAuthException
-import com.rejeq.ktobs.ObsEventSub
 import com.rejeq.ktobs.ObsEventSubs
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.authSession
@@ -34,7 +33,7 @@ class ObsSessionBuilder(
     var password: String? = null
 
     /** Event subscriptions to request during session initialization */
-    var eventSubs: ObsEventSubs = ObsEventSub.None
+    var eventSubs: ObsEventSubs = ObsEventSubs.None
 
     /** Callback for handling received events */
     var onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null

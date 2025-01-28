@@ -1,12 +1,40 @@
 # Ktobs
 
-Ktobs is a Kotlin library that provides a convenient wrapper around the
-[OBS WebSocket API](https://github.com/obsproject/obs-websocket), allowing you
-to programmatically control OBS from your Kotlin applications.
+Ktobs is a Kotlin multiplatform library that provides a convenient wrapper
+around the [OBS WebSocket API](https://github.com/obsproject/obs-websocket),
+allowing you to programmatically control OBS from your Kotlin applications.
 
 ## Installation
 
-TODO:
+The library is available on Maven Central. It consists of two modules:
+- `ktobs-core`: Core functionality and API
+- `ktobs-ktor`: Ktor-based WebSocket implementation
+
+#### Kotlin DSL
+
+```kotlin
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation("io.github.rejeq:ktobs-core:<version>")
+    implementation("io.github.rejeq:ktobs-ktor:<version>")
+}
+```
+
+#### Groovy DSL
+
+```gradle
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation "io.github.rejeq:ktobs-core:<version>"
+    implementation "io.github.rejeq:ktobs-ktor:<version>"
+}
+```
 
 ## Usage
 
@@ -26,9 +54,9 @@ fun main() = runBlocking {
         host = "127.0.0.1"
         port = 4455
         password = "your_password"
-        eventSubs = ObsEventSub.General + ObsEventSub.Inputs
+        eventSubs = ObsEventSubs.General + ObsEventSubs.Inputs
         // or listen all events
-        // eventsSubs = ObsEventSub.All
+        // eventsSubs = ObsEventSubs.All
     }
 
     // Handle OBS events

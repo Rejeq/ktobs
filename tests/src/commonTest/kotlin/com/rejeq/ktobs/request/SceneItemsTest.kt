@@ -1,49 +1,53 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.model.Alignment
 import com.rejeq.ktobs.model.BlendMode
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.sceneitems.*
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
 
-class SceneItemsTest : ObsTest() {
+class SceneItemsTest {
     companion object {
         const val SCENE_NAME = "test-scene"
         const val SOURCE_NAME = "test-source"
     }
 
-    @BeforeTest
-    fun init() =
-        runBlocking {
-            tryObsRequest {
-                session.createScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.createInput(
-                    sceneName = SCENE_NAME,
-                    name = SOURCE_NAME,
-                    kind = "ffmpeg_source",
-                )
-            }
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            createScene(SCENE_NAME)
         }
+
+        tryObsRequest {
+            createInput(
+                sceneName = SCENE_NAME,
+                name = SOURCE_NAME,
+                kind = "ffmpeg_source",
+            )
+        }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            removeScene(SCENE_NAME)
+        }
+    }
 
     @Test
     fun testSceneItems() =
-        runTest {
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
             val itemId =
-                session.createSceneItem(
+                createSceneItem(
                     sceneName = SCENE_NAME,
                     sourceName = SOURCE_NAME,
                     enabled = true,
                 )
 
-            val items = session.getSceneItemList(SCENE_NAME)
+            val items = getSceneItemList(SCENE_NAME)
             println("Items: $items")
 
             assertEquals(
@@ -52,7 +56,7 @@ class SceneItemsTest : ObsTest() {
             )
 
             val retrievedId =
-                session.getSceneItemId(
+                getSceneItemId(
                     sceneName = SCENE_NAME,
                     sourceName = SOURCE_NAME,
                     searchOffset = 0,
@@ -60,7 +64,7 @@ class SceneItemsTest : ObsTest() {
             println("Scene item id: $retrievedId")
 
             val sourceInfo =
-                session.getSceneItemSource(
+                getSceneItemSource(
                     sceneName = SCENE_NAME,
                     sceneItemId = itemId,
                 )
@@ -68,14 +72,14 @@ class SceneItemsTest : ObsTest() {
             println("Source info is: $sourceInfo")
 
             val originalTransform =
-                session.getSceneItemTransform(
+                getSceneItemTransform(
                     sceneName = SCENE_NAME,
                     sceneItemId = itemId,
                 )
 
             println("Transform is: $originalTransform")
 
-            session.setSceneItemTransform(
+            setSceneItemTransform(
                 sceneName = SCENE_NAME,
                 sceneItemId = itemId,
                 transform =
@@ -88,77 +92,69 @@ class SceneItemsTest : ObsTest() {
                     ),
             )
 
-            session.setSceneItemEnabled(
+            setSceneItemEnabled(
                 sceneName = SCENE_NAME,
                 sceneItemId = itemId,
                 enabled = false,
             )
             val enabled =
-                session.getSceneItemEnabled(
+                getSceneItemEnabled(
                     sceneName = SCENE_NAME,
                     sceneItemId = itemId,
                 )
             assertFalse(enabled)
 
-            session.setSceneItemLocked(
+            setSceneItemLocked(
                 sceneName = SCENE_NAME,
                 sceneItemId = itemId,
                 locked = true,
             )
 
             val locked =
-                session.getSceneItemLocked(
+                getSceneItemLocked(
                     sceneName = SCENE_NAME,
                     sceneItemId = itemId,
                 )
             assertTrue(locked)
 
-            session.getSceneItemIndex(
+            getSceneItemIndex(
                 sceneName = SCENE_NAME,
                 sceneItemId = itemId,
             )
 
-            session.setSceneItemIndex(
+            setSceneItemIndex(
                 sceneName = SCENE_NAME,
                 id = itemId,
                 index = 0,
             )
 
-            session.setSceneItemBlendMode(
+            setSceneItemBlendMode(
                 sceneName = SCENE_NAME,
                 id = itemId,
                 mode = BlendMode.Normal,
             )
 
             val blendMode =
-                session.getSceneItemBlendMode(
+                getSceneItemBlendMode(
                     sceneName = SCENE_NAME,
                     sceneItemId = itemId,
                 )
             assertEquals(BlendMode.Normal, blendMode)
 
             val duplicatedItemId =
-                session.duplicateSceneItem(
+                duplicateSceneItem(
                     sceneName = SCENE_NAME,
                     sceneItemId = itemId,
                     destinationSceneName = SCENE_NAME,
                 )
 
-            session.removeSceneItem(
+            removeSceneItem(
                 sceneName = SCENE_NAME,
                 itemId = itemId,
             )
-            session.removeSceneItem(
+            removeSceneItem(
                 sceneName = SCENE_NAME,
                 itemId = duplicatedItemId,
             )
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                session.removeScene(SCENE_NAME)
-            }
         }
 }

@@ -1,70 +1,66 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene
 import com.rejeq.ktobs.request.transitions.*
 import com.rejeq.ktobs.request.ui.getStudioModeEnabled
 import com.rejeq.ktobs.request.ui.setStudioModeEnabled
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
 
-class TransitionsTest : ObsTest() {
+class TransitionsTest {
     companion object {
         private const val SCENE_NAME = "test-scene"
         private const val SCENE_NAME_2 = "test-scene-2"
     }
 
-    @BeforeTest
-    fun init() =
-        runBlocking {
-            tryObsRequest {
-                session.createScene(SCENE_NAME)
-                session.createScene(SCENE_NAME_2)
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            createScene(SCENE_NAME)
+            createScene(SCENE_NAME_2)
 
-                if (!session.getStudioModeEnabled()) {
-                    session.setStudioModeEnabled(true)
-                }
+            if (!getStudioModeEnabled()) {
+                setStudioModeEnabled(true)
             }
         }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            if (getStudioModeEnabled()) {
+                setStudioModeEnabled(false)
+            }
+        }
+
+        tryObsRequest {
+            removeScene(SCENE_NAME)
+            removeScene(SCENE_NAME_2)
+        }
+    }
 
     @Test
     fun testTransitions() =
-        runTest {
-            val transitionKinds = session.getTransitionKindList()
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            val transitionKinds = getTransitionKindList()
             println("Available transition kinds: $transitionKinds")
 
-            val transitions = session.getSceneTransitionList()
+            val transitions = getSceneTransitionList()
             println("Available transitions: $transitions")
 
-            val currentTransition = session.getCurrentSceneTransition()
+            val currentTransition = getCurrentSceneTransition()
             println("Current transition: $currentTransition")
 
-            session.setCurrentSceneTransition("Cut")
+            setCurrentSceneTransition("Cut")
 
-            session.setCurrentSceneTransitionDuration(1000)
+            setCurrentSceneTransitionDuration(1000)
 
-            val cursor = session.getCurrentSceneTransitionCursor()
+            val cursor = getCurrentSceneTransitionCursor()
             println("Transition cursor: $cursor")
 
-            session.triggerStudioModeTransition()
+            triggerStudioModeTransition()
 
-            session.setTBarPosition(0.5)
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                if (session.getStudioModeEnabled()) {
-                    session.setStudioModeEnabled(false)
-                }
-            }
-
-            tryObsRequest {
-                session.removeScene(SCENE_NAME)
-                session.removeScene(SCENE_NAME_2)
-            }
+            setTBarPosition(0.5)
         }
 }

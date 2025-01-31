@@ -1,44 +1,46 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene
 import com.rejeq.ktobs.request.sources.*
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
 
-class SourcesTest : ObsTest() {
+class SourcesTest {
     companion object {
         private const val SCENE_NAME = "test-scene"
         private const val SOURCE_NAME = "test-item"
         private const val SCREENSHOT_PATH = "/tmp/test-obs-screenshot.png"
     }
 
-    @BeforeTest
-    fun init() =
-        runBlocking {
-            tryObsRequest {
-                session.createScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.createInput(
-                    sceneName = SCENE_NAME,
-                    name = SOURCE_NAME,
-                    kind = "ffmpeg_source",
-                )
-            }
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            createScene(SCENE_NAME)
         }
+
+        tryObsRequest {
+            createInput(
+                sceneName = SCENE_NAME,
+                name = SOURCE_NAME,
+                kind = "ffmpeg_source",
+            )
+        }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        removeScene(SCENE_NAME)
+    }
 
     @Test
     fun testSources() =
-        runTest {
-            val active = session.getSourceActive(SOURCE_NAME)
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            val active = getSourceActive(SOURCE_NAME)
             println("Is source active: $active")
 
-            session.getSourceScreenshot(
+            getSourceScreenshot(
                 sourceName = SCENE_NAME,
                 imageFormat = "png",
                 imageWidth = 1920,
@@ -46,7 +48,7 @@ class SourcesTest : ObsTest() {
                 imageCompressionQuality = -1,
             )
 
-            session.saveSourceScreenshot(
+            saveSourceScreenshot(
                 sourceName = SCENE_NAME,
                 imageFormat = "png",
                 imageFilePath = SCREENSHOT_PATH,
@@ -54,11 +56,5 @@ class SourcesTest : ObsTest() {
                 imageHeight = 1080,
                 imageCompressionQuality = -1,
             )
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            session.removeScene(SCENE_NAME)
         }
 }

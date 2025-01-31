@@ -1,14 +1,14 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.model.DataRealm
 import com.rejeq.ktobs.request.config.*
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlinx.serialization.json.*
 import kotlin.test.*
 
-class ConfigTest : ObsTest() {
+class ConfigTest {
     companion object {
         const val PROFILE_NAME = "test-profile"
         const val SCENE_COLLECTION_NAME = "test-scene-collection"
@@ -18,62 +18,81 @@ class ConfigTest : ObsTest() {
     private var oldSceneCollection: String? = null
     private var oldRecordDir: String? = null
 
+    suspend fun ObsSession.cleanup() {
+        oldProfileName?.let {
+            tryObsRequest {
+                setCurrentProfile(it)
+            }
+        }
+
+        oldRecordDir?.let {
+            tryObsRequest {
+                setRecordDirectory(it)
+            }
+        }
+
+        tryObsRequest {
+            removeProfile(PROFILE_NAME)
+        }
+    }
+
     @Test
     fun testConfig() =
-        runTest {
-            val profiles = session.getProfileList()
+        runObsTest(cleanup = { cleanup() }) {
+            val profiles = getProfileList()
             println("Profiles: $profiles")
 
             oldProfileName = profiles.currentProfileName
             if (!profiles.profiles.contains(PROFILE_NAME)) {
-                println("Craeting profile")
-                session.createProfile(PROFILE_NAME)
+                println("Creating profile")
+                createProfile(PROFILE_NAME)
             }
 
-            val test = session.getProfileList()
+            val test = getProfileList()
             println("Profiles: $test")
 
-            session.setCurrentProfile(PROFILE_NAME)
+            setCurrentProfile(PROFILE_NAME)
 
-            session.setProfileParameter(
+            setProfileParameter(
                 category = "Output",
                 name = "Mode",
                 value = "Simple",
             )
 
-            session.getProfileParameter(
+            getProfileParameter(
                 category = "Output",
                 name = "Mode",
             )
 
-            val scenes = session.getSceneCollectionList()
+            val scenes = getSceneCollectionList()
             println("Scene collection: ${scenes.collections}")
 
             oldSceneCollection = scenes.currentName
             if (!scenes.collections.contains(SCENE_COLLECTION_NAME)) {
-                session.createSceneCollection(SCENE_COLLECTION_NAME)
+                createSceneCollection(SCENE_COLLECTION_NAME)
             }
-            session.setCurrentSceneCollection(SCENE_COLLECTION_NAME)
+            setCurrentSceneCollection(SCENE_COLLECTION_NAME)
 
-            session.setPersistentData(
+            setPersistentData(
                 realm = DataRealm.Profile,
                 slotName = "test-slot",
                 slotValue = JsonPrimitive("test-value"),
             )
+
             val persistentData =
-                session.getPersistentData(
+                getPersistentData(
                     realm = DataRealm.Profile,
                     slotName = "test-slot",
                 )
             println("Persistent data: $persistentData")
 
-            oldRecordDir = session.getRecordDirectory()
-            session.setRecordDirectory("test-records")
+            oldRecordDir = getRecordDirectory()
+            setRecordDirectory("test-records")
 
-            val service = session.getStreamServiceSettings()
+            val service = getStreamServiceSettings()
             println("service settings: ${service.type} -  ${service.settings}")
 
-            session.setStreamServiceSettings(
+            setStreamServiceSettings(
                 type = "rtmp_common",
                 settings =
                     JsonObject(
@@ -84,27 +103,7 @@ class ConfigTest : ObsTest() {
                     ),
             )
 
-            val oldVideoSettings = session.getVideoSettings()
+            val oldVideoSettings = getVideoSettings()
             println("video settings: $oldVideoSettings")
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            oldProfileName?.let {
-                tryObsRequest {
-                    session.setCurrentProfile(it)
-                }
-            }
-
-            oldRecordDir?.let {
-                tryObsRequest {
-                    session.setRecordDirectory(it)
-                }
-            }
-
-            tryObsRequest {
-                session.removeProfile(PROFILE_NAME)
-            }
         }
 }

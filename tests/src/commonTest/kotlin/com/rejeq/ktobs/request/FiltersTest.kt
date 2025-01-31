@@ -2,18 +2,18 @@
 
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.request.filters.*
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene
 import com.rejeq.ktobs.request.scenes.setCurrentPreviewScene
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlinx.serialization.json.*
 import kotlin.test.*
 
-class FiltersTest : ObsTest() {
+class FiltersTest {
     companion object {
         private const val SCENE_NAME = "test-scene"
         private const val SOURCE_NAME = "test-source"
@@ -21,62 +21,66 @@ class FiltersTest : ObsTest() {
         private const val NEW_FILTER_NAME = "renamed-filter"
     }
 
-    @BeforeTest
-    fun init() =
-        runBlocking {
-            tryObsRequest {
-                session.createScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.setCurrentPreviewScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.createInput(
-                    sceneName = SCENE_NAME,
-                    name = SOURCE_NAME,
-                    kind = "image_source",
-                )
-            }
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            createScene(SCENE_NAME)
         }
+
+        tryObsRequest {
+            setCurrentPreviewScene(SCENE_NAME)
+        }
+
+        tryObsRequest {
+            createInput(
+                sceneName = SCENE_NAME,
+                name = SOURCE_NAME,
+                kind = "image_source",
+            )
+        }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            removeScene(SCENE_NAME)
+        }
+    }
 
     @Test
     fun testFilters() =
-        runTest {
-            val filterKinds = session.getSourceFilterKindList()
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            val filterKinds = getSourceFilterKindList()
             println("Available filter kinds: $filterKinds")
 
             val defaultSettings =
-                session.getSourceFilterDefaultSettings(
+                getSourceFilterDefaultSettings(
                     filterKind = "color_filter_v2",
                 )
             println("Default filter settings: $defaultSettings")
 
-            session.createSourceFilter(
+            createSourceFilter(
                 sourceName = SOURCE_NAME,
                 filterName = FILTER_NAME,
                 filterKind = "color_filter_v2",
                 filterSettings = defaultSettings,
             )
 
-            val filters = session.getSourceFilterList(SOURCE_NAME)
+            val filters = getSourceFilterList(SOURCE_NAME)
             assertTrue(filters.any { it.name == FILTER_NAME })
 
             val filter =
-                session.getSourceFilter(
+                getSourceFilter(
                     sourceName = SOURCE_NAME,
                     filterName = FILTER_NAME,
                 )
             assertEquals("color_filter_v2", filter.kind)
 
-            session.setSourceFilterIndex(
+            setSourceFilterIndex(
                 sourceName = SOURCE_NAME,
                 filterName = FILTER_NAME,
                 index = 0,
             )
 
-            session.setSourceFilterSettings(
+            setSourceFilterSettings(
                 sourceName = SOURCE_NAME,
                 filterName = FILTER_NAME,
                 settings =
@@ -88,35 +92,27 @@ class FiltersTest : ObsTest() {
                     ),
             )
 
-            session.setSourceFilterEnabled(
+            setSourceFilterEnabled(
                 sourceName = SOURCE_NAME,
                 filterName = FILTER_NAME,
                 enabled = false,
             )
 
-            session.setSourceFilterName(
+            setSourceFilterName(
                 sourceName = SOURCE_NAME,
                 filterName = FILTER_NAME,
                 newName = NEW_FILTER_NAME,
             )
 
-            val updatedFilters = session.getSourceFilterList(SOURCE_NAME)
+            val updatedFilters = getSourceFilterList(SOURCE_NAME)
             assertTrue(updatedFilters.any { it.name == NEW_FILTER_NAME })
 
-            session.removeSourceFilter(
+            removeSourceFilter(
                 sourceName = SOURCE_NAME,
                 filterName = NEW_FILTER_NAME,
             )
 
-            val finalFilters = session.getSourceFilterList(SOURCE_NAME)
+            val finalFilters = getSourceFilterList(SOURCE_NAME)
             assertFalse(finalFilters.any { it.name == NEW_FILTER_NAME })
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                session.removeScene(SCENE_NAME)
-            }
         }
 }

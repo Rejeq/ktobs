@@ -1,79 +1,78 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.request.outputs.*
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
 
-class OutputsTest : ObsTest() {
+class OutputsTest {
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            stopVirtualCam()
+        }
+
+        tryObsRequest {
+            stopReplayBuffer()
+        }
+
+        tryObsRequest {
+            val outputs = getOutputList()
+            outputs.forEach { output ->
+                if (getOutputStatus(output.name).active) {
+                    stopOutput(output.name)
+                }
+            }
+        }
+    }
+
     @Test
     fun testOutputs() =
-        runTest {
-            val outputs = session.getOutputList()
+        runObsTest(cleanup = { cleanup() }) {
+            val outputs = getOutputList()
             println("Available outputs: $outputs")
 
-            var camActive = session.getVirtualCamStatus()
+            var camActive = getVirtualCamStatus()
             println("Initial virtual cam status: $camActive")
 
             if (!camActive) {
-                session.startVirtualCam()
+                startVirtualCam()
             }
 
-            session.toggleVirtualCam()
+            toggleVirtualCam()
 
-            camActive = session.getVirtualCamStatus()
+            camActive = getVirtualCamStatus()
             if (!camActive) {
-                session.startVirtualCam()
+                startVirtualCam()
             }
 
             outputs.first()?.let { output ->
                 println("Testing output: ${output.name}")
 
-                val outputStatus = session.getOutputStatus(output.name)
+                val outputStatus = getOutputStatus(output.name)
                 println("Output status: $outputStatus")
 
                 val outputSettings =
-                    session.getOutputSettings(
+                    getOutputSettings(
                         output.name,
                     )
                 println("Output settings: $outputSettings")
 
                 if (!outputStatus.active) {
-                    session.setOutputSettings(
+                    setOutputSettings(
                         name = output.name,
                         settings = outputSettings,
                     )
 
-                    session.startOutput(output.name)
+                    startOutput(output.name)
 
-                    session.toggleOutput(output.name)
+                    toggleOutput(output.name)
                 }
             }
 
-            camActive = session.getVirtualCamStatus()
+            camActive = getVirtualCamStatus()
             if (camActive) {
-                session.stopVirtualCam()
-            }
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runTest {
-            tryObsRequest {
-                session.stopVirtualCam()
-            }
-
-            tryObsRequest {
-                session.stopReplayBuffer()
-            }
-
-            tryObsRequest {
-                val outputs = session.getOutputList()
-                outputs.forEach { output ->
-                    if (session.getOutputStatus(output.name).active) {
-                        session.stopOutput(output.name)
-                    }
-                }
+                stopVirtualCam()
             }
         }
 }

@@ -1,101 +1,106 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.model.MonitorType
 import com.rejeq.ktobs.request.inputs.*
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlinx.serialization.json.*
 import kotlin.test.*
 
-class InputsTest : ObsTest() {
+class InputsTest {
     companion object {
         private const val SCENE_NAME = "test-scene"
         private const val SOURCE_NAME = "test-source"
         private const val NEW_SOURCE_NAME = "renamed-source"
     }
 
-    @BeforeTest
-    fun init() =
-        runBlocking {
-            tryObsRequest {
-                session.createScene(SCENE_NAME)
-            }
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            createScene(SCENE_NAME)
         }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            removeScene(SCENE_NAME)
+        }
+    }
 
     @Test
     fun testInputs() =
-        runTest {
-            val inputKinds = session.getInputKindList()
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            val inputKinds = getInputKindList()
             println("Available input kinds: $inputKinds")
 
-            val specialInputs = session.getSpecialInputs()
+            val specialInputs = getSpecialInputs()
             println("Special inputs: $specialInputs")
 
             val defaultSettings =
-                session.getInputDefaultSettings(
+                getInputDefaultSettings(
                     kind = "ffmpeg_source",
                 )
             println("Default settings: $defaultSettings")
 
-            session.createInput(
+            createInput(
                 sceneName = SCENE_NAME,
                 name = SOURCE_NAME,
                 kind = "ffmpeg_source",
                 settings = defaultSettings,
             )
 
-            val inputs = session.getInputList()
+            val inputs = getInputList()
             assertTrue(inputs.any { it.name == SOURCE_NAME })
 
-            val settings = session.getInputSettings(SOURCE_NAME).settings
-            session.setInputSettings(
+            val settings = getInputSettings(SOURCE_NAME).settings
+            setInputSettings(
                 name = SOURCE_NAME,
                 settings = settings,
             )
 
-            session.setInputMute(
+            setInputMute(
                 name = SOURCE_NAME,
                 muted = true,
             )
-            val isMuted = session.getInputMute(SOURCE_NAME)
+            val isMuted = getInputMute(SOURCE_NAME)
             assertTrue(isMuted)
 
-            session.toggleInputMute(SOURCE_NAME)
-            assertFalse(session.getInputMute(SOURCE_NAME))
+            toggleInputMute(SOURCE_NAME)
+            assertFalse(getInputMute(SOURCE_NAME))
 
-            session.setInputVolume(
+            setInputVolume(
                 name = SOURCE_NAME,
                 mul = 0.5,
             )
-            val volume = session.getInputVolume(SOURCE_NAME)
+            val volume = getInputVolume(SOURCE_NAME)
             assertEquals(0.5, volume.mul)
 
-            session.setInputAudioBalance(
+            setInputAudioBalance(
                 name = SOURCE_NAME,
                 balance = 0.75,
             )
-            val balance = session.getInputAudioBalance(SOURCE_NAME)
+            val balance = getInputAudioBalance(SOURCE_NAME)
             assertEquals(0.75, balance)
 
-            session.setInputAudioSyncOffset(
+            setInputAudioSyncOffset(
                 name = SOURCE_NAME,
                 offset = 100,
             )
-            val syncOffset = session.getInputAudioSyncOffset(SOURCE_NAME)
+            val syncOffset = getInputAudioSyncOffset(SOURCE_NAME)
             assertEquals(100, syncOffset)
 
-            session.setInputAudioMonitorType(
+            setInputAudioMonitorType(
                 name = SOURCE_NAME,
                 type = MonitorType.MonitorAndOutput,
             )
-            val monitorType = session.getInputAudioMonitorType(SOURCE_NAME)
+            val monitorType = getInputAudioMonitorType(SOURCE_NAME)
             assertEquals(MonitorType.MonitorAndOutput, monitorType)
 
-            session.setInputAudioTracks(
+            setInputAudioTracks(
                 name = SOURCE_NAME,
                 audioTracks =
                     JsonObject(
@@ -105,39 +110,31 @@ class InputsTest : ObsTest() {
                         ),
                     ),
             )
-            val audioTracks = session.getInputAudioTracks(SOURCE_NAME)
+            val audioTracks = getInputAudioTracks(SOURCE_NAME)
             println("Audio tracks: $audioTracks")
 
             assertRequestFailsWith(RequestCode.ResourceNotFound) {
-                session.getInputPropertiesListPropertyItems(
+                getInputPropertiesListPropertyItems(
                     inputName = SOURCE_NAME,
                     propertyName = "some_property",
                 )
             }
 
             assertRequestFailsWith(RequestCode.ResourceNotFound) {
-                session.pressInputPropertiesButton(
+                pressInputPropertiesButton(
                     inputName = SOURCE_NAME,
                     propertyName = "some_button",
                 )
             }
 
-            session.setInputName(
+            setInputName(
                 inputName = SOURCE_NAME,
                 newInputName = NEW_SOURCE_NAME,
             )
 
-            val updatedInputs = session.getInputList()
+            val updatedInputs = getInputList()
             assertTrue(updatedInputs.any { it.name == NEW_SOURCE_NAME })
 
-            session.removeInput(NEW_SOURCE_NAME)
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                session.removeScene(SCENE_NAME)
-            }
+            removeInput(NEW_SOURCE_NAME)
         }
 }

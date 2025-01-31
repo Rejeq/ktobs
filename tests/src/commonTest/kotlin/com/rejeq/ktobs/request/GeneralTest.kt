@@ -1,33 +1,33 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.model.KeyModifiers
 import com.rejeq.ktobs.request.general.*
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
 import kotlinx.serialization.json.*
 import kotlin.test.*
 
-class GeneralTest : ObsTest() {
+class GeneralTest {
     @Test
     fun testGeneral() =
-        runTest {
-            session.getVersion()
-            session.getStats()
-            session.getHotkeyList()
+        runObsTest {
+            getVersion()
+            getStats()
+            getHotkeyList()
 
-            session.broadcastCustomEvent(
+            broadcastCustomEvent(
                 JsonObject(
                     mapOf("testKey" to JsonPrimitive("testValue")),
                 ),
             )
 
             assertRequestFailsWith(RequestCode.ResourceNotFound) {
-                session.triggerHotkeyByName("test-key")
+                triggerHotkeyByName("test-key")
             }
 
             assertRequestFailsWith(RequestCode.ResourceNotFound) {
-                session.triggerHotkeyByKeySequence(
+                triggerHotkeyByKeySequence(
                     keyId = "test-key",
                     keyModifiers =
                         KeyModifiers(
@@ -40,7 +40,7 @@ class GeneralTest : ObsTest() {
             }
 
             assertRequestFailsWith(RequestCode.ResourceNotFound) {
-                session.callVendorRequest(
+                callVendorRequest(
                     vendorName = "test-vendor",
                     requestType = "test-request",
                     requestData =

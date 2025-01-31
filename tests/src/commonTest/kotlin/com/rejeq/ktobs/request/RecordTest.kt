@@ -1,47 +1,46 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.request.record.*
-import com.rejeq.ktobs.runBlocking
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlinx.coroutines.delay
 import kotlin.test.*
 
-class RecordTest : ObsTest() {
+class RecordTest {
     companion object {
         const val RECORD_DELAY = 1000L
     }
 
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            stopRecord()
+            delay(RECORD_DELAY)
+        }
+    }
+
     @Test
     fun testRecord() =
-        runBlocking {
-            var recordStatus = session.getRecordStatus()
+        runObsTest(cleanup = { cleanup() }) {
+            var recordStatus = getRecordStatus()
             println("Initial record status: $recordStatus")
 
             if (!recordStatus.outputActive) {
-                session.startRecord()
+                startRecord()
             }
 
-            session.pauseRecord()
+            pauseRecord()
             delay(RECORD_DELAY)
 
-            session.toggleRecord()
+            toggleRecord()
             delay(RECORD_DELAY)
 
-            session.toggleRecordPause()
+            toggleRecordPause()
             delay(RECORD_DELAY)
 
-            recordStatus = session.getRecordStatus()
+            recordStatus = getRecordStatus()
             if (recordStatus.outputActive) {
-                session.stopRecord()
-            }
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                session.stopRecord()
-                delay(RECORD_DELAY)
+                stopRecord()
             }
         }
 }

@@ -1,74 +1,71 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.model.MediaAction
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.mediainputs.*
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene
 import com.rejeq.ktobs.request.scenes.setCurrentPreviewScene
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
 
-class MediaInputsTest : ObsTest() {
+class MediaInputsTest {
     companion object {
         private const val SCENE_NAME = "test-scene"
         private const val SOURCE_NAME = "test-source"
     }
 
-    @BeforeTest
-    fun init() =
-        runBlocking {
-            tryObsRequest {
-                session.createScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.setCurrentPreviewScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.createInput(
-                    sceneName = SCENE_NAME,
-                    name = SOURCE_NAME,
-                    kind = "image_source",
-                )
-            }
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            createScene(SCENE_NAME)
         }
+
+        tryObsRequest {
+            setCurrentPreviewScene(SCENE_NAME)
+        }
+
+        tryObsRequest {
+            createInput(
+                sceneName = SCENE_NAME,
+                name = SOURCE_NAME,
+                kind = "image_source",
+            )
+        }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            removeScene(SCENE_NAME)
+        }
+    }
 
     @Test
     fun testMediaInputs() =
-        runTest {
-            val status = session.getMediaInputStatus(SOURCE_NAME)
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            val status = getMediaInputStatus(SOURCE_NAME)
             println("Media status: $status")
 
-            session.triggerMediaInputAction(
+            triggerMediaInputAction(
                 inputName = SOURCE_NAME,
                 mediaAction = MediaAction.Play,
             )
 
             assertRequestFailsWith(RequestCode.InvalidResourceState) {
-                session.setMediaInputCursor(
+                setMediaInputCursor(
                     inputName = SOURCE_NAME,
                     mediaCursor = 5000,
                 )
             }
 
             assertRequestFailsWith(RequestCode.InvalidResourceState) {
-                session.offsetMediaInputCursor(
+                offsetMediaInputCursor(
                     inputName = SOURCE_NAME,
                     mediaCursorOffset = 2000,
                 )
-            }
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                session.removeScene(SCENE_NAME)
             }
         }
 }

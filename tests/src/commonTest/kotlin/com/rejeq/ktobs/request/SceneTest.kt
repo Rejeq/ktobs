@@ -1,81 +1,78 @@
 package com.rejeq.ktobs.request
 
-import com.rejeq.ktobs.ObsTest
+import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.request.scenes.*
 import com.rejeq.ktobs.request.ui.setStudioModeEnabled
-import com.rejeq.ktobs.runBlocking
-import kotlinx.coroutines.test.runTest
+import com.rejeq.ktobs.runObsTest
+import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
 
-class SceneTest : ObsTest() {
+class SceneTest {
     companion object {
         const val SCENE_NAME = "Test Scene"
         const val SCENE_NEW_NAME = "Renamed Test Scene"
     }
 
-    @BeforeTest
-    fun initTest() =
-        runBlocking {
-            tryObsRequest {
-                // Required for [s,g]etSceneSceneTransitionOverride
-                session.setStudioModeEnabled(true)
-            }
-
-            tryObsRequest {
-                session.removeScene(SCENE_NAME)
-            }
-
-            tryObsRequest {
-                session.removeScene(SCENE_NEW_NAME)
-            }
+    suspend fun ObsSession.setup() {
+        tryObsRequest {
+            // Required for [s,g]etSceneSceneTransitionOverride
+            setStudioModeEnabled(true)
         }
+
+        tryObsRequest {
+            removeScene(SCENE_NAME)
+        }
+
+        tryObsRequest {
+            removeScene(SCENE_NEW_NAME)
+        }
+    }
+
+    suspend fun ObsSession.cleanup() {
+        tryObsRequest {
+            setStudioModeEnabled(false)
+        }
+
+        tryObsRequest {
+            removeScene(SCENE_NEW_NAME)
+        }
+    }
 
     @Test
     fun testScenes() =
-        runTest {
-            session.createScene(SCENE_NAME)
+        runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            createScene(SCENE_NAME)
 
             assertRequestFailsWith(RequestCode.ResourceAlreadyExists) {
-                session.createScene(SCENE_NAME)
+                createScene(SCENE_NAME)
             }
 
-            val sceneList = session.getSceneList()
+            val sceneList = getSceneList()
             assertTrue(sceneList.scenes.any { it.name == SCENE_NAME })
 
-            session.getGroupList()
+            getGroupList()
 
-            session.setCurrentPreviewScene(SCENE_NAME)
-            val currentPreview = session.getCurrentPreviewScene()
+            setCurrentPreviewScene(SCENE_NAME)
+            val currentPreview = getCurrentPreviewScene()
             assertEquals(SCENE_NAME, currentPreview.name)
 
-            session.setCurrentProgramScene(SCENE_NAME)
+            setCurrentProgramScene(SCENE_NAME)
 
-            session.setSceneSceneTransitionOverride(
+            setSceneSceneTransitionOverride(
                 sceneName = SCENE_NAME,
                 transitionName = "Fade", // Using a standard OBS transition
                 transitionDuration = 1000,
             )
 
             val transitionOverride =
-                session.getSceneSceneTransitionOverride(
+                getSceneSceneTransitionOverride(
                     SCENE_NAME,
                 )
             assertEquals("Fade", transitionOverride.transitionName)
             assertEquals(1000, transitionOverride.transitionDuration)
 
-            session.setSceneName(SCENE_NAME, null, SCENE_NEW_NAME)
-        }
-
-    @AfterTest
-    fun cleanup() =
-        runBlocking {
-            tryObsRequest {
-                session.setStudioModeEnabled(false)
-            }
-
-            tryObsRequest {
-                session.removeScene(SCENE_NEW_NAME)
-            }
+            setSceneName(SCENE_NAME, null, SCENE_NEW_NAME)
         }
 }

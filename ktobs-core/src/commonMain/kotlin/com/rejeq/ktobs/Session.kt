@@ -1,5 +1,6 @@
 package com.rejeq.ktobs
 
+import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
@@ -81,6 +82,22 @@ class ObsSession internal constructor(
 
         return negotiatedRpcVersion
     }
+
+    /**
+     * Cancels all pending request operations by cancelling their associated
+     * deferred responses. This is typically called when the session is being
+     * terminated or when a critical error occurs.
+     *
+     * @param e The [CancellationException] that triggered the cancellation.
+     *        This exception will be propagated to all pending operations.
+     * @throws Nothing This method does not throw exceptions directly, though
+     *         the cancellation may trigger exception handlers in coroutines
+     *         waiting for responses.
+     */
+    suspend fun cancelAllUuids(e: CancellationException) =
+        activeUuidLock.withLock {
+            activeUuids.forEach { it.value.cancel(e) }
+        }
 
     /**
      * Handles incoming messages from the OBS WebSocket server.

@@ -4,7 +4,7 @@ import com.rejeq.ktobs.*
 import io.ktor.client.plugins.websocket.*
 import io.ktor.websocket.CloseReason
 import io.ktor.websocket.close
-import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.coroutines.CancellationException
 
 /**
  * Ktor-based implementation of [WsSession] interface.
@@ -37,7 +37,8 @@ class KtorWsSession(
 /**
  * Runs a message receiver loop for an OBS session.
  * Continuously receives messages and routes them through the session's message
- * handler until the connection is closed.
+ * handler until the connection is closed. When connection is closed it cancel
+ * any pending request
  */
 suspend fun ObsSession.runReceiver() =
     try {
@@ -45,5 +46,6 @@ suspend fun ObsSession.runReceiver() =
             val msg = ws.receiveMessage<OpCode>()
             onReceiveMessage(msg)
         }
-    } catch (e: ClosedReceiveChannelException) {
+    } finally {
+        cancelAllUuids(CancellationException("Session receiver was closed"))
     }

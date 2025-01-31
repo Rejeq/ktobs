@@ -2,6 +2,7 @@ package com.rejeq.ktobs
 
 import kotlinx.coroutines.CancellationException
 import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlin.uuid.ExperimentalUuidApi
@@ -38,22 +39,23 @@ class ObsSession internal constructor(
     suspend fun <T> acquireUuid(
         block: suspend ObsSession.(
             uuid: Uuid,
-            response: CompletableDeferred<RequestResponseOpCode>,
+            response: Deferred<RequestResponseOpCode>,
         ) -> T,
     ): T {
         val response = CompletableDeferred<RequestResponseOpCode>()
-        lateinit var uniqueUuid: Uuid
 
-        activeUuidLock.withLock {
-            uniqueUuid =
-                generateSequence { Uuid.random() }
-                    .take(5)
-                    .filter { !activeUuids.contains(it) }
-                    .firstOrNull()
-                    ?: throw UnableAcquireUuidException()
+        val uniqueUuid =
+            activeUuidLock.withLock {
+                val newUuid =
+                    generateSequence { Uuid.random() }
+                        .take(5)
+                        .filter { !activeUuids.contains(it) }
+                        .firstOrNull()
+                        ?: throw UnableAcquireUuidException()
 
-            activeUuids[uniqueUuid] = response
-        }
+                activeUuids[newUuid] = response
+                newUuid
+            }
 
         try {
             return block(uniqueUuid, response)

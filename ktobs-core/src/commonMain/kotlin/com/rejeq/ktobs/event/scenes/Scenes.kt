@@ -1,6 +1,6 @@
 package com.rejeq.ktobs.event.scenes
 
-import com.rejeq.ktobs.request.scenes.Scene
+import com.rejeq.ktobs.model.Scene
 import kotlinx.serialization.Serializable
 
 /** A new scene has been created */

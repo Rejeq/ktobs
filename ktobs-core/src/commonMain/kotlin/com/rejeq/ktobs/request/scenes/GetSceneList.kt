@@ -2,15 +2,9 @@ package com.rejeq.ktobs.request.scenes
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.callMethod
+import com.rejeq.ktobs.model.Scene
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
-
-@Serializable
-data class Scene(
-    @SerialName("sceneName") val name: String,
-    @SerialName("sceneUuid") val uuid: String,
-    @SerialName("sceneIndex") val index: Int,
-)
 
 @Serializable
 data class GetSceneListResponse(

@@ -1,6 +1,7 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.model.VideoMixType
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.scenes.createScene
 import com.rejeq.ktobs.request.scenes.removeScene

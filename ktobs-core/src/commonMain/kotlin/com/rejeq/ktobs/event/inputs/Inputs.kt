@@ -1,7 +1,7 @@
 package com.rejeq.ktobs.event.inputs
 
+import com.rejeq.ktobs.model.Input
 import com.rejeq.ktobs.model.MonitorType
-import com.rejeq.ktobs.request.inputs.Input
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 

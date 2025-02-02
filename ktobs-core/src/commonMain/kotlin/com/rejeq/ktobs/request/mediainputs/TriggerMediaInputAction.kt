@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.MediaAction
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TriggerMediaInputActionRequest(
+class TriggerMediaInputActionRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val mediaAction: MediaAction,

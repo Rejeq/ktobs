@@ -5,12 +5,12 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetInputKindListRequest(
+class GetInputKindListRequest(
     val unversioned: Boolean?,
 )
 
 @Serializable
-data class GetInputKindListResponse(
+class GetInputKindListResponse(
     val inputKinds: List<String>,
 )
 

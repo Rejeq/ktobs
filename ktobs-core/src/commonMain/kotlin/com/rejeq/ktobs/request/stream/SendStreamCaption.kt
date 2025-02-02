@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SendStreamCaptionRequest(
+class SendStreamCaptionRequest(
     @SerialName("captionText") val text: String,
 )
 

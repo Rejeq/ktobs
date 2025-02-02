@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetInputListRequest(
+class GetInputListRequest(
     val inputKind: String?,
 )
 
@@ -19,7 +19,7 @@ data class Input(
 )
 
 @Serializable
-data class GetInputListResponse(
+class GetInputListResponse(
     val inputs: List<Input>,
 )
 

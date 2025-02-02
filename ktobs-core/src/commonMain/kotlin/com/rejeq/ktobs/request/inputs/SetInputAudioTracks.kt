@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class SetInputAudioTracksRequest(
+class SetInputAudioTracksRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val inputAudioTracks: JsonElement,

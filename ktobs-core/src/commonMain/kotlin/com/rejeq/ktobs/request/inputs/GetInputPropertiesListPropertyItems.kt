@@ -6,14 +6,14 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetInputPropertiesListPropertyItemsRequest(
+class GetInputPropertiesListPropertyItemsRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val propertyName: String,
 )
 
 @Serializable
-data class GetInputPropertiesListPropertyItemsResponse(
+class GetInputPropertiesListPropertyItemsResponse(
     val propertyItems: List<JsonElement>,
 )
 

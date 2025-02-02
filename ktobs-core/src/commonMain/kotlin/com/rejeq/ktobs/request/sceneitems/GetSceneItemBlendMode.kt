@@ -6,14 +6,14 @@ import com.rejeq.ktobs.model.BlendMode
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSceneItemBlendModeRequest(
+class GetSceneItemBlendModeRequest(
     val sceneName: String?,
     val sceneUuid: String?,
     val sceneItemId: Int,
 )
 
 @Serializable
-data class GetSceneItemBlendModeResponse(
+class GetSceneItemBlendModeResponse(
     val sceneItemBlendMode: BlendMode,
 )
 

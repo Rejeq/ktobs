@@ -9,14 +9,14 @@ import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
 @Serializable
-data class RequestOpCode(
+class RequestOpCode(
     val requestType: String,
     val requestId: String,
     val requestData: JsonElement,
 ) : OpCode
 
 @Serializable
-data class RequestResponseOpCode(
+class RequestResponseOpCode(
     val requestType: String,
     val requestId: String,
     val requestStatus: RequestStatus,
@@ -24,7 +24,7 @@ data class RequestResponseOpCode(
 ) : OpCode
 
 @Serializable
-data class RequestStatus(
+class RequestStatus(
     val result: Boolean,
     val code: RequestCode,
     val comment: String? = null,

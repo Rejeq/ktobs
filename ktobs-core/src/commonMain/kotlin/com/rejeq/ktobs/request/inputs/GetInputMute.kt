@@ -5,13 +5,13 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetInputMuteRequest(
+class GetInputMuteRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
 )
 
 @Serializable
-data class GetInputMuteResponse(
+class GetInputMuteResponse(
     val inputMuted: Boolean,
 )
 

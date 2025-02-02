@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSourceFilterKindListResponse(
+class GetSourceFilterKindListResponse(
     @SerialName("sourceFilterKinds") val kinds: List<String>,
 )
 

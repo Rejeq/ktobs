@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetHotkeyListResponse(
+class GetHotkeyListResponse(
     @SerialName("hotkeys") val hotkeys: List<String>,
 )
 

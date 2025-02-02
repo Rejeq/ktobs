@@ -5,13 +5,13 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetInputAudioSyncOffsetRequest(
+class GetInputAudioSyncOffsetRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
 )
 
 @Serializable
-data class GetInputAudioSyncOffsetResponse(
+class GetInputAudioSyncOffsetResponse(
     val inputAudioSyncOffset: Int,
 )
 

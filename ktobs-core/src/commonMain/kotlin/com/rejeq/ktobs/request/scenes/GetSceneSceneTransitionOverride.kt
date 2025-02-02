@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSceneSceneTransitionOverrideRequest(
+class GetSceneSceneTransitionOverrideRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
 )

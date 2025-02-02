@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateSceneCollectionRequest(
+class CreateSceneCollectionRequest(
     val sceneCollectionName: String,
 )
 

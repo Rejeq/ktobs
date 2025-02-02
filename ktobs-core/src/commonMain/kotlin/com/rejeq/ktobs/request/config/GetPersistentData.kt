@@ -7,13 +7,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetPersistentDataRequest(
+class GetPersistentDataRequest(
     val realm: DataRealm,
     val slotName: String,
 )
 
 @Serializable
-data class GetPersistentDataResponse(
+class GetPersistentDataResponse(
     val slotValue: JsonElement?,
 )
 

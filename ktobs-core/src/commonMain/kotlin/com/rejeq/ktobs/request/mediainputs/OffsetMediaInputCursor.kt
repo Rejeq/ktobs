@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OffsetMediaInputCursorRequest(
+class OffsetMediaInputCursorRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val mediaCursorOffset: Long,
@@ -20,4 +20,4 @@ suspend fun ObsSession.offsetMediaInputCursor(
 ) = callUnitMethod(
     "OffsetMediaInputCursor",
     OffsetMediaInputCursorRequest(inputName, inputUuid, mediaCursorOffset),
-) 
+)

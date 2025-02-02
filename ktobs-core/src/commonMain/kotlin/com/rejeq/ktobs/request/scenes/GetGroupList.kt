@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetGroupListResponse(
+class GetGroupListResponse(
     val groups: List<String>,
 )
 

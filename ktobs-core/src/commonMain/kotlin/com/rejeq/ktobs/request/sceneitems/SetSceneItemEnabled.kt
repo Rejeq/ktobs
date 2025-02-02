@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetSceneItemEnabledRequest(
+class SetSceneItemEnabledRequest(
     val sceneName: String?,
     val sceneUuid: String?,
     val sceneItemId: Int,

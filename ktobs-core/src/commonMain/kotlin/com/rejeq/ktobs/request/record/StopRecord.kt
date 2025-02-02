@@ -5,10 +5,10 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StopRecordResponse(
+class StopRecordResponse(
     val outputPath: String,
 )
 
 // Stops the record output
 suspend fun ObsSession.stopRecord(): String =
-    callMethod<StopRecordResponse>("StopRecord").outputPath 
+    callMethod<StopRecordResponse>("StopRecord").outputPath

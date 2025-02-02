@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetLastReplayBufferReplayResponse(
+class GetLastReplayBufferReplayResponse(
     val savedReplayPath: String,
 )
 
@@ -13,4 +13,4 @@ data class GetLastReplayBufferReplayResponse(
 suspend fun ObsSession.getLastReplayBufferReplay(): String =
     callMethod<GetLastReplayBufferReplayResponse>(
         "GetLastReplayBufferReplay",
-    ).savedReplayPath 
+    ).savedReplayPath

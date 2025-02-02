@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetInputAudioBalanceRequest(
+class SetInputAudioBalanceRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val inputAudioBalance: Double,

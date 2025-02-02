@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.MediaState
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetMediaInputStatusRequest(
+class GetMediaInputStatusRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
 )

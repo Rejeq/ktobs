@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class CreateInputRequest(
+class CreateInputRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
     val inputName: String,

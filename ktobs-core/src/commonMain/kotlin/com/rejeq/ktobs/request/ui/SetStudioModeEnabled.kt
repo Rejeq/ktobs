@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetStudioModeEnabledRequest(
+class SetStudioModeEnabledRequest(
     @SerialName("studioModeEnabled") val enabled: Boolean,
 )
 

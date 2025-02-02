@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SleepRequest(
+class SleepRequest(
     val sleepMillis: Long? = null,
     val sleepFrames: Int? = null,
 )

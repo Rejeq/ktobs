@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetInputNameRequest(
+class SetInputNameRequest(
     val inputName: String?,
     val inputUuid: String?,
     val newInputName: String,

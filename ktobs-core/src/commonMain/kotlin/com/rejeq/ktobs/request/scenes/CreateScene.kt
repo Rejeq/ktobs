@@ -5,12 +5,12 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateSceneRequest(
+class CreateSceneRequest(
     val sceneName: String,
 )
 
 @Serializable
-data class CreateSceneResponse(
+class CreateSceneResponse(
     val sceneUuid: String,
 )
 

@@ -6,10 +6,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ToggleRecordResponse(
+class ToggleRecordResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
 // Toggles the status of the record output
 suspend fun ObsSession.toggleRecord(): Boolean =
-    callMethod<ToggleRecordResponse>("ToggleRecord").active 
+    callMethod<ToggleRecordResponse>("ToggleRecord").active

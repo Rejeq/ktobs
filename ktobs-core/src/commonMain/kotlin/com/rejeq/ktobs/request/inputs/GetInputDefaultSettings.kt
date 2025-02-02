@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetInputDefaultSettingsRequest(
+class GetInputDefaultSettingsRequest(
     val inputKind: String,
 )
 
 @Serializable
-data class GetInputDefaultSettingsResponse(
+class GetInputDefaultSettingsResponse(
     val defaultInputSettings: JsonElement,
 )
 

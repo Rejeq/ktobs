@@ -16,7 +16,7 @@ data class Output(
 )
 
 @Serializable
-data class GetOutputListResponse(
+class GetOutputListResponse(
     val outputs: List<Output>,
 )
 

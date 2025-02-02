@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.KeyModifiers
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class TriggerHotkeyByKeySequenceRequest(
+class TriggerHotkeyByKeySequenceRequest(
     val keyId: String? = null,
     val keyModifiers: KeyModifiers? = null,
 )

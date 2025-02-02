@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetInputVolumeRequest(
+class SetInputVolumeRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val inputVolumeMul: Double? = null,

@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.SceneItemTransform
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetSceneItemTransformRequest(
+class SetSceneItemTransformRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
     val sceneItemId: Int,

@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetInputAudioTracksRequest(
+class GetInputAudioTracksRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
 )
 
 @Serializable
-data class GetInputAudioTracksResponse(
+class GetInputAudioTracksResponse(
     val inputAudioTracks: JsonElement,
 )
 

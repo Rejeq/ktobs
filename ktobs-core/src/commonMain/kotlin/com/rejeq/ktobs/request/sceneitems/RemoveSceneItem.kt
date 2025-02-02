@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class RemoveSceneItemRequest(
+class RemoveSceneItemRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
     val sceneItemId: Int,

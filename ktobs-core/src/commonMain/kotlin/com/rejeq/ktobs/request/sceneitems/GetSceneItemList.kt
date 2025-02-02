@@ -6,13 +6,13 @@ import com.rejeq.ktobs.model.SceneItem
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSceneItemListRequest(
+class GetSceneItemListRequest(
     val sceneName: String?,
     val sceneUuid: String?,
 )
 
 @Serializable
-data class GetSceneItemListResponse(
+class GetSceneItemListResponse(
     val sceneItems: List<SceneItem>,
 )
 

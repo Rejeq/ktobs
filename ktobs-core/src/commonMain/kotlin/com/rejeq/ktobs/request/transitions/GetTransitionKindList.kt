@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetTransitionKindListResponse(
+class GetTransitionKindListResponse(
     val transitionKinds: List<String>,
 )
 

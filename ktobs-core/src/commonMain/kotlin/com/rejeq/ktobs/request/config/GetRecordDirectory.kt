@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetRecordDirectoryResponse(
+class GetRecordDirectoryResponse(
     val recordDirectory: String,
 )
 

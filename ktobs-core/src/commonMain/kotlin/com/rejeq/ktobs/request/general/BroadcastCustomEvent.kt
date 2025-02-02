@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class BroadcastCustomEventRequest(
+class BroadcastCustomEventRequest(
     val eventData: JsonElement,
 )
 

@@ -6,10 +6,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ToggleReplayBufferResponse(
+class ToggleReplayBufferResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
 // Toggles the state of the replay buffer output
 suspend fun ObsSession.toggleReplayBuffer(): Boolean =
-    callMethod<ToggleReplayBufferResponse>("ToggleReplayBuffer").active 
+    callMethod<ToggleReplayBufferResponse>("ToggleReplayBuffer").active

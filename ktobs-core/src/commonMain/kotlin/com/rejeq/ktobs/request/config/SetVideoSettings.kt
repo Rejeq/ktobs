@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.VideoSettings
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetVideoSettingsRequest(
+class SetVideoSettingsRequest(
     val fpsNumerator: Int? = null,
     val fpsDenominator: Int? = null,
     val baseWidth: Int? = null,

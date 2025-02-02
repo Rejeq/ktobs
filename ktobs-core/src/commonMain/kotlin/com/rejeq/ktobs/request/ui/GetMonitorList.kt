@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.Monitor
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetMonitorListResponse(
+class GetMonitorListResponse(
     val monitors: List<Monitor>,
 )
 

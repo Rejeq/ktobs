@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetInputAudioSyncOffsetRequest(
+class SetInputAudioSyncOffsetRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val inputAudioSyncOffset: Int,

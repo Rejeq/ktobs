@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSourceActiveRequest(
+class GetSourceActiveRequest(
     val sourceName: String?,
     val sourceUuid: String?,
 )

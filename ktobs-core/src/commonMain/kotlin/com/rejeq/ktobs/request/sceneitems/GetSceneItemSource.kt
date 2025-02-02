@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSceneItemSourceRequest(
+class GetSceneItemSourceRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
     val sceneItemId: Int,

@@ -6,7 +6,7 @@ import com.rejeq.ktobs.model.MonitorType
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetInputAudioMonitorTypeRequest(
+class SetInputAudioMonitorTypeRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val monitorType: MonitorType,

@@ -6,10 +6,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetReplayBufferStatusResponse(
+class GetReplayBufferStatusResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
 // Gets the status of the replay buffer output
 suspend fun ObsSession.getReplayBufferStatus(): Boolean =
-    callMethod<GetReplayBufferStatusResponse>("GetReplayBufferStatus").active 
+    callMethod<GetReplayBufferStatusResponse>("GetReplayBufferStatus").active

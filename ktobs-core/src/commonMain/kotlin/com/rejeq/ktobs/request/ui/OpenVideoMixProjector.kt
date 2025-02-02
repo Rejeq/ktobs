@@ -18,7 +18,7 @@ enum class VideoMixType {
 }
 
 @Serializable
-data class OpenVideoMixProjectorRequest(
+class OpenVideoMixProjectorRequest(
     val videoMixType: VideoMixType,
     val monitorIndex: Int? = null,
     val projectorGeometry: String? = null,

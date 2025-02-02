@@ -5,12 +5,12 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ToggleOutputRequest(
+class ToggleOutputRequest(
     val outputName: String,
 )
 
 @Serializable
-data class ToggleOutputResponse(
+class ToggleOutputResponse(
     val outputActive: Boolean,
 )
 

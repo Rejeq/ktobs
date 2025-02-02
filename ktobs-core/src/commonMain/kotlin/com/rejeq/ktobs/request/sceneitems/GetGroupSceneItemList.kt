@@ -6,13 +6,13 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetGroupSceneItemListRequest(
+class GetGroupSceneItemListRequest(
     val sceneName: String?,
     val sceneUuid: String?,
 )
 
 @Serializable
-data class GetGroupSceneItemListResponse(
+class GetGroupSceneItemListResponse(
     val sceneItems: List<JsonElement>,
 )
 

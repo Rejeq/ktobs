@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateSceneItemRequest(
+class CreateSceneItemRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
     val sourceName: String? = null,
@@ -14,7 +14,7 @@ data class CreateSceneItemRequest(
 )
 
 @Serializable
-data class CreateSceneItemResponse(
+class CreateSceneItemResponse(
     val sceneItemId: Int,
 )
 

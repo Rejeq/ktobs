@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class SetStreamServiceSettingsRequest(
+class SetStreamServiceSettingsRequest(
     val streamServiceType: String,
     val streamServiceSettings: JsonElement,
 )

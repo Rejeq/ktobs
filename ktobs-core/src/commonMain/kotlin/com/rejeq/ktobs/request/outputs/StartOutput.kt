@@ -5,10 +5,10 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class StartOutputRequest(
+class StartOutputRequest(
     val outputName: String,
 )
 
 // Starts an output
 suspend fun ObsSession.startOutput(outputName: String) =
-    callUnitMethod("StartOutput", StartOutputRequest(outputName)) 
+    callUnitMethod("StartOutput", StartOutputRequest(outputName))

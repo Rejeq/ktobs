@@ -5,14 +5,14 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSceneItemLockedRequest(
+class GetSceneItemLockedRequest(
     val sceneName: String?,
     val sceneUuid: String?,
     val sceneItemId: Int,
 )
 
 @Serializable
-data class GetSceneItemLockedResponse(
+class GetSceneItemLockedResponse(
     val sceneItemLocked: Boolean,
 )
 

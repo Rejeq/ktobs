@@ -6,12 +6,12 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetOutputSettingsRequest(
+class GetOutputSettingsRequest(
     val outputName: String,
 )
 
 @Serializable
-data class GetOutputSettingsResponse(
+class GetOutputSettingsResponse(
     val outputSettings: JsonElement,
 )
 

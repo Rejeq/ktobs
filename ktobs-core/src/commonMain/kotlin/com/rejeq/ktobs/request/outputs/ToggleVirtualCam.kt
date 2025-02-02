@@ -6,10 +6,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class ToggleVirtualCamResponse(
+class ToggleVirtualCamResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
 // Toggles the state of the virtualcam output
 suspend fun ObsSession.toggleVirtualCam(): Boolean =
-    callMethod<ToggleVirtualCamResponse>("ToggleVirtualCam").active 
+    callMethod<ToggleVirtualCamResponse>("ToggleVirtualCam").active

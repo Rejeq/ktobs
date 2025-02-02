@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateProfileRequest(
+class CreateProfileRequest(
     val profileName: String,
 )
 

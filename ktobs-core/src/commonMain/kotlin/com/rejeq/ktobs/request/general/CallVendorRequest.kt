@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class CallVendorRequestRequest(
+class CallVendorRequestRequest(
     val vendorName: String,
     val requestType: String,
     val requestData: JsonElement? = null,

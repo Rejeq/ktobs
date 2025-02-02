@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSourceScreenshotRequest(
+class GetSourceScreenshotRequest(
     val sourceName: String? = null,
     val sourceUuid: String? = null,
     val imageFormat: String,
@@ -16,7 +16,7 @@ data class GetSourceScreenshotRequest(
 )
 
 @Serializable
-data class GetSourceScreenshotResponse(
+class GetSourceScreenshotResponse(
     val imageData: String,
 )
 

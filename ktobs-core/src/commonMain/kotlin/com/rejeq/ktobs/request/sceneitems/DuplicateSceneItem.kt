@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class DuplicateSceneItemRequest(
+class DuplicateSceneItemRequest(
     val sceneName: String? = null,
     val sceneUuid: String? = null,
     val sceneItemId: Int,
@@ -14,7 +14,7 @@ data class DuplicateSceneItemRequest(
 )
 
 @Serializable
-data class DuplicateSceneItemResponse(
+class DuplicateSceneItemResponse(
     val sceneItemId: Int,
 )
 

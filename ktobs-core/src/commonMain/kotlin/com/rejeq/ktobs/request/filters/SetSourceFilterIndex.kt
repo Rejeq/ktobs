@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetSourceFilterIndexRequest(
+class SetSourceFilterIndexRequest(
     val sourceName: String? = null,
     val sourceUuid: String? = null,
     val filterName: String,

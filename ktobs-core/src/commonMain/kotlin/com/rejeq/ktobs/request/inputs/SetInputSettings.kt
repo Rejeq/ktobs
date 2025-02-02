@@ -6,7 +6,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class SetInputSettingsRequest(
+class SetInputSettingsRequest(
     val inputName: String? = null,
     val inputUuid: String? = null,
     val inputSettings: JsonElement,

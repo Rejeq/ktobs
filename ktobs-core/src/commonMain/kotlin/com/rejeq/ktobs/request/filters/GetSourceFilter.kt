@@ -7,7 +7,7 @@ import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
 @Serializable
-data class GetSourceFilterRequest(
+class GetSourceFilterRequest(
     val sourceName: String? = null,
     val sourceUuid: String? = null,
     val filterName: String,

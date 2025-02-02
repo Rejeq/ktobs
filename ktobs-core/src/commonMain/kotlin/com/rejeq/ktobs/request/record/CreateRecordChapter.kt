@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CreateRecordChapterRequest(
+class CreateRecordChapterRequest(
     val chapterName: String? = null,
 )
 

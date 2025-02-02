@@ -5,14 +5,14 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSceneItemIndexRequest(
+class GetSceneItemIndexRequest(
     val sceneName: String?,
     val sceneUuid: String?,
     val sceneItemId: Int,
 )
 
 @Serializable
-data class GetSceneItemIndexResponse(
+class GetSceneItemIndexResponse(
     val sceneItemIndex: Int,
 )
 

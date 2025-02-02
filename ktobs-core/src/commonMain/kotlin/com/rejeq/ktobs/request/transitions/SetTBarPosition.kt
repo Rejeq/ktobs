@@ -5,7 +5,7 @@ import com.rejeq.ktobs.callUnitMethod
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class SetTBarPositionRequest(
+class SetTBarPositionRequest(
     val position: Double,
     val release: Boolean? = null,
 )

@@ -6,13 +6,13 @@ import com.rejeq.ktobs.model.Filter
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class GetSourceFilterListRequest(
+class GetSourceFilterListRequest(
     val sourceName: String? = null,
     val sourceUuid: String? = null,
 )
 
 @Serializable
-data class GetSourceFilterListResponse(
+class GetSourceFilterListResponse(
     val filters: List<Filter>,
 )
 

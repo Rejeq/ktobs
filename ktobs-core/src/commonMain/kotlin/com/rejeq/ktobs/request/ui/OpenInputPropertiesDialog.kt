@@ -6,7 +6,7 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class OpenInputPropertiesDialogRequest(
+class OpenInputPropertiesDialogRequest(
     @SerialName("inputName") val name: String? = null,
     @SerialName("inputUuid") val uuid: String? = null,
 )

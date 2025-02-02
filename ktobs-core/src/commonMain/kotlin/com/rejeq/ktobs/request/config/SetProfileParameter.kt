@@ -8,14 +8,20 @@ import kotlinx.serialization.Serializable
 class SetProfileParameterRequest(
     val parameterCategory: String,
     val parameterName: String,
-    val parameterValue: String,
+    val parameterValue: String?,
 )
 
-// Gets an array of all profiles
+/**
+ * Sets the value of a parameter in the current profile's configuration.
+ *
+ * @param category Category of the parameter to set
+ * @param name Name of the parameter to set
+ * @param value Value of the parameter to set. Use null to delete
+ */
 suspend fun ObsSession.setProfileParameter(
     category: String,
     name: String,
-    value: String,
+    value: String?,
 ) = callUnitMethod(
     "SetProfileParameter",
     SetProfileParameterRequest(category, name, value),

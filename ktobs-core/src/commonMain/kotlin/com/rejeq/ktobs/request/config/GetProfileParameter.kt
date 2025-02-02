@@ -13,11 +13,18 @@ class GetProfileParameterRequest(
 
 @Serializable
 data class GetProfileParameterResponse(
-    @SerialName("parameterValue") val value: String,
-    @SerialName("defaultParameterValue") val default: String,
+    /** Value associated with the parameter. null if not set and no default */
+    @SerialName("parameterValue") val value: String?,
+    /** Default value associated with the parameter. null if no default */
+    @SerialName("defaultParameterValue") val default: String?,
 )
 
-// Gets a parameter from the current profile's configuration
+/**
+ * Gets a parameter from the current profile's configuration.
+ *
+ * @param category Category of the parameter to get
+ * @param name Name of the parameter to get
+ */
 suspend fun ObsSession.getProfileParameter(
     category: String,
     name: String,

@@ -14,10 +14,17 @@ class GetPersistentDataRequest(
 
 @Serializable
 class GetPersistentDataResponse(
+    /** Value associated with the slot. null if not set */
     val slotValue: JsonElement?,
 )
 
-// Gets the value of a "slot" from the selected persistent data realm
+/**
+ * Gets the value of a "slot" from the selected persistent data realm.
+ *
+ * @param realm The data realm to select.
+ * @param slotName The name of the slot to retrieve data from
+ * @return Value associated with the slot
+ */
 suspend fun ObsSession.getPersistentData(
     realm: DataRealm,
     slotName: String,

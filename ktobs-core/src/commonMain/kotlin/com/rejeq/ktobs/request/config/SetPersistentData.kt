@@ -13,7 +13,13 @@ class SetPersistentDataRequest(
     val slotValue: JsonElement,
 )
 
-// Sets the value of a "slot" from the selected persistent data realm
+/**
+ * Sets the value of a "slot" from the selected persistent data realm.
+ *
+ * @param realm The data realm to select
+ * @param slotName The name of the slot to retrieve data from
+ * @param slotValue The value to apply to the slot
+ */
 suspend fun ObsSession.setPersistentData(
     realm: DataRealm,
     slotName: String,

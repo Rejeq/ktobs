@@ -9,7 +9,11 @@ class RemoveProfileRequest(
     val profileName: String,
 )
 
-// Removes a profile. If the current profile is chosen, it will change to a
-// different profile first
+/**
+ * Removes a profile. If the current profile is chosen, it will change to a
+ * different profile first.
+ *
+ * @param name Name of the profile to remove
+ */
 suspend fun ObsSession.removeProfile(name: String) =
     callUnitMethod("RemoveProfile", RemoveProfileRequest(name))

@@ -9,6 +9,10 @@ class CreateProfileRequest(
     val profileName: String,
 )
 
-// Creates a new profile, switching to it in the process
+/**
+ * Creates a new profile, switching to it in the process.
+ *
+ * @param name Name for the new profile
+ */
 suspend fun ObsSession.createProfile(name: String) =
     callUnitMethod("CreateProfile", CreateProfileRequest(name))

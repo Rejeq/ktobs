@@ -9,6 +9,10 @@ class SetRecordDirectoryRequest(
     val recordDirectory: String,
 )
 
-// Sets the current directory that the record output writes files to
+/**
+ * Sets the current directory that the record output writes files to.
+ *
+ * @param directory Output directory
+ */
 suspend fun ObsSession.setRecordDirectory(directory: String) =
     callUnitMethod("SetRecordDirectory", SetRecordDirectoryRequest(directory))

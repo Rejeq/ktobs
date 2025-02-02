@@ -15,7 +15,19 @@ class SetVideoSettingsRequest(
     val outputHeight: Int? = null,
 )
 
-// Sets the current video settings
+/**
+ * Sets the current video settings.
+ *
+ * Note: Fields must be specified in pairs. For example, you cannot set only
+ * baseWidth without needing to specify baseHeight.
+ *
+ * @param fpsNumerator Numerator of the fractional FPS value
+ * @param fpsDenominator Denominator of the fractional FPS value
+ * @param baseWidth Width of the base (canvas) resolution in pixels
+ * @param baseHeight Height of the base (canvas) resolution in pixels
+ * @param outputWidth Width of the output resolution in pixels
+ * @param outputHeight Height of the output resolution in pixels
+ */
 suspend fun ObsSession.setVideoSettings(
     fpsNumerator: Int? = null,
     fpsDenominator: Int? = null,
@@ -35,7 +47,11 @@ suspend fun ObsSession.setVideoSettings(
     ),
 )
 
-// Sets the current video settings
+/**
+ * Sets the current video settings using a VideoSettings object.
+ *
+ * @param settings Video settings to apply
+ */
 suspend fun ObsSession.setVideoSettings(settings: VideoSettings) =
     setVideoSettings(
         settings.fpsNumerator,

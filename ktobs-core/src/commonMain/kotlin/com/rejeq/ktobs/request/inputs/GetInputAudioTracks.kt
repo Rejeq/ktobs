@@ -16,7 +16,13 @@ class GetInputAudioTracksResponse(
     val inputAudioTracks: JsonElement,
 )
 
-// Gets the enable state of all audio tracks of an input
+/**
+ * Gets the enable state of all audio tracks of an input.
+ *
+ * @param inputName Name of the input
+ * @param inputUuid UUID of the input
+ * @return Object of audio tracks and associated states
+ */
 suspend fun ObsSession.getInputAudioTracks(
     inputName: String? = null,
     inputUuid: String? = null,

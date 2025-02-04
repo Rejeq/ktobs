@@ -10,6 +10,10 @@ class GetMonitorListResponse(
     val monitors: List<Monitor>,
 )
 
-// Gets a list of connected monitors and their properties
+/**
+ * Gets a list of connected monitors and their properties
+ *
+ * @return A list of detected monitors with some information
+ */
 suspend fun ObsSession.getMonitorList(): List<Monitor> =
     callMethod<GetMonitorListResponse>("GetMonitorList").monitors

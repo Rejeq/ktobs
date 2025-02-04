@@ -16,7 +16,12 @@ class GetSourceFilterDefaultSettingsResponse(
     @SerialName("defaultFilterSettings") val settings: JsonElement,
 )
 
-// Gets the default settings for a filter kind
+/**
+ * Gets the default settings for a filter kind.
+ *
+ * @param filterKind Filter kind to get the default settings for
+ * @return Object of default settings for the filter kind
+ */
 suspend fun ObsSession.getSourceFilterDefaultSettings(
     filterKind: String,
 ): JsonElement =

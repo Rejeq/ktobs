@@ -11,7 +11,12 @@ class OpenInputInteractDialogRequest(
     @SerialName("inputUuid") val uuid: String? = null,
 )
 
-// Opens the interact dialog of an input
+/**
+ * Opens the interact dialog of an input.
+ *
+ * @param name Name of the input to open the dialog of
+ * @param uuid UUID of the input to open the dialog of
+ */
 suspend fun ObsSession.openInputInteractDialog(
     name: String? = null,
     uuid: String? = null,

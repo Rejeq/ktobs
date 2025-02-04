@@ -9,7 +9,13 @@ class GetTransitionKindListResponse(
     val transitionKinds: List<String>,
 )
 
-// Gets an array of all available transition kinds
+/**
+ * Gets an array of all available transition kinds.
+ *
+ * Similar to GetInputKindList.
+ *
+ * @return Array of transition kinds
+ */
 suspend fun ObsSession.getTransitionKindList(): List<String> =
     callMethod<GetTransitionKindListResponse>(
         "GetTransitionKindList",

@@ -12,8 +12,14 @@ class SetSceneItemIndexRequest(
     val sceneItemIndex: Int,
 )
 
-// Sets the index position of a scene item in a scene
-// Scenes and Groups
+/**
+ * Sets the index position of a scene item in a scene.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param id Numeric ID of the scene item
+ * @param index New index position of the scene item
+ */
 suspend fun ObsSession.setSceneItemIndex(
     sceneName: String? = null,
     sceneUuid: String? = null,

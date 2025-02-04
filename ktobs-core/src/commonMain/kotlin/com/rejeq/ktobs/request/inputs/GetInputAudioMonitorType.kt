@@ -16,7 +16,13 @@ class GetInputAudioMonitorTypeResponse(
     val monitorType: MonitorType,
 )
 
-// Gets the audio monitor type of input
+/**
+ * Gets the audio monitor type of an input.
+ *
+ * @param inputName Name of the input to get the audio monitor type of
+ * @param inputUuid UUID of the input to get the audio monitor type of
+ * @return Audio monitor type
+ */
 suspend fun ObsSession.getInputAudioMonitorType(
     inputName: String? = null,
     inputUuid: String? = null,

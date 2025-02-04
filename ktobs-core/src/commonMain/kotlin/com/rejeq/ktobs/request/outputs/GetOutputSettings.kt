@@ -15,7 +15,11 @@ class GetOutputSettingsResponse(
     val outputSettings: JsonElement,
 )
 
-// Gets the settings of an output
+/**
+ * Gets the settings of an output.
+ *
+ * @param outputName Name of the output to get the settings of
+ */
 suspend fun ObsSession.getOutputSettings(outputName: String): JsonElement =
     callMethod<GetOutputSettingsResponse, GetOutputSettingsRequest>(
         "GetOutputSettings",

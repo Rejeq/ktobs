@@ -3,6 +3,15 @@ package com.rejeq.ktobs.model
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+
+/**
+ * @property index Index of the monitor starting at 0
+ * @property name Monitor name/ID
+ * @property width Monitor resolution width
+ * @property height Monitor resolution height
+ * @property positionX Monitor position on the desktop x-coordinate
+ * @property positionY Monitor position on the desktop y-coordinate
+ */
 @Serializable
 data class Monitor(
     @SerialName("monitorIndex") val index: Int,

@@ -10,8 +10,14 @@ class SetCurrentPreviewSceneRequest(
     val sceneUuid: String? = null,
 )
 
-// Sets the current preview scene
-// Only available when studio mode is enabled
+/**
+ * Sets the current preview scene.
+ *
+ * Only available when studio mode is enabled.
+ *
+ * @param name Name of the scene to set as the current preview scene
+ * @param uuid UUID of the scene to set as the current preview scene
+ */
 suspend fun ObsSession.setCurrentPreviewScene(
     name: String? = null,
     uuid: String? = null,

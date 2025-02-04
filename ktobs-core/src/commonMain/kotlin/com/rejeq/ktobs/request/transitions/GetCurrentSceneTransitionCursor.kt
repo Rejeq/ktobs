@@ -7,11 +7,15 @@ import kotlinx.serialization.json.JsonElement
 
 @Serializable
 class GetCurrentSceneTransitionCursorResponse(
-    val transitionCursor: JsonElement,
+    val transitionCursor: Double,
 )
 
-// Gets the cursor position of the current scene transition if supported
-suspend fun ObsSession.getCurrentSceneTransitionCursor(): JsonElement =
+/**
+ * Gets the cursor position of the current scene transition.
+ *
+ * @return Cursor position, between 0.0 and 1.0
+ */
+suspend fun ObsSession.getCurrentSceneTransitionCursor(): Double =
     callMethod<GetCurrentSceneTransitionCursorResponse>(
         "GetCurrentSceneTransitionCursor",
     ).transitionCursor

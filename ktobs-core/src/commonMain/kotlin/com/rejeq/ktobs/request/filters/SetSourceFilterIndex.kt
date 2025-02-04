@@ -12,7 +12,14 @@ class SetSourceFilterIndexRequest(
     val filterIndex: Int,
 )
 
-// Sets the index position of a filter on a source
+/**
+ * Sets the index position of a filter on a source.
+ *
+ * @param sourceName Name of the source the filter is on
+ * @param sourceUuid UUID of the source the filter is on
+ * @param filterName Name of the filter
+ * @param filterIndex New index position of the filter
+ */
 suspend fun ObsSession.setSourceFilterIndex(
     sourceName: String? = null,
     sourceUuid: String? = null,

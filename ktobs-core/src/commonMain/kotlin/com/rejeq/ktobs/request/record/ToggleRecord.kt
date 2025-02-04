@@ -10,6 +10,10 @@ class ToggleRecordResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
-// Toggles the status of the record output
+/**
+ * Toggles the status of the record output.
+ *
+ * @return The new active state of the output
+ */
 suspend fun ObsSession.toggleRecord(): Boolean =
     callMethod<ToggleRecordResponse>("ToggleRecord").active

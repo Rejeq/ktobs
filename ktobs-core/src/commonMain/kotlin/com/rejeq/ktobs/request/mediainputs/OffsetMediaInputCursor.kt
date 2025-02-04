@@ -11,8 +11,15 @@ class OffsetMediaInputCursorRequest(
     val mediaCursorOffset: Long,
 )
 
-// Offsets the cursor position of a media input by the specified value
-// This request does not perform bounds checking of the cursor position.
+/**
+ * Offsets the current cursor position of a media input by the specified amount.
+ *
+ * Note: This request does not perform bounds checking of the cursor position.
+ *
+ * @param inputName Name of the media input
+ * @param inputUuid UUID of the media input
+ * @param mediaCursorOffset Value to add to the current cursor position
+ */
 suspend fun ObsSession.offsetMediaInputCursor(
     inputName: String? = null,
     inputUuid: String? = null,

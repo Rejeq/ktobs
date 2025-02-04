@@ -16,9 +16,17 @@ class GetGroupSceneItemListResponse(
     val sceneItems: List<JsonElement>,
 )
 
-// Basically GetSceneItemList, but for groups
-// Using groups at all in OBS is discouraged, as they are very broken under the
-// hood. Please use nested scenes instead
+/**
+ * Gets a list of scene items in a group.
+ * Basically GetSceneItemList, but for groups.
+ *
+ * Using groups at all in OBS is discouraged, as they are very broken under the
+ * hood. Please use nested scenes instead.
+ *
+ * @param sceneName Name of the group to get the items of
+ * @param sceneUuid UUID of the group to get the items of
+ * @return Array of scene items in the group
+ */
 suspend fun ObsSession.getGroupSceneItemList(
     sceneName: String? = null,
     sceneUuid: String? = null,

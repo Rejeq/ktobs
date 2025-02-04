@@ -11,7 +11,13 @@ class RemoveSceneItemRequest(
     val sceneItemId: Int,
 )
 
-// Removes a scene item from a scene
+/**
+ * Removes a scene item from a scene.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ */
 suspend fun ObsSession.removeSceneItem(
     sceneName: String? = null,
     sceneUuid: String? = null,

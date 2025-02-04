@@ -10,6 +10,10 @@ class GetVirtualCamStatusResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
-// Gets the status of the virtualcam output
+/**
+ * Gets the status of the virtualcam output.
+ *
+ * @return Whether the output is active
+ */
 suspend fun ObsSession.getVirtualCamStatus(): Boolean =
     callMethod<GetVirtualCamStatusResponse>("GetVirtualCamStatus").active

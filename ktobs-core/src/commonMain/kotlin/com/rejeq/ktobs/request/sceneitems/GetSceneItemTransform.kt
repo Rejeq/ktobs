@@ -17,8 +17,14 @@ class GetSceneItemTransformResponse(
     val sceneItemTransform: SceneItemTransform,
 )
 
-// Gets the transform and crop info of a scene item
-// Scenes and Groups
+/**
+ * Gets the transform and crop info of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @return Object containing scene item transform info
+ */
 suspend fun ObsSession.getSceneItemTransform(
     sceneName: String? = null,
     sceneUuid: String? = null,

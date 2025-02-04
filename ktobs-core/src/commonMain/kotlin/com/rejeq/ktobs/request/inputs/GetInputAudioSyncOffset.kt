@@ -15,7 +15,15 @@ class GetInputAudioSyncOffsetResponse(
     val inputAudioSyncOffset: Int,
 )
 
-// Gets the audio sync offset of an input
+/**
+ * Gets the audio sync offset of an input.
+ *
+ * Note: The audio sync offset can be negative too!
+ *
+ * @param inputName Name of the input to get the audio sync offset of
+ * @param inputUuid UUID of the input to get the audio sync offset of
+ * @return Audio sync offset in milliseconds
+ */
 suspend fun ObsSession.getInputAudioSyncOffset(
     inputName: String? = null,
     inputUuid: String? = null,

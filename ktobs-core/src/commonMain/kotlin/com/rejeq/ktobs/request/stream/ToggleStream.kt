@@ -10,6 +10,10 @@ class ToggleStreamResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
-// Toggles the status of the stream output
-suspend fun ObsSession.toggleStream(): ToggleStreamResponse =
-    callMethod("ToggleStream")
+/**
+ * Toggles the status of the stream output.
+ *
+ * @return Whether the output is active after toggling
+ */
+suspend fun ObsSession.toggleStream(): Boolean =
+    callMethod<ToggleStreamResponse>("ToggleStream").active

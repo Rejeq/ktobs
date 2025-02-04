@@ -10,6 +10,10 @@ class SendStreamCaptionRequest(
     @SerialName("captionText") val text: String,
 )
 
-// Sends CEA-608 caption text over the stream output
+/**
+ * Sends CEA-608 caption text over the stream output.
+ *
+ * @param text Caption text
+ */
 suspend fun ObsSession.sendStreamCaption(text: String) =
     callUnitMethod("SendStreamCaption", SendStreamCaptionRequest(text))

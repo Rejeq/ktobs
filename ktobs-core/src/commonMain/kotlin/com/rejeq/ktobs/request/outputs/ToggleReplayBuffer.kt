@@ -10,6 +10,10 @@ class ToggleReplayBufferResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
-// Toggles the state of the replay buffer output
+/**
+ * Toggles the state of the replay buffer output.
+ *
+ * @return Whether the output is active after toggling
+ */
 suspend fun ObsSession.toggleReplayBuffer(): Boolean =
     callMethod<ToggleReplayBufferResponse>("ToggleReplayBuffer").active

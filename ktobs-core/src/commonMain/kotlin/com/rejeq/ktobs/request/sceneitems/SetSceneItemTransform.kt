@@ -13,7 +13,14 @@ class SetSceneItemTransformRequest(
     val sceneItemTransform: SceneItemTransform,
 )
 
-// Sets the transform and crop info of a scene item
+/**
+ * Sets the transform and crop info of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @param sceneItemTransform Object containing scene item transform info
+ */
 suspend fun ObsSession.setSceneItemTransform(
     sceneName: String? = null,
     sceneUuid: String? = null,

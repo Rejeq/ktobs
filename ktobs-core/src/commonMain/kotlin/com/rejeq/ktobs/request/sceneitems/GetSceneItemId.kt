@@ -17,8 +17,15 @@ class GetSceneItemIdResponse(
     val sceneItemId: Int,
 )
 
-// Searches a scene for a source, and returns its id
-// Scenes and Groups
+/**
+ * Gets the ID of a source item in a scene.
+ *
+ * @param sceneName Name of the scene or group to get the item id of
+ * @param sceneUuid UUID of the scene or group to get the item id of
+ * @param sourceName Name of the source to get the item id of
+ * @param searchOffset Number of matches to skip during search
+ * @return Numeric ID of the scene item
+ */
 suspend fun ObsSession.getSceneItemId(
     sceneName: String? = null,
     sceneUuid: String? = null,

@@ -11,7 +11,13 @@ class SetInputMuteRequest(
     val inputMuted: Boolean,
 )
 
-// Sets the audio mute state of an input
+/**
+ * Sets the audio mute state of an input.
+ *
+ * @param name Name of the input to set the mute state of
+ * @param uuid UUID of the input to set the mute state of
+ * @param muted True == Mute input, False == Unmute input
+ */
 suspend fun ObsSession.setInputMute(
     name: String? = null,
     uuid: String? = null,

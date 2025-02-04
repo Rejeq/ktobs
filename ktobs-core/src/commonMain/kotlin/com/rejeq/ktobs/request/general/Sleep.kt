@@ -10,14 +10,22 @@ class SleepRequest(
     val sleepFrames: Int? = null,
 )
 
-// Sleeps for a time duration in milliseconds.
-// Only available in request batches
+/**
+ * Sleeps for a time duration in milliseconds.
+ * Only available in request batches.
+ *
+ * @param millis Number of milliseconds to sleep for
+ */
 suspend fun ObsSession.sleep(millis: Long) {
     callUnitMethod("Sleep", SleepRequest(millis, null))
 }
 
-// Sleeps for a time duration in number of frames.
-// Only available in request batches
+/**
+ * Sleeps for a time duration in number of frames.
+ * Only available in request batches.
+ *
+ * @param frames Number of frames to sleep for
+ */
 suspend fun ObsSession.sleepFrames(frames: Int) {
     callUnitMethod("Sleep", SleepRequest(null, frames))
 }

@@ -9,7 +9,11 @@ class SetCurrentSceneTransitionDurationRequest(
     val transitionDuration: Int,
 )
 
-// Sets the duration of the current scene transition, if it is not fixed
+/**
+ * Sets the duration of the current scene transition.
+ *
+ * @param duration Duration in milliseconds
+ */
 suspend fun ObsSession.setCurrentSceneTransitionDuration(duration: Int) =
     callUnitMethod(
         "SetCurrentSceneTransitionDuration",

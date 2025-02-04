@@ -14,7 +14,12 @@ class CreateSceneResponse(
     val sceneUuid: String,
 )
 
-// Creates a new scene in OBS
+/**
+ * Creates a new scene in OBS.
+ *
+ * @param name Name for the new scene
+ * @return UUID of the created scene
+ */
 suspend fun ObsSession.createScene(name: String): String =
     callMethod<CreateSceneResponse, CreateSceneRequest>(
         "CreateScene",

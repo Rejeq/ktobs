@@ -11,7 +11,13 @@ class SetInputNameRequest(
     val newInputName: String,
 )
 
-// Sets the name of an input (rename)
+/**
+ * Sets the name of an input (rename).
+ *
+ * @param inputName Current input name
+ * @param inputUuid Current input UUID
+ * @param newInputName New name for the input
+ */
 suspend fun ObsSession.setInputName(
     inputName: String? = null,
     inputUuid: String? = null,

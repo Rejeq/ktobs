@@ -15,7 +15,13 @@ class GetInputAudioBalanceResponse(
     val inputAudioBalance: Double,
 )
 
-// Gets the audio balance of an input
+/**
+ * Gets the audio balance of an input.
+ *
+ * @param inputName Name of the input to get the audio balance of
+ * @param inputUuid UUID of the input to get the audio balance of
+ * @return Audio balance value from 0.0 to 1.0
+ */
 suspend fun ObsSession.getInputAudioBalance(
     inputName: String? = null,
     inputUuid: String? = null,

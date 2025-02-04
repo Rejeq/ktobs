@@ -10,6 +10,10 @@ class GetSourceFilterKindListResponse(
     @SerialName("sourceFilterKinds") val kinds: List<String>,
 )
 
-// Gets an array of all available source filter kinds
+/**
+ * Gets an array of all available source filter kinds
+ *
+ * @return Array of source filter kinds
+ **/
 suspend fun ObsSession.getSourceFilterKindList(): List<String> =
     callMethod<GetSourceFilterKindListResponse>("GetSourceFilterKindList").kinds

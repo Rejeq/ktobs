@@ -11,7 +11,12 @@ class SetOutputSettingsRequest(
     val outputSettings: JsonElement,
 )
 
-// Sets the settings of an output
+/**
+ * Sets the settings of an output.
+ *
+ * @param name Name of the output to set the settings of
+ * @param settings Settings to apply to the output
+ */
 suspend fun ObsSession.setOutputSettings(
     name: String,
     settings: JsonElement,

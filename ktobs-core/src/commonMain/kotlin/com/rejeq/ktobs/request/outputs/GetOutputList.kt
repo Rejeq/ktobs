@@ -10,6 +10,10 @@ class GetOutputListResponse(
     val outputs: List<Output>,
 )
 
-// Gets the list of available outputs
+/**
+ * Gets the list of available outputs.
+ *
+ * @return Array of outputs
+ */
 suspend fun ObsSession.getOutputList(): List<Output> =
     callMethod<GetOutputListResponse>("GetOutputList").outputs

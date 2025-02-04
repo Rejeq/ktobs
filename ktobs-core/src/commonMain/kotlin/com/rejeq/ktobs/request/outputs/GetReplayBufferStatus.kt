@@ -10,6 +10,10 @@ class GetReplayBufferStatusResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
-// Gets the status of the replay buffer output
+/**
+ * Gets the status of the replay buffer output.
+ *
+ * @return Whether the output is active
+ */
 suspend fun ObsSession.getReplayBufferStatus(): Boolean =
     callMethod<GetReplayBufferStatusResponse>("GetReplayBufferStatus").active

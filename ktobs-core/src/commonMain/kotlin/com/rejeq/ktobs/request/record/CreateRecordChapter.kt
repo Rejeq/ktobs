@@ -9,7 +9,9 @@ class CreateRecordChapterRequest(
     val chapterName: String? = null,
 )
 
-// Creates a new chapter marker in the recording
+/**
+ * Creates a new chapter in the current recording.
+ */
 suspend fun ObsSession.createRecordChapter(chapterName: String? = null) =
     callUnitMethod(
         "CreateRecordChapter",

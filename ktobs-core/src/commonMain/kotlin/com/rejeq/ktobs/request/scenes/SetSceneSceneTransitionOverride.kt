@@ -13,7 +13,16 @@ class SetSceneSceneTransitionOverrideRequest(
     val transitionDuration: Int? = null,
 )
 
-// Sets the scene transition override for a scene
+/**
+ * Sets the scene transition overridden for a scene.
+ *
+ * @param sceneName Name of the scene
+ * @param sceneUuid UUID of the scene
+ * @param transitionName Name of the scene transition to use as override.
+ *        Specify null to remove
+ * @param transitionDuration Duration to use for any overridden transition.
+ *        Specify null to remove
+ */
 suspend fun ObsSession.setSceneSceneTransitionOverride(
     sceneName: String? = null,
     sceneUuid: String? = null,

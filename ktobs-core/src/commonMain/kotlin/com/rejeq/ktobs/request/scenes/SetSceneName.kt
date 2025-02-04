@@ -11,7 +11,13 @@ class SetSceneNameRequest(
     val newSceneName: String,
 )
 
-// Sets the name of a scene (rename)
+/**
+ * Sets the name of a scene (rename).
+ *
+ * @param name Name of the scene to rename
+ * @param uuid UUID of the scene to rename
+ * @param newSceneName New name for the scene
+ */
 suspend fun ObsSession.setSceneName(
     name: String? = null,
     uuid: String? = null,

@@ -17,8 +17,14 @@ class GetSceneItemBlendModeResponse(
     val sceneItemBlendMode: BlendMode,
 )
 
-// Gets the blend mode of a scene item
-// Scenes and Groups
+/**
+ * Gets the blend mode of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @return Current blend mode
+ */
 suspend fun ObsSession.getSceneItemBlendMode(
     sceneName: String? = null,
     sceneUuid: String? = null,

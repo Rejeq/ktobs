@@ -11,6 +11,13 @@ class GetMediaInputStatusRequest(
     val inputUuid: String? = null,
 )
 
+/**
+ * @property mediaState State of the media input
+ * @property mediaDuration Total duration of the playing media in milliseconds.
+ *           null if not playing
+ * @property mediaCursor Position of the cursor in milliseconds. null if not
+ *           playing
+ */
 @Serializable
 data class GetMediaInputStatusResponse(
     val mediaState: MediaState,
@@ -18,7 +25,12 @@ data class GetMediaInputStatusResponse(
     val mediaCursor: Long?,
 )
 
-// Gets the status of a media input
+/**
+ * Gets the status of a media input.
+ *
+ * @param inputName Name of the media input
+ * @param inputUuid UUID of the media input
+ */
 suspend fun ObsSession.getMediaInputStatus(
     inputName: String? = null,
     inputUuid: String? = null,

@@ -16,7 +16,13 @@ class GetSourceFilterListResponse(
     val filters: List<Filter>,
 )
 
-// Gets an array of all of a source's filters
+/**
+ * Gets an array of all of a source's filters.
+ *
+ * @param sourceName Name of the source
+ * @param sourceUuid UUID of the source
+ * @return Array of filters
+ */
 suspend fun ObsSession.getSourceFilterList(
     sourceName: String? = null,
     sourceUuid: String? = null,

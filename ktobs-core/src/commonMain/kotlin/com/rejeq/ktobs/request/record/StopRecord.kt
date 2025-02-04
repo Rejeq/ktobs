@@ -9,6 +9,10 @@ class StopRecordResponse(
     val outputPath: String,
 )
 
-// Stops the record output
+/**
+ * Stops the record output.
+ *
+ * @return File name for the saved recording
+ */
 suspend fun ObsSession.stopRecord(): String =
     callMethod<StopRecordResponse>("StopRecord").outputPath

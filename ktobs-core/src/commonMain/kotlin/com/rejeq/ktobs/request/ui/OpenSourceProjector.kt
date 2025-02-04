@@ -12,8 +12,17 @@ class OpenSourceProjectorRequest(
     val projectorGeometry: String? = null,
 )
 
-// Opens a projector for a source
-// Note: Geometry string is in the format: "left,top,width,height"
+/**
+ * Opens a projector for a source.
+ *
+ * @param name Name of the source to open a projector for
+ * @param uuid UUID of the source to open a projector for
+ * @param monitorIndex Monitor index,
+ *        use GetMonitorList to obtain index
+ *        use -1 for windowed mode
+ * @param projectorGeometry Size/Position data for a windowed projector as QRect
+ *        string. Mutually exclusive with monitorIndex
+ */
 suspend fun ObsSession.openSourceProjector(
     name: String? = null,
     uuid: String? = null,

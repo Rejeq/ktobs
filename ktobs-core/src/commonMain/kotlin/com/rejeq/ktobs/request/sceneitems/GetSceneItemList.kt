@@ -16,7 +16,13 @@ class GetSceneItemListResponse(
     val sceneItems: List<SceneItem>,
 )
 
-// Gets a list of all scene items in a scene
+/**
+ * Gets a list of all scene items in a scene.
+ *
+ * @param sceneName Name of the scene to get the items of
+ * @param sceneUuid UUID of the scene to get the items of
+ * @return Array of scene items in the scene
+ */
 suspend fun ObsSession.getSceneItemList(
     sceneName: String? = null,
     sceneUuid: String? = null,

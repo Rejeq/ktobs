@@ -16,8 +16,14 @@ class GetSceneItemEnabledResponse(
     val sceneItemEnabled: Boolean,
 )
 
-// Gets the enable state of a scene item
-// Scenes and Groups
+/**
+ * Gets the enable state of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @return Whether the scene item is enabled
+ */
 suspend fun ObsSession.getSceneItemEnabled(
     sceneName: String? = null,
     sceneUuid: String? = null,

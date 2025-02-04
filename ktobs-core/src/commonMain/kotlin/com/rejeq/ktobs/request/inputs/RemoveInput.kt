@@ -10,7 +10,14 @@ class RemoveInputRequest(
     val inputUuid: String?,
 )
 
-// Removes an existing input
+/**
+ * Removes an existing input.
+ *
+ * Note: Will immediately remove all associated scene items.
+ *
+ * @param inputName Name of the input to remove
+ * @param inputUuid UUID of the input to remove
+ */
 suspend fun ObsSession.removeInput(
     inputName: String? = null,
     inputUuid: String? = null,

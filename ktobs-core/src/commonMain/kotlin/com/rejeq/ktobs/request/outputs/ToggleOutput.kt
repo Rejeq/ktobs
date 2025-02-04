@@ -14,9 +14,14 @@ class ToggleOutputResponse(
     val outputActive: Boolean,
 )
 
-// Toggles the status of an output
-suspend fun ObsSession.toggleOutput(outputName: String): Boolean =
+/**
+ * Toggles the status of an output.
+ *
+ * @param name Name of the output to toggle
+ * @return Whether the output is active after toggling
+ */
+suspend fun ObsSession.toggleOutput(name: String): Boolean =
     callMethod<ToggleOutputResponse, ToggleOutputRequest>(
         "ToggleOutput",
-        ToggleOutputRequest(outputName),
+        ToggleOutputRequest(name),
     ).outputActive

@@ -13,6 +13,12 @@ class GetSourceFilterRequest(
     val filterName: String,
 )
 
+/**
+ * @property enabled Whether the filter is enabled
+ * @property index Index of the filter in the list, beginning at 0
+ * @property kind The kind of filter
+ * @property settings Settings object associated with the filter
+ */
 @Serializable
 data class GetSourceFilterResponse(
     @SerialName("filterEnabled") val enabled: Boolean,
@@ -21,7 +27,13 @@ data class GetSourceFilterResponse(
     @SerialName("filterSettings") val settings: JsonElement,
 )
 
-// Gets the info for a specific source filter
+/**
+ * Gets the info for a specific source filter.
+ *
+ * @param sourceName Name of the source
+ * @param sourceUuid UUID of the source
+ * @param filterName Name of the filter
+ */
 suspend fun ObsSession.getSourceFilter(
     sourceName: String? = null,
     sourceUuid: String? = null,

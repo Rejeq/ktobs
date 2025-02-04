@@ -10,6 +10,10 @@ class ToggleVirtualCamResponse(
     @SerialName("outputActive") val active: Boolean,
 )
 
-// Toggles the state of the virtualcam output
+/**
+ * Toggles the state of the virtualcam output.
+ *
+ * @return Whether the output is active after toggling
+ */
 suspend fun ObsSession.toggleVirtualCam(): Boolean =
     callMethod<ToggleVirtualCamResponse>("ToggleVirtualCam").active

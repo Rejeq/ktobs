@@ -10,6 +10,10 @@ class GetStudioModeEnabledResponse(
     @SerialName("studioModeEnabled") val enabled: Boolean,
 )
 
-// Gets whether studio mode is enabled
+/**
+ * Gets whether studio mode is enabled.
+ *
+ * @return Whether studio mode is enabled
+ */
 suspend fun ObsSession.getStudioModeEnabled(): Boolean =
     callMethod<GetStudioModeEnabledResponse>("GetStudioModeEnabled").enabled

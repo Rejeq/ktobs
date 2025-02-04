@@ -10,7 +10,12 @@ class SetCurrentProgramSceneRequest(
     val sceneUuid: String? = null,
 )
 
-// Sets the current program scene
+/**
+ * Sets the current program scene
+ *
+ * @param name Scene name to set as the current program scene
+ * @param uuid Scene UUID to set as the current program scene
+ */
 suspend fun ObsSession.setCurrentProgramScene(
     name: String? = null,
     uuid: String? = null,

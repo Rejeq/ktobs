@@ -10,6 +10,16 @@ class GetOutputStatusRequest(
     val outputName: String,
 )
 
+/**
+ * @property SerialName Whether the output is active
+ * @property SerialName Whether the output is reconnecting
+ * @property SerialName Current formatted timecode string for the output
+ * @property SerialName Current duration in milliseconds for the output
+ * @property SerialName Congestion of the output
+ * @property SerialName Number of bytes sent by the output
+ * @property SerialName Number of frames skipped by the output's process
+ * @property SerialName Total number of frames delivered by the output's process
+ */
 @Serializable
 data class GetOutputStatusResponse(
     @SerialName("outputActive") val active: Boolean,
@@ -22,6 +32,10 @@ data class GetOutputStatusResponse(
     @SerialName("outputTotalFrames") val totalFrames: Int,
 )
 
-// Gets the status of an output
+/**
+ * Gets the status of an output.
+ *
+ * @param name Name of the output to get the status of
+ */
 suspend fun ObsSession.getOutputStatus(name: String): GetOutputStatusResponse =
     callMethod("GetOutputStatus", GetOutputStatusRequest(name))

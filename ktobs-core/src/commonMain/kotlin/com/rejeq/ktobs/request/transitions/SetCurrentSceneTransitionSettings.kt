@@ -11,7 +11,12 @@ class SetCurrentSceneTransitionSettingsRequest(
     val overlay: Boolean?,
 )
 
-// Sets the settings of the current scene transition
+/**
+ * Sets the settings of the current scene transition.
+ *
+ * @param settings Settings object to apply to the transition
+ * @param overlay Whether to overlay over the current settings or replace them
+ */
 suspend fun ObsSession.setCurrentSceneTransitionSettings(
     settings: JsonElement,
     overlay: Boolean? = null,

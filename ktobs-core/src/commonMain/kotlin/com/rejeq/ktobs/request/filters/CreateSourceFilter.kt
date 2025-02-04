@@ -14,7 +14,16 @@ class CreateSourceFilterRequest(
     val filterSettings: JsonElement? = null,
 )
 
-// Creates a new filter for a source
+/**
+ * Creates a new filter, adding it to the specified source.
+ *
+ * @param sourceName Name of the source to add the filter to
+ * @param sourceUuid UUID of the source to add the filter to
+ * @param filterName Name of the new filter to be created
+ * @param filterKind The kind of filter to be created
+ * @param filterSettings Settings object to initialize the filter with, set to
+ *        null if you want to use it as default
+ */
 suspend fun ObsSession.createSourceFilter(
     sourceName: String? = null,
     sourceUuid: String? = null,

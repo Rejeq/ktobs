@@ -12,7 +12,14 @@ class SetSourceFilterNameRequest(
     val newFilterName: String,
 )
 
-// Sets the name of a source filter (rename)
+/**
+ * Sets the name of a source filter (rename).
+ *
+ * @param sourceName Name of the source the filter is on
+ * @param sourceUuid UUID of the source the filter is on
+ * @param filterName Current name of the filter
+ * @param newFilterName New name for the filter
+ */
 suspend fun ObsSession.setSourceFilterName(
     sourceName: String? = null,
     sourceUuid: String? = null,

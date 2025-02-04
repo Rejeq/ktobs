@@ -12,8 +12,14 @@ class SetSceneItemEnabledRequest(
     val sceneItemEnabled: Boolean,
 )
 
-// Sets the enable state of a scene item
-// Scenes and Groups
+/**
+ * Sets the enable state of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @param sceneItemEnabled New enable state of the scene item
+ */
 suspend fun ObsSession.setSceneItemEnabled(
     sceneName: String? = null,
     sceneUuid: String? = null,

@@ -16,9 +16,16 @@ class GetSceneItemIndexResponse(
     val sceneItemIndex: Int,
 )
 
-// Gets the index position of a scene item in a scene
-// An index of 0 is at the bottom of the source list in the UI
-// Scenes and Groups
+/**
+ * Gets the index position of a scene item in a scene.
+ *
+ * An index of 0 is at the bottom of the source list in the UI.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @return Index position of the scene item
+ */
 suspend fun ObsSession.getSceneItemIndex(
     sceneName: String? = null,
     sceneUuid: String? = null,

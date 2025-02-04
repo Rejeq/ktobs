@@ -12,8 +12,16 @@ class OpenVideoMixProjectorRequest(
     val projectorGeometry: String? = null,
 )
 
-// Opens a projector for a specific output video mix
-// Note: Geometry string is in the format: "left,top,width,height"
+/**
+ * Opens a projector for a specific output video mix.
+ *
+ * @param videoMixType Type of mix to open
+ * @param monitorIndex Monitor index,
+ *        use GetMonitorList to obtain index
+ *        use -1 for windowed mode
+ * @param projectorGeometry Size/Position data for a windowed projector as QRect
+ *        string. Mutually exclusive with monitorIndex
+ */
 suspend fun ObsSession.openVideoMixProjector(
     type: VideoMixType,
     monitorIndex: Int? = null,

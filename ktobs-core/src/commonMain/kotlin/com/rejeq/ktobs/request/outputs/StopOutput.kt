@@ -9,6 +9,10 @@ class StopOutputRequest(
     val outputName: String,
 )
 
-// Stops an output
-suspend fun ObsSession.stopOutput(outputName: String) =
-    callUnitMethod("StopOutput", StopOutputRequest(outputName))
+/**
+ * Stops an output.
+ *
+ * @param name Name of the output to stop
+ */
+suspend fun ObsSession.stopOutput(name: String) =
+    callUnitMethod("StopOutput", StopOutputRequest(name))

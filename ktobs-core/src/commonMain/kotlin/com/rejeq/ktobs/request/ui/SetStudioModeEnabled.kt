@@ -10,6 +10,10 @@ class SetStudioModeEnabledRequest(
     @SerialName("studioModeEnabled") val enabled: Boolean,
 )
 
-// Enables or disables studio mode
+/**
+ * Enables or disables studio mode.
+ *
+ * @param studioModeEnabled True to enable studio mode, false to disable
+ */
 suspend fun ObsSession.setStudioModeEnabled(enabled: Boolean) =
     callUnitMethod("SetStudioModeEnabled", SetStudioModeEnabledRequest(enabled))

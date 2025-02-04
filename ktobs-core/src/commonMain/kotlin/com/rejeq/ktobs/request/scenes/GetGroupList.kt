@@ -9,8 +9,14 @@ class GetGroupListResponse(
     val groups: List<String>,
 )
 
-// Gets an array of all groups in OBS
-// Groups in OBS are actually scenes, but renamed and modified.
-// In obs-websocket, we treat them as scenes where we can.
+/**
+ * Gets an array of all groups in OBS.
+ *
+ * Groups in OBS are actually scenes, but renamed and modified.
+ * In obs-websocket, groups are treated specially and have their own set of
+ * methods.
+ *
+ * @return Array of groups
+ */
 suspend fun ObsSession.getGroupList(): List<String> =
     callMethod<GetGroupListResponse>("GetGroupList").groups

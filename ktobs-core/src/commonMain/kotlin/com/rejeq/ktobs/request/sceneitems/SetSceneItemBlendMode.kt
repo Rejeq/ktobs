@@ -13,8 +13,14 @@ class SetSceneItemBlendModeRequest(
     val sceneItemBlendMode: BlendMode,
 )
 
-// Sets the blend mode of a scene item
-// Scenes and Groups
+/**
+ * Sets the blend mode of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @param sceneItemBlendMode New blend mode
+ */
 suspend fun ObsSession.setSceneItemBlendMode(
     sceneName: String? = null,
     sceneUuid: String? = null,

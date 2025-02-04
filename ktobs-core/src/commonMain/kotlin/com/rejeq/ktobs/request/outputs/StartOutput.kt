@@ -9,6 +9,10 @@ class StartOutputRequest(
     val outputName: String,
 )
 
-// Starts an output
-suspend fun ObsSession.startOutput(outputName: String) =
-    callUnitMethod("StartOutput", StartOutputRequest(outputName))
+/**
+ * Starts an output.
+ *
+ * @param name Name of the output to start
+ */
+suspend fun ObsSession.startOutput(name: String) =
+    callUnitMethod("StartOutput", StartOutputRequest(name))

@@ -11,13 +11,22 @@ class GetInputVolumeRequest(
     val inputUuid: String? = null,
 )
 
+/**
+ * @property mul Volume setting in mul
+ * @property db Volume setting in dB
+ */
 @Serializable
 data class GetInputVolumeResponse(
     @SerialName("inputVolumeMul") val mul: Double,
     @SerialName("inputVolumeDb") val db: Double,
 )
 
-// Gets the volume of an input
+/**
+ * Gets the current volume setting of an input.
+ *
+ * @param name Name of the input to get the volume of
+ * @param uuid UUID of the input to get the volume of
+ */
 suspend fun ObsSession.getInputVolume(
     name: String? = null,
     uuid: String? = null,

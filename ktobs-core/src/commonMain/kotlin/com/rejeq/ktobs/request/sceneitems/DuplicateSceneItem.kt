@@ -18,8 +18,16 @@ class DuplicateSceneItemResponse(
     val sceneItemId: Int,
 )
 
-// Duplicates a scene item, copying all transform and crop info
-// Scenes only
+/**
+ * Duplicates a scene item, copying all transform and crop info.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @param destinationSceneName Name of the scene to create the item in
+ * @param destinationSceneUuid UUID of the scene to create the item in
+ * @return Numeric ID of the duplicated scene item
+ */
 suspend fun ObsSession.duplicateSceneItem(
     sceneName: String? = null,
     sceneUuid: String? = null,

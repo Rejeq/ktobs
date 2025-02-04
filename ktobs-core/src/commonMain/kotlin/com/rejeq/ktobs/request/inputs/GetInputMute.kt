@@ -15,7 +15,13 @@ class GetInputMuteResponse(
     val inputMuted: Boolean,
 )
 
-// Gets the audio mute state of an input
+/**
+ * Gets the audio mute state of an input.
+ *
+ * @param inputName Name of input to get the mute state of
+ * @param inputUuid UUID of input to get the mute state of
+ * @return True == Input is muted, False == Input is unmuted
+ */
 suspend fun ObsSession.getInputMute(
     inputName: String? = null,
     inputUuid: String? = null,

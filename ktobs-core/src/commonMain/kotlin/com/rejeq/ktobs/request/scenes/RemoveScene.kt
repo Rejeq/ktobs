@@ -10,7 +10,12 @@ class RemoveSceneRequest(
     val sceneUuid: String? = null,
 )
 
-// Removes a scene from OBS
+/**
+ * Removes a scene from OBS.
+ *
+ * @param Name Name of the scene to remove
+ * @param uuid UUID of the scene to remove
+ */
 suspend fun ObsSession.removeScene(
     name: String? = null,
     uuid: String? = null,

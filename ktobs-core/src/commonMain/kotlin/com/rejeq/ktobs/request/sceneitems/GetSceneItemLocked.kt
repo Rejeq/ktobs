@@ -16,8 +16,14 @@ class GetSceneItemLockedResponse(
     val sceneItemLocked: Boolean,
 )
 
-// Gets the lock state of a scene item
-// Scenes and Groups
+/**
+ * Gets the lock state of a scene item.
+ *
+ * @param sceneName Name of the scene the item is in
+ * @param sceneUuid UUID of the scene the item is in
+ * @param sceneItemId Numeric ID of the scene item
+ * @return Whether the scene item is locked
+ */
 suspend fun ObsSession.getSceneItemLocked(
     sceneName: String? = null,
     sceneUuid: String? = null,

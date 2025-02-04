@@ -13,7 +13,14 @@ class SetInputSettingsRequest(
     val overlay: Boolean? = true,
 )
 
-// Sets the settings of an input
+/**
+ * Sets the settings of an input.
+ *
+ * @param name Name of the input to set the settings of
+ * @param settings Object of settings to apply
+ * @param overlay True == apply the settings on top of existing ones,
+ *        False == reset the input to its defaults, then apply settings
+ */
 suspend fun ObsSession.setInputSettings(
     name: String? = null,
     uuid: String? = null,

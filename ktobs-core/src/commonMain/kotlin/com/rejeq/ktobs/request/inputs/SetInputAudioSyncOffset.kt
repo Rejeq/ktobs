@@ -11,7 +11,13 @@ class SetInputAudioSyncOffsetRequest(
     val inputAudioSyncOffset: Int,
 )
 
-// Sets the audio sync offset of an input
+/**
+ * Sets the audio sync offset of an input.
+ *
+ * @param inputName Name of the input to set the audio sync offset of
+ * @param inputUuid UUID of the input to set the audio sync offset of
+ * @param inputAudioSyncOffset New audio sync offset in milliseconds
+ */
 suspend fun ObsSession.setInputAudioSyncOffset(
     name: String? = null,
     uuid: String? = null,

@@ -10,7 +10,11 @@ class BroadcastCustomEventRequest(
     val eventData: JsonElement,
 )
 
-// Broadcasts a custom event to all WebSocket clients
+/**
+ * Broadcasts a custom event to all WebSocket clients.
+ *
+ * @param data Event data to broadcast
+ */
 suspend fun ObsSession.broadcastCustomEvent(data: JsonElement) {
     callUnitMethod("BroadcastCustomEvent", BroadcastCustomEventRequest(data))
 }

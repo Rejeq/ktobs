@@ -6,10 +6,10 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
 /**
- * @property name Curent program scene name
+ * @property name Current program scene name
  * @property uuid Current program scene UUID
- * @property curProgramName Current program scene name (Deprecated)
- * @property curProgramUuid Current program scene UUID (Deprecated)
+ * @property currProgramName Current program scene name (Deprecated)
+ * @property currProgramUuid Current program scene UUID (Deprecated)
  */
 @Serializable
 data class GetCurrentProgramSceneResponse(

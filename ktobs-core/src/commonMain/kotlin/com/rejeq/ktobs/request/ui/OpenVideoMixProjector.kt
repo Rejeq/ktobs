@@ -15,11 +15,11 @@ class OpenVideoMixProjectorRequest(
 /**
  * Opens a projector for a specific output video mix.
  *
- * @param videoMixType Type of mix to open
+ * @param type Type of mix to open
  * @param monitorIndex Monitor index,
  *        use GetMonitorList to obtain index
  *        use -1 for windowed mode
- * @param projectorGeometry Size/Position data for a windowed projector as QRect
+ * @param geometry Size/Position data for a windowed projector as QRect
  *        string. Mutually exclusive with monitorIndex
  */
 suspend fun ObsSession.openVideoMixProjector(

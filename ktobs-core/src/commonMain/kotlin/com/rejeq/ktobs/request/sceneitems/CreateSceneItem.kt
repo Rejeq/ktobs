@@ -24,8 +24,7 @@ class CreateSceneItemResponse(
  * @param sceneName Name of the scene to create item in
  * @param sceneUuid UUID of the scene to create item in
  * @param sourceName Name of the source to add to the scene
- * @param sceneItemEnabled Whether to set the created scene item to enabled or
- *        disabled
+ * @param enabled Whether to set the created scene item to enabled or disabled
  * @return ID of the scene item that was created
  */
 suspend fun ObsSession.createSceneItem(

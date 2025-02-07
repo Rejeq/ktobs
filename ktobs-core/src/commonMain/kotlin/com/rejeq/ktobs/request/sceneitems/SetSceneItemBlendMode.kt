@@ -18,8 +18,8 @@ class SetSceneItemBlendModeRequest(
  *
  * @param sceneName Name of the scene the item is in
  * @param sceneUuid UUID of the scene the item is in
- * @param sceneItemId Numeric ID of the scene item
- * @param sceneItemBlendMode New blend mode
+ * @param id Numeric ID of the scene item
+ * @param mode New blend mode
  */
 suspend fun ObsSession.setSceneItemBlendMode(
     sceneName: String? = null,

@@ -16,7 +16,7 @@ class RemoveSceneItemRequest(
  *
  * @param sceneName Name of the scene the item is in
  * @param sceneUuid UUID of the scene the item is in
- * @param sceneItemId Numeric ID of the scene item
+ * @param itemId Numeric ID of the scene item
  */
 suspend fun ObsSession.removeSceneItem(
     sceneName: String? = null,

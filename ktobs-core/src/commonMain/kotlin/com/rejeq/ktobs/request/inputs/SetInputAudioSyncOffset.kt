@@ -14,9 +14,9 @@ class SetInputAudioSyncOffsetRequest(
 /**
  * Sets the audio sync offset of an input.
  *
- * @param inputName Name of the input to set the audio sync offset of
- * @param inputUuid UUID of the input to set the audio sync offset of
- * @param inputAudioSyncOffset New audio sync offset in milliseconds
+ * @param name Name of the input to set the audio sync offset of
+ * @param uuid UUID of the input to set the audio sync offset of
+ * @param offset New audio sync offset in milliseconds
  */
 suspend fun ObsSession.setInputAudioSyncOffset(
     name: String? = null,

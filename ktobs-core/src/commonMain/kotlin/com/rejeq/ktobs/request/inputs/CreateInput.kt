@@ -29,12 +29,12 @@ data class CreateInputResponse(
  * Creates a new input, adding it as a scene item to the specified scene.
  *
  * @param sceneName Name of the scene to add the input to
- * @param inputName Name of the new input to created
- * @param inputKind The kind of input to be created
- * @param inputSettings Settings object to initialize the input with,
+ * @param sceneUuid UUID of the scene to add the input to
+ * @param name Name of the new input to created
+ * @param kind The kind of input to be created
+ * @param settings Settings object to initialize the input with,
  *        null if you want to use it as default settings
- * @param sceneItemEnabled Whether to set the created scene item to enabled or
- *        disabled
+ * @param enabled Whether to set the created scene item to enabled or disabled
  */
 suspend fun ObsSession.createInput(
     sceneName: String? = null,

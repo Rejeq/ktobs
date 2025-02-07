@@ -11,11 +11,15 @@ class GetProfileParameterRequest(
     val parameterName: String,
 )
 
+/**
+ * @property value Value associated with the parameter. null if not set and no
+ *           default
+ * @property default Default value associated with the parameter. null if no
+ *           default
+ */
 @Serializable
 data class GetProfileParameterResponse(
-    /** Value associated with the parameter. null if not set and no default */
     @SerialName("parameterValue") val value: String?,
-    /** Default value associated with the parameter. null if no default */
     @SerialName("defaultParameterValue") val default: String?,
 )
 

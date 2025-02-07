@@ -18,7 +18,7 @@ class SetSourceFilterNameRequest(
  * @param sourceName Name of the source the filter is on
  * @param sourceUuid UUID of the source the filter is on
  * @param filterName Current name of the filter
- * @param newFilterName New name for the filter
+ * @param newName New name for the filter
  */
 suspend fun ObsSession.setSourceFilterName(
     sourceName: String? = null,

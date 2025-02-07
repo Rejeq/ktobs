@@ -6,11 +6,13 @@ import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
+/**
+ * @property type Stream service type, like rtmp_custom or rtmp_common
+ * @property settings Stream service settings
+ */
 @Serializable
 data class GetStreamServiceSettingsResponse(
-    /** Stream service type, like rtmp_custom or rtmp_common */
     @SerialName("streamServiceType") val type: String,
-    /** Stream service settings */
     @SerialName("streamServiceSettings") val settings: JsonElement,
 )
 

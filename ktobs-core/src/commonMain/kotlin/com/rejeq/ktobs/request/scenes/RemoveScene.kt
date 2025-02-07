@@ -13,7 +13,7 @@ class RemoveSceneRequest(
 /**
  * Removes a scene from OBS.
  *
- * @param Name Name of the scene to remove
+ * @param name Name of the scene to remove
  * @param uuid UUID of the scene to remove
  */
 suspend fun ObsSession.removeScene(

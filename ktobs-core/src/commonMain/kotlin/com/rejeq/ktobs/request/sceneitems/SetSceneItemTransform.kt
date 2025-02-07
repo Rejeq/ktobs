@@ -19,7 +19,7 @@ class SetSceneItemTransformRequest(
  * @param sceneName Name of the scene the item is in
  * @param sceneUuid UUID of the scene the item is in
  * @param sceneItemId Numeric ID of the scene item
- * @param sceneItemTransform Object containing scene item transform info
+ * @param transform Object containing scene item transform info
  */
 suspend fun ObsSession.setSceneItemTransform(
     sceneName: String? = null,

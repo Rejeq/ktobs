@@ -11,14 +11,14 @@ class GetOutputStatusRequest(
 )
 
 /**
- * @property SerialName Whether the output is active
- * @property SerialName Whether the output is reconnecting
- * @property SerialName Current formatted timecode string for the output
- * @property SerialName Current duration in milliseconds for the output
- * @property SerialName Congestion of the output
- * @property SerialName Number of bytes sent by the output
- * @property SerialName Number of frames skipped by the output's process
- * @property SerialName Total number of frames delivered by the output's process
+ * @property active Whether the output is active
+ * @property reconnecting Whether the output is reconnecting
+ * @property timecode Current formatted timecode string for the output
+ * @property duration Current duration in milliseconds for the output
+ * @property congestion Congestion of the output
+ * @property bytes Number of bytes sent by the output
+ * @property skippedFrames Number of frames skipped by the output's process
+ * @property totalFrames Total number of frames delivered by the output's process
  */
 @Serializable
 data class GetOutputStatusResponse(

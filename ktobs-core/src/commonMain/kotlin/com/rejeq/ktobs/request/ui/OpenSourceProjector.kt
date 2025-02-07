@@ -20,7 +20,7 @@ class OpenSourceProjectorRequest(
  * @param monitorIndex Monitor index,
  *        use GetMonitorList to obtain index
  *        use -1 for windowed mode
- * @param projectorGeometry Size/Position data for a windowed projector as QRect
+ * @param geometry Size/Position data for a windowed projector as QRect
  *        string. Mutually exclusive with monitorIndex
  */
 suspend fun ObsSession.openSourceProjector(

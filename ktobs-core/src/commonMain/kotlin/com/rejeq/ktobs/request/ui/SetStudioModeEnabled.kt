@@ -13,7 +13,7 @@ class SetStudioModeEnabledRequest(
 /**
  * Enables or disables studio mode.
  *
- * @param studioModeEnabled True to enable studio mode, false to disable
+ * @param enabled True to enable studio mode, false to disable
  */
 suspend fun ObsSession.setStudioModeEnabled(enabled: Boolean) =
     callUnitMethod("SetStudioModeEnabled", SetStudioModeEnabledRequest(enabled))

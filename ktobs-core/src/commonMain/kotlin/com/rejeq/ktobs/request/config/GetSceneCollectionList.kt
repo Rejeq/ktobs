@@ -5,11 +5,13 @@ import com.rejeq.ktobs.callMethod
 import kotlinx.serialization.SerialName
 import kotlinx.serialization.Serializable
 
+/**
+ * @property currentName The name of the current scene collection
+ * @property collections Array of all available scene collections
+ */
 @Serializable
 data class GetSceneCollectionListResponse(
-    /** The name of the current scene collection */
     @SerialName("currentSceneCollectionName") val currentName: String,
-    /** Array of all available scene collections */
     @SerialName("sceneCollections") val collections: List<String>,
 )
 

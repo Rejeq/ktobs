@@ -1,22 +1,35 @@
 package com.rejeq.ktobs.sample
 
+import com.rejeq.ktobs.ObsAuthException
 import com.rejeq.ktobs.ObsEventSubs
 import com.rejeq.ktobs.ObsRequestException
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.event.general.ExitStartedEvent
-import com.rejeq.ktobs.event.general.VendorEvent
-import com.rejeq.ktobs.event.general.VendorEventData
+import com.rejeq.ktobs.event.inputs.InputCreatedEvent
+import com.rejeq.ktobs.event.inputs.InputCreatedEventData
+import com.rejeq.ktobs.event.inputs.InputRemovedEvent
+import com.rejeq.ktobs.event.inputs.InputRemovedEventData
 import com.rejeq.ktobs.ktor.ObsSessionBuilder
 import com.rejeq.ktobs.request.inputs.*
+import com.rejeq.ktobs.request.sceneitems.getSceneItemId
+import com.rejeq.ktobs.request.sceneitems.getSceneItemList
+import com.rejeq.ktobs.request.sceneitems.removeSceneItem
 import io.ktor.client.HttpClient
 import io.ktor.client.engine.cio.CIO
+import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
+import io.ktor.util.network.UnresolvedAddressException
+import kotlinx.coroutines.CompletableDeferred
+import kotlinx.coroutines.Deferred
+import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
-import kotlinx.serialization.json.JsonPrimitive
+import kotlinx.serialization.json.buildJsonObject
+import kotlinx.serialization.json.put
+import java.net.ConnectException
 
 val prettyJson =
     Json {
@@ -38,103 +51,102 @@ fun main() =
             }
 
         val session =
-            ObsSessionBuilder(client).let {
-                it.host = "127.0.0.1"
-                it.port = 4455
-                it.password = "12345678"
-                it.eventSubs = ObsEventSubs.All
-                it
+            ObsSessionBuilder(client).apply {
+                host = "127.0.0.1"
+                port = 4455
+                password = "12345678"
+                eventSubs = ObsEventSubs.All
             }
 
-        session.onEvent = { ev ->
-            println("Event happened: $ev")
+        val inputRemoved = CompletableDeferred<Unit>()
 
+        session.onEvent = { ev ->
             when (ev.eventType) {
                 ExitStartedEvent -> {
                     println("Obs exit started")
                 }
-                VendorEvent -> {
-                    val vendor = ev.get<VendorEventData>()
-                    println("Vendor event data: $vendor")
+                InputCreatedEvent -> {
+                    val data = ev.get<InputCreatedEventData>()
+                    println("Input was created: ${data.inputName}")
+                }
+                InputRemovedEvent -> {
+                    val data = ev.get<InputRemovedEventData>()
+                    println("Input was removed: ${data.inputName}")
+
+                    inputRemoved.complete(Unit)
+                }
+                else -> {
+                    println("Unknown event was received: $ev")
                 }
             }
         }
 
-        session.connect {
-            try {
-                obsMain()
-            } catch (e: ObsRequestException) {
-                println(e)
+        try {
+            session.connect {
+                obsMain(inputRemoved)
+
+                // Wait for any incoming events
+                delay(500)
             }
+        } catch (e: Exception) {
+            val msg =
+                when (e) {
+                    is ObsAuthException -> "Auth failed: $e"
+                    is UnresolvedAddressException -> "Unknown host: $e"
+                    is ConnectTimeoutException -> "Connection timeout: $e"
+                    is ConnectException -> "Connection refused: $e"
+                    is ObsRequestException -> "Request failed: $e"
+                    else -> throw e
+                }
+
+            println(msg)
         }
 
         client.close()
     }
 
-suspend fun ObsSession.obsMain() {
-//    val itemList = getSceneItemList("Scene")
-//    println("Item list: ${itemList.toPrettyString()}\n")
-//
-//    val imageInputList = getInputList("image_source")
-//    println(
-//        "Image Input list: ${imageInputList.toPrettyString()}\n",
-//    )
+suspend fun ObsSession.obsMain(inputRemoved: Deferred<Unit>) {
+    val sceneName = "Scene"
+    val inputName = "FFmpeg Source"
 
     val kindList = getInputKindList()
     println("Kind list: ${kindList.toPrettyString()}\n")
 
+    val itemList = getSceneItemList(sceneName)
+    println("Item list: ${itemList.toPrettyString()}\n")
+
     val ffmpegInputList = getInputList("ffmpeg_source")
     println("FFmpeg input list: ${ffmpegInputList.toPrettyString()}\n")
 
-    val input = ffmpegInputList.firstOrNull()
-    input?.let { input ->
-        val inputSettings = getInputSettings(input.name)
-        println(
-            "Input '${input.name}' settings: " +
-                "${inputSettings.toPrettyString()}\n",
+    val isInputExist = ffmpegInputList.any { it.name == inputName }
+    println("Is input exist: $isInputExist")
+
+    if (isInputExist) {
+        val itemId =
+            getSceneItemId(
+                sceneName = sceneName,
+                sourceName = inputName,
+            )
+
+        removeSceneItem(
+            sceneName = sceneName,
+            itemId = itemId,
         )
 
-        val default: JsonObject =
-            getInputDefaultSettings(
-                inputSettings.kind,
-            ) as JsonObject
-
-        println(
-            "Default settings: ${default.toPrettyString()}\n",
-        )
+        inputRemoved.await()
     }
 
-    val response =
-        createInput(
-            sceneName = "Scene",
-            name = "SomeAnotherTest",
-            kind = "ffmpeg_source",
-            settings =
-                JsonObject(
-                    mapOf(
-                        "input" to JsonPrimitive("rtmp://some"),
-                        "is_local_file" to JsonPrimitive(false),
-                    ),
-                ),
-        )
-    println("response: ${response.toPrettyString()}")
+    val default = getInputDefaultSettings("ffmpeg_source") as JsonObject
+    println("Default input settings: ${default.toPrettyString()}\n")
 
-//    val sceneList = getSceneList()
-//    println("Scene list: $sceneList")
-//
-//    val groupList = getGroupList()
-//    println("Group list: $groupList")
-//
-//    val currScene = getCurrentProgramScene()
-//    println("current scene: $currScene")
-//
-//    var scene = sceneList.scenes.find { it.name == "Something" }
-//    if (scene == null) {
-//        val uuid = createScene("Something")
-//        scene = Scene("Something", uuid, -1)
-//    }
-//
-//    removeScene(scene.name, scene.uuid)
-//
-//    println("Successfully handled")
+    createInput(
+        sceneName = sceneName,
+        name = inputName,
+        kind = "ffmpeg_source",
+        settings =
+            buildJsonObject {
+                put("input", "rtmp://some")
+                put("is_local_file", false)
+            },
+    )
 }

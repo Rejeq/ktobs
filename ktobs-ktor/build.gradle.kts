@@ -16,3 +16,10 @@ kotlin {
         }
     }
 }
+
+mavenPublishing {
+    pom {
+        name = "ktobs-ktor"
+        description = "Ktor websocket session for ktobs-core"
+    }
+}

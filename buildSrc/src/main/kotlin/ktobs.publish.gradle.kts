@@ -1,7 +1,7 @@
 import com.vanniktech.maven.publish.SonatypeHost
 
 group = "io.github.rejeq"
-version = "0.1.0"
+version = "0.2.0"
 
 plugins {
     id("com.vanniktech.maven.publish")

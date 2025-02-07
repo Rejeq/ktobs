@@ -19,3 +19,10 @@ kotlin {
         }
     }
 }
+
+mavenPublishing {
+    pom {
+        name = "ktobs-core"
+        description = "Bindings to obs-websocket"
+    }
+}

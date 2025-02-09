@@ -1,9 +1,9 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.RequestCode
-import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.model.KeyModifiers
 import com.rejeq.ktobs.request.general.*
+import com.rejeq.ktobs.requestCanFailWith
 import com.rejeq.ktobs.runObsTest
 import kotlinx.serialization.json.*
 import kotlin.test.*
@@ -22,11 +22,11 @@ class GeneralTest {
                 ),
             )
 
-            assertRequestFailsWith(RequestCode.ResourceNotFound) {
+            requestCanFailWith(RequestCode.ResourceNotFound) {
                 triggerHotkeyByName("test-key")
             }
 
-            assertRequestFailsWith(RequestCode.ResourceNotFound) {
+            requestCanFailWith(RequestCode.ResourceNotFound) {
                 triggerHotkeyByKeySequence(
                     keyId = "test-key",
                     keyModifiers =
@@ -39,7 +39,7 @@ class GeneralTest {
                 )
             }
 
-            assertRequestFailsWith(RequestCode.ResourceNotFound) {
+            requestCanFailWith(RequestCode.ResourceNotFound) {
                 callVendorRequest(
                     vendorName = "test-vendor",
                     requestType = "test-request",

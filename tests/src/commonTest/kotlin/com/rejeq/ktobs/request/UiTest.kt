@@ -13,8 +13,8 @@ import kotlin.test.*
 
 class UiTest {
     companion object {
-        private const val SCENE_NAME = "test-scene"
-        private const val SOURCE_NAME = "test-source"
+        private const val SCENE_NAME = "ui-test-scene"
+        private const val SOURCE_NAME = "ui-test-source"
     }
 
     suspend fun ObsSession.setup() {

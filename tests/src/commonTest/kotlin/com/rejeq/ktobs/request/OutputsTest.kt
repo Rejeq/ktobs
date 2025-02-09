@@ -1,7 +1,9 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.RequestCode
 import com.rejeq.ktobs.request.outputs.*
+import com.rejeq.ktobs.requestCanFailWith
 import com.rejeq.ktobs.runObsTest
 import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
@@ -35,18 +37,13 @@ class OutputsTest {
             var camActive = getVirtualCamStatus()
             println("Initial virtual cam status: $camActive")
 
-            if (!camActive) {
+            requestCanFailWith(RequestCode.OutputRunning) {
                 startVirtualCam()
             }
 
             toggleVirtualCam()
 
-            camActive = getVirtualCamStatus()
-            if (!camActive) {
-                startVirtualCam()
-            }
-
-            outputs.first()?.let { output ->
+            outputs.first().let { output ->
                 println("Testing output: ${output.name}")
 
                 val outputStatus = getOutputStatus(output.name)

@@ -1,17 +1,20 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.RequestCode
 import com.rejeq.ktobs.model.DataRealm
 import com.rejeq.ktobs.request.config.*
+import com.rejeq.ktobs.requestCanFailWith
 import com.rejeq.ktobs.runObsTest
 import com.rejeq.ktobs.tryObsRequest
+import com.rejeq.ktobs.waitUntil
 import kotlinx.serialization.json.*
 import kotlin.test.*
 
 class ConfigTest {
     companion object {
-        const val PROFILE_NAME = "test-profile"
-        const val SCENE_COLLECTION_NAME = "test-scene-collection"
+        const val PROFILE_NAME = "config-test-profile"
+        const val SCENE_COLLECTION_NAME = "config-test-scene-collection"
     }
 
     private var oldProfileName: String? = null
@@ -40,12 +43,19 @@ class ConfigTest {
     fun testConfig() =
         runObsTest(cleanup = { cleanup() }) {
             val profiles = getProfileList()
+            oldProfileName = profiles.currentProfileName
             println("Profiles: $profiles")
 
-            oldProfileName = profiles.currentProfileName
-            if (!profiles.profiles.contains(PROFILE_NAME)) {
+            // Wait until profile created
+            waitUntil {
+                val profiles = getProfileList()
+                if (profiles.profiles.contains(PROFILE_NAME)) {
+                    return@waitUntil true
+                }
+
                 println("Creating profile")
                 createProfile(PROFILE_NAME)
+                return@waitUntil false
             }
 
             val test = getProfileList()
@@ -87,7 +97,10 @@ class ConfigTest {
             println("Persistent data: $persistentData")
 
             oldRecordDir = getRecordDirectory()
-            setRecordDirectory("test-records")
+
+            requestCanFailWith(RequestCode.OutputRunning) {
+                setRecordDirectory("test-records")
+            }
 
             val service = getStreamServiceSettings()
             println("service settings: ${service.type} -  ${service.settings}")

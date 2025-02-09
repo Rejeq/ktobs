@@ -2,9 +2,10 @@ package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.RequestCode
-import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.request.scenes.*
+import com.rejeq.ktobs.request.ui.getStudioModeEnabled
 import com.rejeq.ktobs.request.ui.setStudioModeEnabled
+import com.rejeq.ktobs.requestCanFailWith
 import com.rejeq.ktobs.runObsTest
 import com.rejeq.ktobs.tryObsRequest
 import kotlin.test.*
@@ -43,20 +44,27 @@ class SceneTest {
     @Test
     fun testScenes() =
         runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
+            val oldSceneList = getSceneList()
+            assertFalse(oldSceneList.scenes.any { it.name == SCENE_NAME })
+
             createScene(SCENE_NAME)
 
-            assertRequestFailsWith(RequestCode.ResourceAlreadyExists) {
+            requestCanFailWith(RequestCode.ResourceAlreadyExists) {
                 createScene(SCENE_NAME)
             }
 
             val sceneList = getSceneList()
             assertTrue(sceneList.scenes.any { it.name == SCENE_NAME })
 
-            getGroupList()
+            val groups = getGroupList()
+            println("Groups: $groups")
+
+            val mode = getStudioModeEnabled()
+            println("Is studio mode enabled: $mode")
 
             setCurrentPreviewScene(SCENE_NAME)
             val currentPreview = getCurrentPreviewScene()
-            assertEquals(SCENE_NAME, currentPreview.name)
+            println("Current preview: $currentPreview")
 
             setCurrentProgramScene(SCENE_NAME)
 

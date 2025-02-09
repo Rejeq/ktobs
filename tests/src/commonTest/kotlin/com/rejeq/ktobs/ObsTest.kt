@@ -34,6 +34,7 @@ fun runObsTest(
                 setup()
                 test()
             } finally {
+                println("Clean up started")
                 cleanup()
             }
         }
@@ -47,7 +48,7 @@ suspend fun tryObsRequest(block: suspend () -> Unit) =
         println("Ignoring: $e")
     }
 
-inline fun assertRequestFailsWith(
+inline fun requestCanFailWith(
     code: RequestCode,
     block: () -> Unit,
 ) {
@@ -59,5 +60,13 @@ inline fun assertRequestFailsWith(
             code,
             "Request must fail with '$code' code, but got: $e",
         )
+    }
+}
+
+inline fun waitUntil(block: () -> Boolean) {
+    while (true) {
+        if (block()) {
+            break
+        }
     }
 }

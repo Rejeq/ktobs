@@ -15,10 +15,10 @@ import kotlin.test.*
 
 class FiltersTest {
     companion object {
-        private const val SCENE_NAME = "test-scene"
-        private const val SOURCE_NAME = "test-source"
-        private const val FILTER_NAME = "test-filter"
-        private const val NEW_FILTER_NAME = "renamed-filter"
+        private const val SCENE_NAME = "filter-test-scene"
+        private const val SOURCE_NAME = "filter-test-source"
+        private const val FILTER_NAME = "filter-test-filter"
+        private const val NEW_FILTER_NAME = "filter-renamed-filter"
     }
 
     suspend fun ObsSession.setup() {

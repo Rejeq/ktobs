@@ -12,15 +12,20 @@ import kotlin.test.*
 
 class TransitionsTest {
     companion object {
-        private const val SCENE_NAME = "test-scene"
-        private const val SCENE_NAME_2 = "test-scene-2"
+        private const val SCENE_NAME = "transition-test-scene"
+        private const val SCENE_NAME_2 = "transition-test-scene-2"
     }
 
     suspend fun ObsSession.setup() {
         tryObsRequest {
             createScene(SCENE_NAME)
-            createScene(SCENE_NAME_2)
+        }
 
+        tryObsRequest {
+            createScene(SCENE_NAME_2)
+        }
+
+        tryObsRequest {
             if (!getStudioModeEnabled()) {
                 setStudioModeEnabled(true)
             }

@@ -13,8 +13,8 @@ import kotlin.test.*
 
 class SceneItemsTest {
     companion object {
-        const val SCENE_NAME = "test-scene"
-        const val SOURCE_NAME = "test-source"
+        const val SCENE_NAME = "sceneItem-test-scene"
+        const val SOURCE_NAME = "sceneItem-test-source"
     }
 
     suspend fun ObsSession.setup() {

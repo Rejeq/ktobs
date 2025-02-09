@@ -2,26 +2,36 @@ package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.RequestCode
-import com.rejeq.ktobs.assertRequestFailsWith
 import com.rejeq.ktobs.model.MonitorType
 import com.rejeq.ktobs.request.inputs.*
 import com.rejeq.ktobs.request.scenes.createScene
+import com.rejeq.ktobs.request.scenes.getSceneList
 import com.rejeq.ktobs.request.scenes.removeScene
+import com.rejeq.ktobs.requestCanFailWith
 import com.rejeq.ktobs.runObsTest
 import com.rejeq.ktobs.tryObsRequest
+import com.rejeq.ktobs.waitUntil
 import kotlinx.serialization.json.*
 import kotlin.test.*
 
 class InputsTest {
     companion object {
-        private const val SCENE_NAME = "test-scene"
-        private const val SOURCE_NAME = "test-source"
-        private const val NEW_SOURCE_NAME = "renamed-source"
+        private const val SCENE_NAME = "input-test-scene"
+        private const val SOURCE_NAME = "input-test-source"
+        private const val NEW_SOURCE_NAME = "input-renamed-source"
     }
 
     suspend fun ObsSession.setup() {
         tryObsRequest {
             createScene(SCENE_NAME)
+
+            waitUntil {
+                val res = getSceneList()
+                val exist = res.scenes.any { it.name == SCENE_NAME }
+                println("Im exist: $exist")
+
+                return@waitUntil exist
+            }
         }
     }
 
@@ -113,14 +123,14 @@ class InputsTest {
             val audioTracks = getInputAudioTracks(SOURCE_NAME)
             println("Audio tracks: $audioTracks")
 
-            assertRequestFailsWith(RequestCode.ResourceNotFound) {
+            requestCanFailWith(RequestCode.ResourceNotFound) {
                 getInputPropertiesListPropertyItems(
                     inputName = SOURCE_NAME,
                     propertyName = "some_property",
                 )
             }
 
-            assertRequestFailsWith(RequestCode.ResourceNotFound) {
+            requestCanFailWith(RequestCode.ResourceNotFound) {
                 pressInputPropertiesButton(
                     inputName = SOURCE_NAME,
                     propertyName = "some_button",

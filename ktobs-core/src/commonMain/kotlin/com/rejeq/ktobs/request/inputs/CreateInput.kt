@@ -46,12 +46,5 @@ suspend fun ObsSession.createInput(
 ): CreateInputResponse =
     callMethod(
         "CreateInput",
-        CreateInputRequest(
-            sceneName,
-            sceneUuid,
-            name,
-            kind,
-            settings,
-            enabled,
-        ),
+        CreateInputRequest(sceneName, sceneUuid, name, kind, settings, enabled),
     )

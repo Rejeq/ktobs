@@ -13,7 +13,7 @@ data class SceneItem(
     @SerialName("sceneItemTransform") val transform: SceneItemTransform,
     @SerialName("sceneItemBlendMode") val blendMode: BlendMode,
     @SerialName("sourceName") val sourceName: String,
-    @SerialName("sourceUuid") val sourceUuid: String,
+    @SerialName("sourceUuid") val sourceUuid: String? = null,
     @SerialName("sourceType") val sourceType: SourceType,
     @SerialName("inputKind") val inputKind: String?,
     @SerialName("isGroup") val isGroup: Boolean?,

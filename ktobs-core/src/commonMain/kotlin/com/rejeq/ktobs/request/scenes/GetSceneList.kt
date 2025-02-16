@@ -8,19 +8,25 @@ import kotlinx.serialization.Serializable
 
 /**
  * @property programName Current program scene name.
- *           Can be null if internal state desync
+ *           Can be null if internal state desync.
+ *           Or if OBS WebSocket version is less than 5.4.0
  * @property programUuid Current program scene UUID.
- *           Can be null if internal state desync
- * @property previewName Current preview scene name. nul if not in studio mode
- * @property previewUuid Current preview scene UUID. null if not in studio mode
+ *           Can be null if internal state desync.
+ *           Or if OBS WebSocket version is less than 5.4.0
+ * @property previewName Current preview scene name.
+ *           Can be null if not in studio mode.
+ *           Or if OBS WebSocket version is less than 5.4.0
+ * @property previewUuid Current preview scene UUID.
+ *           Can be null if not in studio mode.
+ *           Or if OBS WebSocket version is less than 5.4.0
  * @property scenes Array of scenes
  */
 @Serializable
 data class GetSceneListResponse(
-    @SerialName("currentProgramSceneName") val programName: String?,
-    @SerialName("currentProgramSceneUuid") val programUuid: String?,
-    @SerialName("currentPreviewSceneName") val previewName: String?,
-    @SerialName("currentPreviewSceneUuid") val previewUuid: String?,
+    @SerialName("currentProgramSceneName") val programName: String? = null,
+    @SerialName("currentProgramSceneUuid") val programUuid: String? = null,
+    @SerialName("currentPreviewSceneName") val previewName: String? = null,
+    @SerialName("currentPreviewSceneUuid") val previewUuid: String? = null,
     val scenes: List<Scene>,
 )
 

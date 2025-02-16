@@ -9,13 +9,14 @@ import kotlinx.serialization.Serializable
 /**
  * @property currentName Name of the current scene transition
  * @property currentUuid UUID of the current scene transition
+ *           Can be null if OBS WebSocket version is less than 5.4.0
  * @property currentKind Kind of the current scene transition
  * @property transitions Array of transitions
  */
 @Serializable
 data class GetSceneTransitionListResponse(
     @SerialName("currentSceneTransitionName") val currentName: String?,
-    @SerialName("currentSceneTransitionUuid") val currentUuid: String?,
+    @SerialName("currentSceneTransitionUuid") val currentUuid: String? = null,
     @SerialName("currentSceneTransitionKind") val currentKind: String?,
     @SerialName("transitions") val transitions: List<Transition>,
 )

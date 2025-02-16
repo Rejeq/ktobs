@@ -9,6 +9,7 @@ import kotlinx.serialization.json.JsonElement
 /**
  * @property name Name of the transition
  * @property uuid UUID of the transition
+ *           Can be null if OBS WebSocket version is less than 5.4.0
  * @property kind Kind of the transition
  * @property fixed Whether the transition uses a fixed (unconfigurable) duration
  * @property duration Duration in milliseconds of the transition.
@@ -20,7 +21,7 @@ import kotlinx.serialization.json.JsonElement
 @Serializable
 data class GetCurrentSceneTransitionResponse(
     @SerialName("transitionName") val name: String,
-    @SerialName("transitionUuid") val uuid: String,
+    @SerialName("transitionUuid") val uuid: String? = null,
     @SerialName("transitionKind") val kind: String,
     @SerialName("transitionFixed") val fixed: Boolean,
     @SerialName("transitionDuration") val duration: Int?,

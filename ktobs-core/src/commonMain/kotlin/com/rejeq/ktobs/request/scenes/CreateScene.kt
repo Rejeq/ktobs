@@ -18,10 +18,11 @@ class CreateSceneResponse(
  * Creates a new scene in OBS.
  *
  * @param name Name for the new scene
- * @return UUID of the created scene
+ * @return UUID of the created scene or null if OBS WebSocket version is
+ *         less than 5.4.0
  */
-suspend fun ObsSession.createScene(name: String): String =
-    callMethod<CreateSceneResponse, CreateSceneRequest>(
+suspend fun ObsSession.createScene(name: String): String? =
+    callMethod<CreateSceneResponse?, CreateSceneRequest>(
         "CreateScene",
         CreateSceneRequest(name),
-    ).sceneUuid
+    )?.sceneUuid

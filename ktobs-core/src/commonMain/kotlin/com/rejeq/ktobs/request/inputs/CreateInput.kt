@@ -16,12 +16,14 @@ class CreateInputRequest(
 )
 
 /**
- * @property inputUuid UUID of the newly created input
+ * @property inputUuid UUID of the newly created input.
+ *           This is available starting from OBS WebSocket version 5.4.0.
+ *           It will be `null` for earlier versions.
  * @property sceneItemId ID of the newly created scene item
  */
 @Serializable
 data class CreateInputResponse(
-    val inputUuid: String,
+    val inputUuid: String? = null,
     val sceneItemId: Long,
 )
 

@@ -13,8 +13,8 @@ import kotlinx.serialization.Serializable
  */
 @Serializable
 data class GetCurrentPreviewSceneResponse(
-    @SerialName("sceneName") val name: String,
-    @SerialName("sceneUuid") val uuid: String,
+    @SerialName("sceneName") val name: String? = null,
+    @SerialName("sceneUuid") val uuid: String? = null,
     @SerialName("currentPreviewSceneName") val currPreviewName: String? = null,
     @SerialName("currentPreviewSceneUuid") val currPreviewUuid: String? = null,
 )

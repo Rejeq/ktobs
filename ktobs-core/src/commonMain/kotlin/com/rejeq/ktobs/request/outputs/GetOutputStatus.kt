@@ -18,7 +18,8 @@ class GetOutputStatusRequest(
  * @property congestion Congestion of the output
  * @property bytes Number of bytes sent by the output
  * @property skippedFrames Number of frames skipped by the output's process
- * @property totalFrames Total number of frames delivered by the output's process
+ * @property totalFrames Total number of frames delivered by the output's
+ *           process
  */
 @Serializable
 data class GetOutputStatusResponse(

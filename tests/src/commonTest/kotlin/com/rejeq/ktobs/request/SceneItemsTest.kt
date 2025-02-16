@@ -1,6 +1,7 @@
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.isVersionSupported
 import com.rejeq.ktobs.model.Alignment
 import com.rejeq.ktobs.model.BlendMode
 import com.rejeq.ktobs.request.inputs.createInput
@@ -63,13 +64,14 @@ class SceneItemsTest {
                 )
             println("Scene item id: $retrievedId")
 
-            val sourceInfo =
-                getSceneItemSource(
-                    sceneName = SCENE_NAME,
-                    sceneItemId = itemId,
-                )
-
-            println("Source info is: $sourceInfo")
+            if (isVersionSupported("5.4.0")) {
+                val sourceInfo =
+                    getSceneItemSource(
+                        sceneName = SCENE_NAME,
+                        sceneItemId = itemId,
+                    )
+                println("Source info is: $sourceInfo")
+            }
 
             val originalTransform =
                 getSceneItemTransform(

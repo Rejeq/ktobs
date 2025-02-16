@@ -2,6 +2,7 @@ package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.RequestCode
+import com.rejeq.ktobs.isVersionSupported
 import com.rejeq.ktobs.model.DataRealm
 import com.rejeq.ktobs.request.config.*
 import com.rejeq.ktobs.requestCanFailWith
@@ -98,8 +99,10 @@ class ConfigTest {
 
             oldRecordDir = getRecordDirectory()
 
-            requestCanFailWith(RequestCode.OutputRunning) {
-                setRecordDirectory("test-records")
+            if (isVersionSupported("5.3.0")) {
+                requestCanFailWith(RequestCode.OutputRunning) {
+                    setRecordDirectory("test-records")
+                }
             }
 
             val service = getStreamServiceSettings()

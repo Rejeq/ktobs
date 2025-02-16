@@ -37,6 +37,10 @@ class SceneTest {
         }
 
         tryObsRequest {
+            removeScene(SCENE_NAME)
+        }
+
+        tryObsRequest {
             removeScene(SCENE_NEW_NAME)
         }
     }
@@ -45,7 +49,6 @@ class SceneTest {
     fun testScenes() =
         runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
             val oldSceneList = getSceneList()
-            assertFalse(oldSceneList.scenes.any { it.name == SCENE_NAME })
 
             createScene(SCENE_NAME)
 

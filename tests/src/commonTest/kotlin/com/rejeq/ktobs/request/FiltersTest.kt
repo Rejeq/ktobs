@@ -1,8 +1,7 @@
-@file:Suppress("ktlint:standard:no-wildcard-imports")
-
 package com.rejeq.ktobs.request
 
 import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.isVersionSupported
 import com.rejeq.ktobs.request.filters.*
 import com.rejeq.ktobs.request.inputs.createInput
 import com.rejeq.ktobs.request.scenes.createScene
@@ -48,8 +47,10 @@ class FiltersTest {
     @Test
     fun testFilters() =
         runObsTest(setup = { setup() }, cleanup = { cleanup() }) {
-            val filterKinds = getSourceFilterKindList()
-            println("Available filter kinds: $filterKinds")
+            if (isVersionSupported("5.4.0")) {
+                val filterKinds = getSourceFilterKindList()
+                println("Available filter kinds: $filterKinds")
+            }
 
             val defaultSettings =
                 getSourceFilterDefaultSettings(

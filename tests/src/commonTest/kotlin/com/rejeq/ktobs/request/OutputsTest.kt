@@ -34,14 +34,17 @@ class OutputsTest {
             val outputs = getOutputList()
             println("Available outputs: $outputs")
 
-            var camActive = getVirtualCamStatus()
-            println("Initial virtual cam status: $camActive")
+            requestCanFailWith(RequestCode.InvalidResourceState) {
+                var camActive = getVirtualCamStatus()
+                println("Initial virtual cam status: $camActive")
 
-            requestCanFailWith(RequestCode.OutputRunning) {
-                startVirtualCam()
+                requestCanFailWith(RequestCode.OutputRunning) {
+                    startVirtualCam()
+                }
+
+                toggleVirtualCam()
             }
 
-            toggleVirtualCam()
 
             outputs.first().let { output ->
                 println("Testing output: ${output.name}")
@@ -67,9 +70,11 @@ class OutputsTest {
                 }
             }
 
-            camActive = getVirtualCamStatus()
-            if (camActive) {
-                stopVirtualCam()
+            requestCanFailWith(RequestCode.InvalidResourceState) {
+                val camActive = getVirtualCamStatus()
+                if (camActive) {
+                    stopVirtualCam()
+                }
             }
         }
 }

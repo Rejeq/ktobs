@@ -50,7 +50,7 @@ class ObsRequestException(
  * @return The deserialized response data
  * @throws ObsRequestException if the request fails
  */
-suspend inline fun <reified Output : Any> ObsSession.callMethod(
+suspend inline fun <reified Output> ObsSession.callMethod(
     type: String,
 ): Output = callMethod<Output, Unit>(type, null)
 
@@ -63,7 +63,7 @@ suspend inline fun <reified Output : Any> ObsSession.callMethod(
  * @throws ObsRequestException if the request fails
  */
 @OptIn(ExperimentalUuidApi::class)
-suspend inline fun <reified Output : Any, reified Input> ObsSession.callMethod(
+suspend inline fun <reified Output, reified Input> ObsSession.callMethod(
     type: String,
     data: Input?,
 ): Output =
@@ -141,7 +141,7 @@ fun handleUnitRequest(response: RequestResponseOpCode) {
  * @return The deserialized response data
  * @throws ObsRequestException if the request failed or response data is missing
  */
-inline fun <reified Output : Any> handleRequest(
+inline fun <reified Output> handleRequest(
     response: RequestResponseOpCode,
 ): Output {
     val status = response.requestStatus
@@ -154,11 +154,15 @@ inline fun <reified Output : Any> handleRequest(
     }
 
     if (response.responseData == null) {
-        throw ObsRequestException(
-            type = response.requestType,
-            code = RequestCode.Unknown,
-            msg = "Response data is not returned",
-        )
+        if (null is Output) {
+            return null as Output
+        } else {
+            throw ObsRequestException(
+                type = response.requestType,
+                code = RequestCode.Unknown,
+                msg = "Response data is not returned",
+            )
+        }
     }
 
     return Json.decodeFromJsonElement(

@@ -15,7 +15,6 @@ val javaTarget = projectLibs.getVersion("java-target")
 
 kotlin {
     jvm {
-        withJava()
         @OptIn(ExperimentalKotlinGradlePluginApi::class)
         compilerOptions {
             jvmTarget = JvmTarget.fromTarget(javaTarget)

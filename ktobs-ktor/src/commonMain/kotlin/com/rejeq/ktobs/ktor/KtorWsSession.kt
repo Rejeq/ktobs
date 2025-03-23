@@ -43,7 +43,7 @@ class KtorWsSession(
 suspend fun ObsSession.runReceiver() =
     try {
         while (true) {
-            val msg = ws.receiveMessage<OpCode>()
+            val msg = ws.receiveOpCode<OpCode>()
             onReceiveMessage(msg)
         }
     } finally {

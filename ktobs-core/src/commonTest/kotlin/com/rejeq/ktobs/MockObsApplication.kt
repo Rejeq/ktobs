@@ -45,7 +45,7 @@ class MockServerWsSession(
         session.serverToClient.send(msg)
     }
 
-    suspend inline fun <reified T : OpCode> receiveMessage(): T {
+    suspend inline fun <reified T : OpCode> receiveOpCode(): T {
         val msg = session.clientToServer.receive()
         val serializer = getSerializer(msg.op)
 

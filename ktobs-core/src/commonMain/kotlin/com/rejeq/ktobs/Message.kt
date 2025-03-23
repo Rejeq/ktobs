@@ -27,13 +27,13 @@ class ObsMessage(
 )
 
 /**
- * Receives and deserializes a message from the WebSocket connection.
+ * Receives and deserializes an [OpCode] from the WebSocket connection.
  *
- * @return The deserialized message of type [T]
+ * @return The deserialized operation code of type [T]
  * @throws UnexpectedOpCode if the received message is not of the expected type
  */
-suspend inline fun <reified T : OpCode> WsSession.receiveMessage(): T {
-    val data = receiveMessageBase()
+suspend inline fun <reified T : OpCode> WsSession.receiveOpCode(): T {
+    val data = receiveOpCodeBase()
 
     return data as? T ?: throw UnexpectedOpCode(
         "Deserialized data is not of expected type. " +
@@ -47,7 +47,7 @@ suspend inline fun <reified T : OpCode> WsSession.receiveMessage(): T {
  * @return The deserialized message as an [OpCode]
  * @throws UnknownOpCode if the operation code is not recognized
  */
-suspend fun WsSession.receiveMessageBase(): OpCode {
+suspend fun WsSession.receiveOpCodeBase(): OpCode {
     val msg = receiveMessage()
     val serializer = getSerializer(msg.op)
 

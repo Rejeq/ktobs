@@ -89,7 +89,7 @@ suspend fun WsSession.authSession(
     onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null,
 ): ObsSession {
     try {
-        val hello = receiveMessage<HelloOpCode>()
+        val hello = receiveOpCode<HelloOpCode>()
 
         val auth =
             hello.authentication?.let { auth ->
@@ -115,7 +115,7 @@ private suspend fun WsSession.identifySession(
     try {
         sendMessage(IdentifyOpCode(RPC_VERSION, auth, eventSubs.value))
 
-        val identified = receiveMessage<IdentifiedOpCode>()
+        val identified = receiveOpCode<IdentifiedOpCode>()
         val selectedRpc = identified.negotiatedRpcVersion
 
         if (selectedRpc <= 0 || selectedRpc > RPC_VERSION) {

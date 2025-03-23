@@ -112,7 +112,7 @@ private suspend fun MockServerWsSession.authSessionBehavior(
 ) {
     sendMessage(HelloOpCode(obsWebSocketVersion, rpcVersion, authentication))
 
-    val identify = receiveMessage<IdentifyOpCode>()
+    val identify = receiveOpCode<IdentifyOpCode>()
     val auth = authentication?.let { encodedPassword }
     assertEquals(
         identify.authentication,

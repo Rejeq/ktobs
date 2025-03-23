@@ -1,5 +1,6 @@
 [versions]
 detekt = "1.23.7"
+gradleVersions = "0.52.0"
 java-target = "1.8"
 java-toolchain = "8"
 kotlin = "2.0.21"
@@ -28,3 +29,4 @@ sha2 = { module = "org.kotlincrypto.hash:sha2", version.ref = "sha2" }
 
 [plugins]
 serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
+gradle-versions = { id = "com.github.ben-manes.versions", version.ref = "gradleVersions" }

@@ -2,12 +2,9 @@ package com.rejeq.ktobs
 
 import io.ktor.client.HttpClient
 import io.ktor.client.HttpClientConfig
-import io.ktor.client.engine.cio.CIO
-import kotlinx.coroutines.CoroutineScope
-import kotlinx.coroutines.runBlocking
-import kotlin.coroutines.CoroutineContext
+import io.ktor.client.engine.js.Js
 
 actual fun httpClient(config: HttpClientConfig<*>.() -> Unit): HttpClient =
-    HttpClient(CIO) {
+    HttpClient(Js) {
         config(this)
     }

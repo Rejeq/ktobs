@@ -7,6 +7,7 @@ import io.ktor.serialization.kotlinx.*
 import kotlin.test.assertEquals
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
 
 fun runObsTest(
@@ -23,7 +24,7 @@ fun runObsTest(
             }
         }
 
-    runBlocking {
+    runTest {
         val session =
             ObsSessionBuilder(client).apply {
                 host = "127.0.0.1"

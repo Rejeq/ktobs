@@ -33,5 +33,21 @@ kotlin {
         ).forEach {
             it.get().dependsOn(defaultUtils)
         }
+
+        val webUtils by creating {
+            dependsOn(commonTest.get())
+
+            dependencies {
+                implementation(libs.ktor.client.js)
+            }
+        }
+
+        listOf(
+            jsTest,
+            wasmJsTest,
+        ).forEach {
+            it.get().dependsOn(webUtils)
+        }
+
     }
 }

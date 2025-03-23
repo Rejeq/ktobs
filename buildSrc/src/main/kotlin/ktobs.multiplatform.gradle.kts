@@ -23,21 +23,18 @@ kotlin {
 
     jvmToolchain(javaToolchain.asInt())
 
-    // Tests are disabled because they have issues with runBlocking() in web
-    if (!project.isTests()) {
-        js {
-            nodejs()
-        }
+    js {
+       nodejs()
+    }
 
-        wasmJs {
-            nodejs()
-        }
+    wasmJs {
+        nodejs()
+    }
 
-        // https://youtrack.jetbrains.com/issue/KTOR-7290/Support-wasmWasi-target
-        if (!project.isDependOnKtor()) {
-            wasmWasi {
-                nodejs()
-            }
+    // https://youtrack.jetbrains.com/issue/KTOR-7290/Support-wasmWasi-target
+    if (!project.isDependOnKtor()) {
+        wasmWasi {
+            nodejs()
         }
     }
 

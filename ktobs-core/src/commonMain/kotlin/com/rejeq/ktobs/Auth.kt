@@ -48,6 +48,7 @@ class HelloOpCode(
     val obsWebSocketVersion: String,
     val rpcVersion: Int,
     val authentication: Authentication? = null,
+    val obsStudioVersion: String? = null,
 ) : OpCode
 
 @Serializable

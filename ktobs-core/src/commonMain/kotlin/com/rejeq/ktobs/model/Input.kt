@@ -10,6 +10,8 @@ import kotlinx.serialization.Serializable
  *           It will be `null` for earlier versions.
  * @property kind The kind of the input
  * @property unversionedKind The unversioned kind of input (aka no `_v2` stuff)
+ * @property inputKindCaps Bitflag value for the caps that an input supports.
+ *           This is available starting from OBS WebSocket version 5.6.0.
  **/
 @Serializable
 data class Input(
@@ -17,4 +19,5 @@ data class Input(
     @SerialName("inputUuid") val uuid: String? = null,
     @SerialName("inputKind") val kind: String,
     @SerialName("unversionedInputKind") val unversionedKind: String,
+    @SerialName("inputKindCaps") val inputKindCaps: SourceCapabilities? = null,
 )

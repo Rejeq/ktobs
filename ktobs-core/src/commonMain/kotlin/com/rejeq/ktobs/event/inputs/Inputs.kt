@@ -2,6 +2,7 @@ package com.rejeq.ktobs.event.inputs
 
 import com.rejeq.ktobs.model.Input
 import com.rejeq.ktobs.model.MonitorType
+import com.rejeq.ktobs.model.SourceCapabilities
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.json.JsonElement
 
@@ -22,6 +23,11 @@ class InputCreatedEventData(
     val inputSettings: JsonElement,
     /** The default settings for the input */
     val defaultInputSettings: JsonElement,
+    /**
+     * Bitflag value for the caps that an input supports.
+     * This is available starting from OBS WebSocket version 5.6.0.
+     */
+    val inputKindCaps: SourceCapabilities? = null,
 )
 
 /** An input has been removed */

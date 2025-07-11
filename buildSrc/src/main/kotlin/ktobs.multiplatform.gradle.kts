@@ -24,7 +24,7 @@ kotlin {
     jvmToolchain(javaToolchain.asInt())
 
     js {
-       nodejs()
+        nodejs()
     }
 
     wasmJs {

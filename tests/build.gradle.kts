@@ -48,6 +48,5 @@ kotlin {
         ).forEach {
             it.get().dependsOn(webUtils)
         }
-
     }
 }

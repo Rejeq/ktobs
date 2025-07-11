@@ -4,11 +4,11 @@ import com.rejeq.ktobs.ktor.ObsSessionBuilder
 import com.rejeq.ktobs.request.general.getVersion
 import io.ktor.client.plugins.websocket.*
 import io.ktor.serialization.kotlinx.*
-import kotlin.test.assertEquals
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
 import kotlinx.coroutines.test.runTest
 import kotlinx.serialization.json.Json
+import kotlin.test.assertEquals
 
 fun runObsTest(
     setup: suspend (ObsSession).() -> Unit = {},
@@ -83,7 +83,10 @@ suspend fun ObsSession.isVersionSupported(version: String): Boolean {
     return supported
 }
 
-private fun isVersionGreater(version1: String, version2: String): Boolean {
+private fun isVersionGreater(
+    version1: String,
+    version2: String,
+): Boolean {
     val v1Parts = version1.split(".").map { it.toIntOrNull() ?: 0 }
     val v2Parts = version2.split(".").map { it.toIntOrNull() ?: 0 }
 

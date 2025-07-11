@@ -10,7 +10,10 @@ import com.rejeq.ktobs.event.inputs.InputCreatedEventData
 import com.rejeq.ktobs.event.inputs.InputRemovedEvent
 import com.rejeq.ktobs.event.inputs.InputRemovedEventData
 import com.rejeq.ktobs.ktor.ObsSessionBuilder
-import com.rejeq.ktobs.request.inputs.*
+import com.rejeq.ktobs.request.inputs.createInput
+import com.rejeq.ktobs.request.inputs.getInputDefaultSettings
+import com.rejeq.ktobs.request.inputs.getInputKindList
+import com.rejeq.ktobs.request.inputs.getInputList
 import com.rejeq.ktobs.request.sceneitems.getSceneItemId
 import com.rejeq.ktobs.request.sceneitems.getSceneItemList
 import com.rejeq.ktobs.request.sceneitems.removeSceneItem
@@ -24,7 +27,6 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
 import kotlinx.coroutines.runBlocking
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
 import kotlinx.serialization.json.buildJsonObject
@@ -39,7 +41,7 @@ val prettyJson =
 inline fun <reified T> T.toPrettyString(): String =
     prettyJson.encodeToString(this)
 
-fun main() =
+fun main(): Unit =
     runBlocking {
         val client =
             HttpClient(CIO) {

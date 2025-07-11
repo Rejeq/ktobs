@@ -1,10 +1,14 @@
 package com.rejeq.ktobs
 
+import kotlinx.serialization.json.Json
+
 /**
  * Representing a WebSocket session.
  * Provides basic operations for sending and receiving messages
  */
 interface WsSession {
+    val json: Json
+
     /**
      * Receives a message from the WebSocket connection.
      *

@@ -1,7 +1,6 @@
 package com.rejeq.ktobs
 
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.json.encodeToJsonElement
 import kotlinx.serialization.serializer
@@ -113,7 +112,7 @@ suspend inline fun <reified Input> ObsSession.sendRequest(
     RequestOpCode(
         requestType,
         uuid.toString(),
-        Json.encodeToJsonElement(data),
+        ws.json.encodeToJsonElement(data),
     ),
 )
 
@@ -141,7 +140,7 @@ fun handleUnitRequest(response: RequestResponseOpCode) {
  * @return The deserialized response data
  * @throws ObsRequestException if the request failed or response data is missing
  */
-inline fun <reified Output> handleRequest(
+inline fun <reified Output> ObsSession.handleRequest(
     response: RequestResponseOpCode,
 ): Output {
     val status = response.requestStatus
@@ -165,7 +164,7 @@ inline fun <reified Output> handleRequest(
         }
     }
 
-    return Json.decodeFromJsonElement(
+    return ws.json.decodeFromJsonElement(
         serializer<Output>(),
         response.responseData,
     )

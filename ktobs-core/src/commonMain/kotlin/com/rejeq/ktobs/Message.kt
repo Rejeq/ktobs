@@ -3,7 +3,6 @@ package com.rejeq.ktobs
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
-import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.serializer
 
@@ -51,7 +50,7 @@ suspend fun WsSession.receiveOpCodeBase(): OpCode {
     val msg = receiveMessage()
     val serializer = getSerializer(msg.op)
 
-    return Json.decodeFromJsonElement(serializer, msg.d)
+    return json.decodeFromJsonElement(serializer, msg.d)
 }
 
 /**
@@ -64,7 +63,7 @@ suspend inline fun <reified T : OpCode> WsSession.sendMessage(data: T) =
     sendMessage(
         ObsMessage(
             getOpCode(data),
-            Json.encodeToJsonElement(T::class.serializer(), data),
+            json.encodeToJsonElement(T::class.serializer(), data),
         ),
     )
 

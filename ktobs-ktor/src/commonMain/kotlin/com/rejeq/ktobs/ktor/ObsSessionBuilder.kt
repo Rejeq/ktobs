@@ -12,6 +12,7 @@ import io.ktor.http.HttpHeaders
 import io.ktor.http.HttpMethod
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.launch
+import kotlinx.serialization.json.Json
 import kotlin.coroutines.CoroutineContext
 import kotlin.coroutines.EmptyCoroutineContext
 
@@ -38,6 +39,11 @@ class ObsSessionBuilder(
     /** Callback for handling received events */
     var onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null
 
+    var json: Json =
+        Json {
+            ignoreUnknownKeys = true
+        }
+
     /**
      * Creates and initializes a new session.
      *
@@ -61,7 +67,7 @@ class ObsSessionBuilder(
                 )
             }
 
-        val ws = KtorWsSession(wsRaw)
+        val ws = KtorWsSession(wsRaw, json)
         val session = ws.authSession(password, eventSubs)
 
         CoroutineScope(ctx).launch {
@@ -91,7 +97,7 @@ class ObsSessionBuilder(
                 )
             },
         ) {
-            val ws = KtorWsSession(this)
+            val ws = KtorWsSession(this, json)
             val session = ws.authSession(password, eventSubs, onEvent)
 
             launch {

@@ -5,6 +5,7 @@ import kotlinx.coroutines.CompletableDeferred
 import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.sync.Mutex
 import kotlinx.coroutines.sync.withLock
+import kotlinx.serialization.json.decodeFromJsonElement
 import kotlin.uuid.ExperimentalUuidApi
 import kotlin.uuid.Uuid
 
@@ -100,6 +101,22 @@ class ObsSession internal constructor(
         activeUuidLock.withLock {
             activeUuids.forEach { it.value.cancel(e) }
         }
+
+    /**
+     * Deserializes the [EventOpCode.eventData] into an instance of the
+     * specified type [Data].
+     *
+     * @return The deserialized [Data] object of the expected type.
+     * @throws IllegalStateException if [EventOpCode.eventData] is `null`.
+     *
+     * @see kotlinx.serialization.json.Json.decodeFromJsonElement
+     */
+    inline fun <reified Data : Any> EventOpCode.get(): Data {
+        // TODO: Use context parameters in EventOpCode when it become stable
+        checkNotNull(eventData) { "eventData should not be null" }
+
+        return ws.json.decodeFromJsonElement(eventData)
+    }
 
     /**
      * Handles incoming messages from the OBS WebSocket server.

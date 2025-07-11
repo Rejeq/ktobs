@@ -56,6 +56,8 @@ class MockServerWsSession(
 class MockClientWsSession(
     private val session: MockSession,
 ) : WsSession {
+    override val json = Json
+
     override suspend fun receiveMessage(): ObsMessage {
         val msg = session.serverToClient.receive()
 

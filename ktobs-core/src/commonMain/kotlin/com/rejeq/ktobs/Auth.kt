@@ -4,7 +4,6 @@ import kotlinx.coroutines.channels.ClosedReceiveChannelException
 import kotlinx.serialization.Serializable
 import org.kotlincrypto.hash.sha2.SHA256
 import kotlin.io.encoding.Base64
-import kotlin.io.encoding.ExperimentalEncodingApi
 
 const val RPC_VERSION: Int = 1
 
@@ -119,7 +118,7 @@ private suspend fun WsSession.identifySession(
         val identified = receiveOpCode<IdentifiedOpCode>()
         val selectedRpc = identified.negotiatedRpcVersion
 
-        if (selectedRpc <= 0 || selectedRpc > RPC_VERSION) {
+        if (selectedRpc !in 1..RPC_VERSION) {
             throw ObsAuthException(AuthError.InvalidRpc(selectedRpc))
         }
     } catch (e: ClosedReceiveChannelException) {
@@ -148,8 +147,7 @@ internal fun encodeAuthPassword(
     return base64(sha256(secret + auth.challenge))
 }
 
-@OptIn(ExperimentalEncodingApi::class)
-private fun base64(str: ByteArray): String = Base64.Default.encode(str)
+private fun base64(str: ByteArray): String = Base64.encode(str)
 
 private fun sha256(str: String): ByteArray =
     SHA256().digest(str.encodeToByteArray())

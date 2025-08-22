@@ -7,10 +7,7 @@ plugins {
 
 kotlin {
     jvmToolchain(
-        jdkVersion =
-            libs.versions.java.toolchain
-                .get()
-                .toInt(),
+        jdkVersion = 11,
     )
 }
 

@@ -60,12 +60,22 @@ suspend fun WsSession.receiveOpCodeBase(): OpCode {
  */
 @OptIn(InternalSerializationApi::class)
 suspend inline fun <reified T : OpCode> WsSession.sendMessage(data: T) =
-    sendMessage(
-        ObsMessage(
-            getOpCode(data),
-            json.encodeToJsonElement(T::class.serializer(), data),
-        ),
-    )
+    sendMessage(data, T::class.serializer())
+
+/**
+ * Serializes and sends a message over the WebSocket connection.
+ *
+ * @param data The message to send
+ */
+suspend fun <T : OpCode> WsSession.sendMessage(
+    data: T,
+    serializer: KSerializer<T>,
+) = sendMessage(
+    ObsMessage(
+        getOpCode(data),
+        json.encodeToJsonElement(serializer, data),
+    ),
+)
 
 /**
  * Gets the appropriate serializer for a given operation code.

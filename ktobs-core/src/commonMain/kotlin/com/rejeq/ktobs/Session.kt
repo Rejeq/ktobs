@@ -52,7 +52,9 @@ class ObsSession internal constructor(
         try {
             return block(uniqueUuid, response)
         } finally {
-            activeUuids.remove(uniqueUuid)
+            activeUuidLock.withLock {
+                activeUuids.remove(uniqueUuid)
+            }
         }
     }
 

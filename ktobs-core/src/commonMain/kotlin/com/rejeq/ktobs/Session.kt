@@ -22,7 +22,7 @@ class ObsSession internal constructor(
     private val onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null,
 ) {
     private val activeUuids =
-        mutableMapOf<Uuid, CompletableDeferred<RequestResponseOpCode>>()
+        mutableUuidStore<CompletableDeferred<RequestResponseOpCode>>()
     private val activeUuidLock = Mutex()
 
     private var identified: CompletableDeferred<Int>? = null
@@ -35,7 +35,6 @@ class ObsSession internal constructor(
      *        response handler
      * @return The result of the block execution
      * @throws UnableAcquireUuidException if unable to generate a unique UUID
-     *         after multiple attempts
      */
     suspend fun <T> acquireUuid(
         block: suspend ObsSession.(
@@ -47,15 +46,7 @@ class ObsSession internal constructor(
 
         val uniqueUuid =
             activeUuidLock.withLock {
-                val newUuid =
-                    generateSequence { Uuid.random() }
-                        .take(5)
-                        .filter { !activeUuids.contains(it) }
-                        .firstOrNull()
-                        ?: throw UnableAcquireUuidException()
-
-                activeUuids[newUuid] = response
-                newUuid
+                activeUuids.register(response)
             }
 
         try {
@@ -149,12 +140,6 @@ class ObsSession internal constructor(
         }
     }
 }
-
-/**
- * Exception thrown when unable to generate a unique UUID after multiple
- * attempts
- */
-class UnableAcquireUuidException : Exception("Unable to generate unique uuid")
 
 /**
  * Exception thrown when an unexpected OpCode is received from the server

@@ -59,7 +59,7 @@ class KtorWsSession(
  *
  * This implementation will silently ignore some non-critical errors,
  */
-suspend fun ObsSession.runReceiver() =
+suspend fun runDefaultReceiver(session: ObsSession): Unit =
     try {
         while (true) {
             val msg =

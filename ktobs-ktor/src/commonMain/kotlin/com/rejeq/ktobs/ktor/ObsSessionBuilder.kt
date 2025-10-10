@@ -39,6 +39,9 @@ class ObsSessionBuilder(
     /** Callback for handling received events */
     var onEvent: ObsEventHandler? = null
 
+    /** Incoming message handler */
+    var receiver: (suspend (ObsSession) -> Unit) = ::runDefaultReceiver
+
     var json: Json =
         Json {
             ignoreUnknownKeys = true
@@ -71,7 +74,7 @@ class ObsSessionBuilder(
         val session = ws.authSession(password, eventSubs)
 
         CoroutineScope(ctx).launch {
-            session.runReceiver()
+            receiver(session)
         }
 
         return session
@@ -101,7 +104,7 @@ class ObsSessionBuilder(
             val session = ws.authSession(password, eventSubs, onEvent)
 
             launch {
-                session.runReceiver()
+                receiver(session)
             }
 
             session.block()

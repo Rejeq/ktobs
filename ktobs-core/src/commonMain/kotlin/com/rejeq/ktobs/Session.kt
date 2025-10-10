@@ -19,7 +19,7 @@ import kotlin.uuid.Uuid
 @OptIn(ExperimentalUuidApi::class)
 class ObsSession internal constructor(
     val ws: WsSession,
-    private val onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null,
+    private val onEvent: ObsEventHandler? = null,
 ) {
     private val activeUuids =
         mutableUuidStore<CompletableDeferred<RequestResponseOpCode>>()
@@ -123,7 +123,7 @@ class ObsSession internal constructor(
      * @throws ReceivedUnexpectedOpCode if an unexpected message type is
      *         received
      */
-    fun onReceiveMessage(msg: OpCode) {
+    suspend fun onReceiveMessage(msg: OpCode) {
         when (msg) {
             is IdentifiedOpCode -> {
                 identified?.complete(msg.negotiatedRpcVersion)

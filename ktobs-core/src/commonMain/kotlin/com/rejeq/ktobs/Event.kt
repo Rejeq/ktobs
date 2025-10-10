@@ -9,3 +9,5 @@ data class EventOpCode(
     val eventIntent: Int,
     val eventData: JsonObject? = null,
 ) : OpCode
+
+typealias ObsEventHandler = suspend ObsSession.(event: EventOpCode) -> Unit

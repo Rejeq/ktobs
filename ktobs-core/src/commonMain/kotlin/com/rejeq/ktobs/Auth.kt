@@ -86,7 +86,7 @@ class Authentication(
 suspend fun WsSession.authSession(
     password: String?,
     eventSubs: ObsEventSubs = ObsEventSubs.None,
-    onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null,
+    onEvent: ObsEventHandler? = null,
 ): ObsSession {
     try {
         val hello = receiveOpCode<HelloOpCode>()

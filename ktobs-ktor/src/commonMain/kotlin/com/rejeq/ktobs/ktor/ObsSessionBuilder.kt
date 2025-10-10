@@ -1,7 +1,7 @@
 package com.rejeq.ktobs.ktor
 
-import com.rejeq.ktobs.EventOpCode
 import com.rejeq.ktobs.ObsAuthException
+import com.rejeq.ktobs.ObsEventHandler
 import com.rejeq.ktobs.ObsEventSubs
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.authSession
@@ -37,7 +37,7 @@ class ObsSessionBuilder(
     var eventSubs: ObsEventSubs = ObsEventSubs.None
 
     /** Callback for handling received events */
-    var onEvent: (ObsSession.(event: EventOpCode) -> Unit)? = null
+    var onEvent: ObsEventHandler? = null
 
     var json: Json =
         Json {

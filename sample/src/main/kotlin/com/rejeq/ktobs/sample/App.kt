@@ -1,9 +1,11 @@
 package com.rejeq.ktobs.sample
 
+import com.rejeq.ktobs.EventOpCode
 import com.rejeq.ktobs.ObsAuthException
 import com.rejeq.ktobs.ObsEventSubs
 import com.rejeq.ktobs.ObsRequestException
 import com.rejeq.ktobs.ObsSession
+import com.rejeq.ktobs.awaitEvent
 import com.rejeq.ktobs.event.general.ExitStartedEvent
 import com.rejeq.ktobs.event.inputs.InputCreatedEvent
 import com.rejeq.ktobs.event.inputs.InputCreatedEventData
@@ -23,9 +25,10 @@ import io.ktor.client.network.sockets.ConnectTimeoutException
 import io.ktor.client.plugins.websocket.WebSockets
 import io.ktor.serialization.kotlinx.KotlinxWebsocketSerializationConverter
 import io.ktor.util.network.UnresolvedAddressException
-import kotlinx.coroutines.CompletableDeferred
-import kotlinx.coroutines.Deferred
 import kotlinx.coroutines.delay
+import kotlinx.coroutines.flow.Flow
+import kotlinx.coroutines.flow.MutableSharedFlow
+import kotlinx.coroutines.flow.asSharedFlow
 import kotlinx.coroutines.runBlocking
 import kotlinx.serialization.json.Json
 import kotlinx.serialization.json.JsonObject
@@ -60,9 +63,10 @@ fun main(): Unit =
                 eventSubs = ObsEventSubs.All
             }
 
-        val inputRemoved = CompletableDeferred<Unit>()
-
+        val eventFlow = MutableSharedFlow<EventOpCode>()
         session.onEvent = { ev ->
+            eventFlow.emit(ev)
+
             when (ev.eventType) {
                 ExitStartedEvent -> {
                     println("Obs exit started")
@@ -74,18 +78,16 @@ fun main(): Unit =
                 InputRemovedEvent -> {
                     val data = ev.get<InputRemovedEventData>()
                     println("Input was removed: ${data.inputName}")
-
-                    inputRemoved.complete(Unit)
                 }
                 else -> {
-                    println("Unknown event was received: $ev")
+                    println("Unexpected event was received: $ev")
                 }
             }
         }
 
         try {
             session.connect {
-                obsMain(inputRemoved)
+                obsMain(eventFlow.asSharedFlow())
 
                 // Wait for any incoming events
                 delay(500)
@@ -107,7 +109,7 @@ fun main(): Unit =
         client.close()
     }
 
-suspend fun ObsSession.obsMain(inputRemoved: Deferred<Unit>) {
+suspend fun ObsSession.obsMain(eventFlow: Flow<EventOpCode>) {
     val sceneName = "Scene"
     val inputName = "FFmpeg Source"
 
@@ -135,7 +137,10 @@ suspend fun ObsSession.obsMain(inputRemoved: Deferred<Unit>) {
             itemId = itemId,
         )
 
-        inputRemoved.await()
+        // It's safer to use awaitEvent with lambda argument.
+        // Omitted for brevity purposes
+        val event = eventFlow.awaitEvent(InputRemovedEvent)
+        println("Event was captured by obsMain: $event")
     }
 
     val default = getInputDefaultSettings("ffmpeg_source") as JsonObject

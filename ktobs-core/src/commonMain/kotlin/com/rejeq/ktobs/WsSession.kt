@@ -1,5 +1,7 @@
 package com.rejeq.ktobs
 
+import kotlinx.coroutines.channels.ClosedReceiveChannelException
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
 /**
@@ -13,6 +15,9 @@ interface WsSession {
      * Receives a message from the WebSocket connection.
      *
      * @return The received obs message
+     * @throws ClosedReceiveChannelException if websocket channel was closed.
+     *         Used by library in the auth stage
+     * @throws SerializationException if failed to deserialize the incoming data
      * @throws Exception if error occur during receive
      */
     suspend fun receiveMessage(): ObsMessage
@@ -21,6 +26,7 @@ interface WsSession {
      * Sends a message through the WebSocket connection.
      *
      * @param msg The obs message to send
+     * @throws SerializationException if failed to serialize the message
      * @throws Exception if error occur during send
      */
     suspend fun sendMessage(msg: ObsMessage)

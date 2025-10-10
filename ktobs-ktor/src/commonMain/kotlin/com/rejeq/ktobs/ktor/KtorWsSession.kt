@@ -4,14 +4,17 @@ import com.rejeq.ktobs.ObsCloseReason
 import com.rejeq.ktobs.ObsMessage
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.OpCode
+import com.rejeq.ktobs.ReceivedUnexpectedOpCode
 import com.rejeq.ktobs.WsSession
 import com.rejeq.ktobs.receiveOpCode
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
 import io.ktor.client.plugins.websocket.receiveDeserialized
 import io.ktor.client.plugins.websocket.sendSerialized
+import io.ktor.serialization.WebsocketDeserializeException
 import io.ktor.websocket.CloseReason
 import io.ktor.websocket.close
 import kotlinx.coroutines.CancellationException
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.Json
 
 /**
@@ -25,7 +28,11 @@ class KtorWsSession(
     override val json: Json,
 ) : WsSession {
     override suspend fun receiveMessage(): ObsMessage =
-        ws.receiveDeserialized<ObsMessage>()
+        try {
+            ws.receiveDeserialized<ObsMessage>()
+        } catch (e: WebsocketDeserializeException) {
+            throw SerializationException(e)
+        }
 
     override suspend fun sendMessage(msg: ObsMessage) = ws.sendSerialized(msg)
 

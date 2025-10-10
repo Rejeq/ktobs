@@ -3,6 +3,7 @@ package com.rejeq.ktobs
 import kotlinx.serialization.InternalSerializationApi
 import kotlinx.serialization.KSerializer
 import kotlinx.serialization.Serializable
+import kotlinx.serialization.SerializationException
 import kotlinx.serialization.json.JsonElement
 import kotlinx.serialization.serializer
 
@@ -29,12 +30,12 @@ class ObsMessage(
  * Receives and deserializes an [OpCode] from the WebSocket connection.
  *
  * @return The deserialized operation code of type [T]
- * @throws UnexpectedOpCode if the received message is not of the expected type
+ * @throws SerializationException if failed to deserialize the incoming data
  */
 suspend inline fun <reified T : OpCode> WsSession.receiveOpCode(): T {
     val data = receiveOpCodeBase()
 
-    return data as? T ?: throw UnexpectedOpCode(
+    return data as? T ?: throw SerializationException(
         "Deserialized data is not of expected type. " +
             "Expected: ${T::class.simpleName}, Got: ${data::class.simpleName}",
     )
@@ -44,13 +45,20 @@ suspend inline fun <reified T : OpCode> WsSession.receiveOpCode(): T {
  * Receives and deserializes a base message from the WebSocket connection.
  *
  * @return The deserialized message as an [OpCode]
- * @throws UnknownOpCode if the operation code is not recognized
+ * @throws SerializationException if failed to deserialize the incoming data
  */
 suspend fun WsSession.receiveOpCodeBase(): OpCode {
     val msg = receiveMessage()
     val serializer = getSerializer(msg.op)
 
-    return json.decodeFromJsonElement(serializer, msg.d)
+    try {
+        return json.decodeFromJsonElement(serializer, msg.d)
+    } catch (e: IllegalArgumentException) {
+        throw SerializationException(
+            "Failed to decode to specific OpCode",
+            e,
+        )
+    }
 }
 
 /**
@@ -82,7 +90,7 @@ suspend fun <T : OpCode> WsSession.sendMessage(
  *
  * @param op The operation code to get the serializer for
  * @return The serializer for the specified operation code
- * @throws UnknownOpCode if the operation code is not recognized
+ * @throws SerializationException if the operation code is not recognized
  */
 fun getSerializer(op: Int): KSerializer<out OpCode> =
     when (op) {
@@ -94,7 +102,7 @@ fun getSerializer(op: Int): KSerializer<out OpCode> =
         6 -> RequestOpCode.serializer()
         7 -> RequestResponseOpCode.serializer()
         else -> {
-            throw UnknownOpCode("'$op' OpCode is not expected")
+            throw SerializationException("'$op' OpCode is not expected")
         }
     }
 
@@ -114,13 +122,3 @@ fun getOpCode(data: OpCode): Int =
         is RequestOpCode -> 6
         is RequestResponseOpCode -> 7
     }
-
-/** Exception thrown when an unrecognized operation code is encountered. */
-class UnknownOpCode(
-    msg: String,
-) : Exception(msg)
-
-/** Exception thrown when a message is not of the expected type. */
-class UnexpectedOpCode(
-    msg: String,
-) : Exception(msg)

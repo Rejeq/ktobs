@@ -150,4 +150,4 @@ class ObsSession internal constructor(
  */
 class ReceivedUnexpectedOpCode(
     op: OpCode,
-) : Exception("Received unexpected op code: $op")
+) : IllegalArgumentException("Received unexpected op code: $op")

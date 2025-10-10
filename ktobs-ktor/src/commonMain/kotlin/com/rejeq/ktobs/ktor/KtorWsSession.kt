@@ -5,6 +5,7 @@ import com.rejeq.ktobs.ObsMessage
 import com.rejeq.ktobs.ObsSession
 import com.rejeq.ktobs.OpCode
 import com.rejeq.ktobs.ReceivedUnexpectedOpCode
+import com.rejeq.ktobs.ReceivedUnexpectedUuid
 import com.rejeq.ktobs.WsSession
 import com.rejeq.ktobs.receiveOpCode
 import io.ktor.client.plugins.websocket.DefaultClientWebSocketSession
@@ -55,13 +56,27 @@ class KtorWsSession(
  * Continuously receives messages and routes them through the session's message
  * handler until the connection is closed. When connection is closed it cancel
  * any pending request
+ *
+ * This implementation will silently ignore some non-critical errors,
  */
 suspend fun ObsSession.runReceiver() =
     try {
         while (true) {
-            val msg = ws.receiveOpCode<OpCode>()
-            onReceiveMessage(msg)
+            val msg =
+                try {
+                    session.ws.receiveOpCode<OpCode>()
+                } catch (_: SerializationException) {
+                    continue
+                }
+
+            try {
+                session.onReceiveMessage(msg)
+            } catch (_: ReceivedUnexpectedOpCode) {
+            } catch (_: ReceivedUnexpectedUuid) {
+            }
         }
     } finally {
-        cancelAllUuids(CancellationException("Session receiver was closed"))
+        session.cancelAllUuids(
+            CancellationException("Session receiver was closed"),
+        )
     }

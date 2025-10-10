@@ -122,6 +122,8 @@ class ObsSession internal constructor(
      * @param msg The received OpCode message
      * @throws ReceivedUnexpectedOpCode if an unexpected message type is
      *         received
+     * @throws ReceivedUnexpectedUuid if an incorrect uuid that cannot be parsed
+     *         is received
      */
     suspend fun onReceiveMessage(msg: OpCode) {
         when (msg) {
@@ -129,7 +131,8 @@ class ObsSession internal constructor(
                 identified?.complete(msg.negotiatedRpcVersion)
             }
             is RequestResponseOpCode -> {
-                val response = activeUuids[Uuid.parse(msg.requestId)]
+                val uuid = tryParseUuid(msg.requestId)
+                val response = activeUuids[uuid]
                 response?.complete(msg)
             }
             is EventOpCode -> {
@@ -143,6 +146,14 @@ class ObsSession internal constructor(
     }
 }
 
+@OptIn(ExperimentalUuidApi::class)
+private fun tryParseUuid(uuidString: String): Uuid =
+    try {
+        Uuid.parse(uuidString)
+    } catch (e: IllegalArgumentException) {
+        throw ReceivedUnexpectedUuid(e)
+    }
+
 /**
  * Exception thrown when an unexpected OpCode is received from the server
  *
@@ -151,3 +162,12 @@ class ObsSession internal constructor(
 class ReceivedUnexpectedOpCode(
     op: OpCode,
 ) : IllegalArgumentException("Received unexpected op code: $op")
+
+/**
+ * Exception thrown when an unexpected OpCode is received from the server
+ *
+ * @property cause The cause of this exception
+ */
+class ReceivedUnexpectedUuid(
+    cause: Exception,
+) : IllegalArgumentException(cause)
